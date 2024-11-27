@@ -1,10 +1,12 @@
+<!-- http://localhost/Games-R-US/ -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="./src/css/index.css">
 </head>
 <body>
     <div class="indicator"></div>
@@ -133,4 +135,4 @@
   </body>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="index.js"></script>
+  <script src="./src/js/index.js"></script>

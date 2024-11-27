@@ -19,7 +19,7 @@ const data = [
         title: 'MARRAKECH',
         title2: 'MEROUGA',
         description: 'Tucked away in the Switzerland Alps, Saint Antönien offers an idyllic retreat for those seeking tranquility and adventure alike. ',
-        image: 'https://assets.codepen.io/3685267/timed-cards-3.jpg'
+        image: 'https://m.media-amazon.com/images/I/81gNfm9HTmL.png'
     },
     {
         place: 'Sierra Nevada - USA',
