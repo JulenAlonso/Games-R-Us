@@ -1,5 +1,3 @@
-<!-- http://localhost/Games-R-US/ -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
