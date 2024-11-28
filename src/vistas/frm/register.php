@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
-  <!-- CSS dedicado al login -->
+  <title>Register</title>
+  <!-- CSS dedicado al registro -->
   <link rel="stylesheet" href="../public/css/login.css">
   <!-- Spline Animation Script -->
   <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.46/build/spline-viewer.js"></script>
@@ -37,12 +37,6 @@
       <div>Flights</div>
       <div>Offers</div>
       <div>Contact</div>
-      <div class="svg-container">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round"
-            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-        </svg>
-      </div>
       <div class="svg-container, active">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
           <path fill-rule="evenodd"
@@ -54,22 +48,28 @@
   </nav>
   <div class="login-container">
     <div class="login-card">
-      <h1 class="login-title">Welcome Back</h1>
+      <h1 class="login-title">Register</h1>
       <form method="POST" enctype="multipart/form-data" target="controlador.php">
         <div class="input-group">
-          <input type="email" name="email" placeholder="Email">
+          <input type="text" name="reg_username" placeholder="Username" required>
         </div>
         <div class="input-group">
-          <input type="password" name="password" placeholder="Password">
+          <input type="email" name="reg_email" placeholder="Email" required>
+        </div>
+        <div class="input-group">
+          <input type="password" name="reg_password" placeholder="Password" required>
+        </div>
+        <div class="input-group">
+          <input type="password" name="reg_confirm_password" placeholder="Confirm Password" required>
         </div>
         <div class="button-group">
-          <input type="submit" name="loginButtonBut" class="login-button" value="Login"></input>
-          <input type="submit" name="RegisterButtonBut" class="signup-button" value="Sign Up"></input>
+          <input type="submit" name="reg_registerButton" class="login-button" value="Register"></input>
         </div>
       </form>
     </div>
   </div>
-  <!-- JavaScript dedicado al login -->
-  <script src="../public/js/login.js"></script>
+
+  <!-- JavaScript dedicado al registro -->
+  <script src="../public/js/register.js"></script>
 </body>
 </html>

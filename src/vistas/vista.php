@@ -7,4 +7,12 @@ class Vista {
     public static function MuestraLogin() {
         include BASE_PATH . '/src/vistas/frm/login.php';
     }
+
+    public static function MuestraBiblioteca() {
+        include BASE_PATH . '/src/vistas/frm/biblioteca.php';
+    }
+
+    public static function MuestraRegistro() {
+        include BASE_PATH . '/src/vistas/frm/register.php';
+    }
 }
