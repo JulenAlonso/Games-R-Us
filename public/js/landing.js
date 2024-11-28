@@ -1,45 +1,45 @@
 const data = [
     {
+        place: "Hyrule",
+        title2: "ZELDA: TEARS OF THE KINGDOM",
+        description:
+        "Une fuerzas con héroes legendarios para salvar Hyrule en esta mágica continuación de la saga de Zelda.",        
+            image: "https://images.alphacoders.com/127/thumb-1920-1272163.jpg",
+    },
+    {
+        place: "Football",
+        title2: "FC 25",
+        description:
+            "Forma equipo con tus colegas en tus modos favoritos con el nuevo Rush de 5 contra 5, compite contra Mbappé, Lewandowski, Griezman, Nico Williams, Lamine, Kubo, Aitana, Weir, Ludmila y disfruta de la emoción hasta el final.",
+        image: "https://cdn.hk01.com/di/media/images/dw/20240717/890244248866131968615403.jpeg/wjoHC2jhhGrNOscfiW6_5nYnmUvHtqssA_tRIAP7USA?v=w1920",
+    },
+    {
+        place: "Ciencia Ficción",
+        title2: "ALIEN BREED",
+        description:
+            "Alien Breed es un videojuego run and gun visto desde arriba lanzado por Team17 para Amiga en 1991, y después por MicroLeague para MS-DOS en 1993. El juego es el primero en la serie Alien Breed.",
+        image: "https://m.media-amazon.com/images/I/81gNfm9HTmL.png",
+    },
+    {
         place: "Night City",
         title2: "CYBERPUNK 2077",
         description:
-            "Explora un mundo abierto en el futuro distópico de Night City, donde cada decisión importa y el peligro acecha en cada esquina.",
-        image: "https://example.com/cyberpunk.jpg",
+        "Explora un mundo abierto en el futuro distópico de Night City, donde cada decisión importa y el peligro acecha en cada esquina.",        
+            image: "https://i.blogs.es/b109e9/cyberpunk2077-johnny-v-rgb_en/1366_2000.jpg",
     },
     {
         place: "Lands Between",
         title2: "ELDEN RING",
         description:
-            "Embárcate en una épica aventura en un mundo lleno de misterios, desafíos y criaturas fantásticas, creado por FromSoftware.",
-        image: "https://example.com/eldenring.jpg",
-    },
-    {
-        place: "Hyrule",
-        title2: "ZELDA: TEARS OF THE KINGDOM",
-        description:
-            "Une fuerzas con héroes legendarios para salvar Hyrule en esta mágica continuación de la saga de Zelda.",
-        image: "https://example.com/zelda.jpg",
-    },
-    {
-        place: "Galaxy Far, Far Away",
-        title2: "STARFIELD",
-        description:
-            "Conquista el cosmos en esta experiencia RPG espacial, explorando planetas y enfrentando el vasto desconocido.",
-        image: "https://example.com/starfield.jpg",
-    },
-    {
-        place: "San Andreas",
-        title2: "GRAND THEFT AUTO VI",
-        description:
-            "Vive la adrenalina del crimen en un mundo masivo, dinámico y lleno de posibilidades infinitas.",
-        image: "https://example.com/gta6.jpg",
+        "Embárcate en una épica aventura en un mundo lleno de misterios, desafíos y criaturas fantásticas, creado por FromSoftware.",       
+            image: "https://wallpapers.com/images/featured/elden-ring-6r85th0gnhifsqd0.jpg",
     },
     {
         place: "Paldea Region",
-        title2: "POKÉMON SCARLET & VIOLET",
+        title2: "POKÉMON ESCARLATA & PURPURA",
         description:
-            "Atrapa, entrena y explora en una nueva región con mecánicas innovadoras y batallas emocionantes.",
-        image: "https://example.com/pokemon.jpg",
+        "Atrapa, entrena y explora en una nueva región con mecánicas innovadoras y batallas emocionantes.",        
+            image: "https://images3.alphacoders.com/128/thumb-1920-1289473.png",
     },
 ];
 
