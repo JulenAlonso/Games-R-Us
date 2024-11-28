@@ -5,7 +5,8 @@ body {
   color: #fff;
   height: 100vh;
   display: flex;
-  flex-direction: column;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
   background: none;
   overflow: hidden; /* Evita scroll innecesario */
 }
@@ -75,102 +76,72 @@ nav > div:last-child > .active:after {
   background-color: #ecad29;
 }
 
-/* Navegación */
-.nav-form {
-  display: inline; /* Mantiene el formulario compacto para navegación */
-  margin: 0;
-}
-
-/* Formulario principal */
-.login-form {
-  display: flex;
-  justify-content: center; /* Centra horizontalmente */
-  align-items: center; /* Centra verticalmente */
-  flex-grow: 1; /* Ocupa todo el espacio restante */
-}
-
-/* Login Container */
-.login-container {
+/* Registro Container */
+.register-container {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
 }
 
-.login-card {
-  background: #1a1a1a; /* Color oscuro translúcido */
-  padding: 40px;
-  border-radius: 10px;
-  width: 400px;
+.register-card {
+  background: #1a1a1a ; /* Fondo ligeramente más claro que el login */
+  padding: 50px;
+  border-radius: 12px;
+  width: 450px;
   text-align: center;
-  box-shadow: 6px 6px 10px 2px rgba(0, 0, 0, 0.6);
+  box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.7);
 }
 
-.login-title {
+.register-title {
   font-family: "Oswald", sans-serif;
-  font-size: 24px;
-  font-weight: 600;
-  margin-bottom: 20px;
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 25px;
   color: #ffffff;
 }
 
 .input-group {
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 .input-group input {
-  width: 90%;
-  padding: 10px;
+  width: 95%;
+  padding: 12px;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   font-size: 16px;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.1);
   color: #fff;
   outline: none;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .input-group input:focus {
-  background-color: rgba(255, 255, 255, 0.4);
+  background-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
 }
 
 .button-group {
   display: flex;
-  justify-content: space-between;
-  gap: 10px;
+  justify-content: center;
+  gap: 15px;
 }
 
-.login-button,
-.signup-button {
+.register-button {
   width: 100%;
-  padding: 10px 20px;
+  padding: 12px 20px;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   font-size: 16px;
   cursor: pointer;
   text-transform: uppercase;
-}
-
-.login-button {
-  background-color: #ecad29;
+  background-color: #2aa198; /* Verde azulado único para registro */
   color: #fff;
   transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
-.login-button:hover {
-  background-color: #d49a23;
-  transform: scale(1.05);
-}
-
-.signup-button {
-  background-color: transparent;
-  border: 1px solid #fff;
-  color: #fff;
-  transition: transform 0.3s ease, background-color 0.3s ease;
-}
-
-.signup-button:hover {
-  background-color: #ffffff;
-  color: #1a1a1a;
+.register-button:hover {
+  background-color: #239884;
   transform: scale(1.05);
 }

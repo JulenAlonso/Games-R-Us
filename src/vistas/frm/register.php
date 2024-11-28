@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Register</title>
   <!-- CSS dedicado al registro -->
-  <link rel="stylesheet" href="../public/css/login.css">
+  <link rel="stylesheet" href="../public/css/register.css">
   <!-- Spline Animation Script -->
   <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.46/build/spline-viewer.js"></script>
 </head>
@@ -35,6 +35,13 @@
       <div>Juegos</div>
       <!-- <div>Offers</div> -->
       <!-- <div>Contact</div> -->
+      <div class="svg-container">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+          stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+        </svg>
+      </div>
       <div class="svg-container, active">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
           <path fill-rule="evenodd"
@@ -44,10 +51,10 @@
       </div>
     </div>
   </nav>
-  <div class="login-container">
-    <div class="login-card">
-      <h1 class="login-title">Register</h1>
-      <form method="POST" enctype="multipart/form-data" target="controlador.php">
+  <div class="register-container">
+    <div class="register-card">
+      <h1 class="register-title">Create an Account</h1>
+      <form method="POST" action="controlador.php" enctype="multipart/form-data">
         <div class="input-group">
           <input type="text" name="reg_username" placeholder="Username" required>
         </div>
@@ -61,7 +68,7 @@
           <input type="password" name="reg_confirm_password" placeholder="Confirm Password" required>
         </div>
         <div class="button-group">
-          <input type="submit" name="reg_registerButton" class="login-button" value="Register"></input>
+          <input type="submit" name="reg_registerButton" class="register-button" value="Register"></input>
         </div>
       </form>
     </div>

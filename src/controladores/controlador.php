@@ -7,6 +7,7 @@ class Controlador {
 
     public function __construct() {
         $this->modelo = new Modelo();
+        session_start(); // Asegura que las sesiones estén habilitadas en cada solicitud
     }
 
     public function Inicia() {
@@ -22,13 +23,17 @@ class Controlador {
 
     private function procesaNav() {
         // Verifica qué botón fue presionado
-        if (isset($_POST['loginButton'])) {
+        if (isset($_POST['nav_loginButton'])) {
             Vista::MuestraLogin();
-        } elseif (isset($_POST['homeButton'])) {
-            echo "Se presionó el botón Home";
-        } elseif (isset($_POST['offersButton'])) {
-            echo "Se presionó el botón Offers";
-        };
+        } elseif (isset($_POST['nav_bibliotecaButton'])) {
+            if ($this->usuarioAutenticado()) {
+                Vista::MuestraBiblioteca();
+            } else {
+                Vista::MuestraLogin(); // Redirige a login si no está autenticado
+            }
+        } elseif (isset($_POST['nav_iniciobutton'])) {
+            Vista::MuestraLanding();
+        }
     }
 
     private function procesaLogin() {
@@ -54,10 +59,9 @@ class Controlador {
                 // Verifica la contraseña
                 if (password_verify($password, $user['password'])) {
                     // Autenticación exitosa, guarda los datos en la sesión
-                    session_start();
                     $_SESSION['user_id'] = $user['id'];
                     $_SESSION['user_email'] = $user['email'];
-                    Vista::MuestraBiblioteca();;
+                    Vista::MuestraBiblioteca();
                     exit;
                 } else {
                     echo "Contraseña incorrecta.";
@@ -65,7 +69,7 @@ class Controlador {
             } else {
                 echo "Usuario no encontrado.";
             }
-        } else if(isset($_POST['RegisterButtonBut'])) {
+        } elseif (isset($_POST['RegisterButtonBut'])) {
             Vista::MuestraRegistro();
         }
     }
@@ -94,15 +98,19 @@ class Controlador {
             }
 
             // Verifica si el email ya está registrado
-            $modelo = new Modelo();
-            if ($modelo->buscaUsuarioPorEmail($email)) {
+            if ($this->modelo->buscaUsuarioPorEmail($email)) {
                 echo "El email ya está registrado.";
                 return;
             }
 
             // Crea el usuario
-            $modelo->creaUsuario($email, $password);
+            $this->modelo->creaUsuario($email, $password);
             echo "Registro exitoso. Ahora puedes iniciar sesión.";
         }
+    }
+
+    private function usuarioAutenticado() {
+        // Devuelve verdadero si hay una sesión activa
+        return isset($_SESSION['user_id']);
     }
 }
