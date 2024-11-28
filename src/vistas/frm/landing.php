@@ -24,11 +24,11 @@
     </div>
     <div>
       <div class="active">Home</div>
-      <div>Holidays</div>
-      <div>Destinations</div>
-      <div>Flights</div>
-      <div>Offers</div>
-      <div>Contact</div>
+      <div>Tienda</div>
+      <div>Biblioteca</div>
+      <div>Juegos</div>
+      <!-- <div>Offers</div> -->
+      <!-- <div>Contact</div> -->
       <div class="svg-container">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
           stroke="currentColor">

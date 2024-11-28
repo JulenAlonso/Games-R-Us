@@ -1,45 +1,45 @@
 const data = [
     {
-        place: "Switzerland Alps",
-        title2: "ANTONIEN",
+        place: "Night City",
+        title2: "CYBERPUNK 2077",
         description:
-            "Tucked away in the Switzerland Alps, Saint Antönien offers an idyllic retreat for those seeking tranquility and adventure alike. ",
-        image: "https://assets.codepen.io/3685267/timed-cards-1.jpg",
+            "Explora un mundo abierto en el futuro distópico de Night City, donde cada decisión importa y el peligro acecha en cada esquina.",
+        image: "https://example.com/cyberpunk.jpg",
     },
     {
-        place: "Japan Alps",
-        title2: "PREFECTURE",
+        place: "Lands Between",
+        title2: "ELDEN RING",
         description:
-            "Alien Breed es un videojuego run and gun visto desde arriba lanzado por Team17 para Amiga en 1991, y después por MicroLeague para MS-DOS en 1993. El juego es el primero en la serie Alien Breed. ",
-        image: "https://assets.codepen.io/3685267/timed-cards-2.jpg",
+            "Embárcate en una épica aventura en un mundo lleno de misterios, desafíos y criaturas fantásticas, creado por FromSoftware.",
+        image: "https://example.com/eldenring.jpg",
     },
     {
-        place: "Ciencia Ficción",
-        title2: "ALIEN BREED",
+        place: "Hyrule",
+        title2: "ZELDA: TEARS OF THE KINGDOM",
         description:
-            "Tucked away in the Switzerland Alps, Saint Antönien offers an idyllic retreat for those seeking tranquility and adventure alike. ",
-        image: "https://m.media-amazon.com/images/I/81gNfm9HTmL.png",
+            "Une fuerzas con héroes legendarios para salvar Hyrule en esta mágica continuación de la saga de Zelda.",
+        image: "https://example.com/zelda.jpg",
     },
     {
-        place: "Sierra Nevada - USA",
-        title2: "NATIONAL PARAK",
+        place: "Galaxy Far, Far Away",
+        title2: "STARFIELD",
         description:
-            "Tucked away in the Switzerland Alps, Saint Antönien offers an idyllic retreat for those seeking tranquility and adventure alike. ",
-        image: "https://assets.codepen.io/3685267/timed-cards-4.jpg",
+            "Conquista el cosmos en esta experiencia RPG espacial, explorando planetas y enfrentando el vasto desconocido.",
+        image: "https://example.com/starfield.jpg",
     },
     {
-        place: "Tarifa - Spain",
-        title2: "BEACH",
+        place: "San Andreas",
+        title2: "GRAND THEFT AUTO VI",
         description:
-            "Tucked away in the Switzerland Alps, Saint Antönien offers an idyllic retreat for those seeking tranquility and adventure alike. ",
-        image: "https://assets.codepen.io/3685267/timed-cards-5.jpg",
+            "Vive la adrenalina del crimen en un mundo masivo, dinámico y lleno de posibilidades infinitas.",
+        image: "https://example.com/gta6.jpg",
     },
     {
-        place: "Cappadocia - Turkey",
-        title2: "Valley",
+        place: "Paldea Region",
+        title2: "POKÉMON SCARLET & VIOLET",
         description:
-            "Tucked away in the Switzerland Alps, Saint Antönien offers an idyllic retreat for those seeking tranquility and adventure alike. ",
-        image: "https://assets.codepen.io/3685267/timed-cards-6.jpg",
+            "Atrapa, entrena y explora en una nueva región con mecánicas innovadoras y batallas emocionantes.",
+        image: "https://example.com/pokemon.jpg",
     },
 ];
 
