@@ -1,7 +1,8 @@
 const data = [
     {
         place: "Hyrule",
-        title2: "ZELDA: TEARS OF THE KINGDOM",
+        title1: "ZELDA:",
+        title2: "TEARS OF THE KINGDOM",
         description:
         "Une fuerzas con héroes legendarios para salvar Hyrule en esta mágica continuación de la saga de Zelda.",        
             image: "https://images.alphacoders.com/127/thumb-1920-1272163.jpg",
