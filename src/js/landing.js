@@ -1,67 +1,77 @@
-
 const data = [
     {
-        place: 'Switzerland Alps',
-        title: 'SAINT',
-        title2: 'ANTONIEN',
-        description: 'Tucked away in the Switzerland Alps, Saint Antönien offers an idyllic retreat for those seeking tranquility and adventure alike. ',
-        image: 'https://assets.codepen.io/3685267/timed-cards-1.jpg'
+        place: "Switzerland Alps",
+        title2: "ANTONIEN",
+        description:
+            "Tucked away in the Switzerland Alps, Saint Antönien offers an idyllic retreat for those seeking tranquility and adventure alike. ",
+        image: "https://assets.codepen.io/3685267/timed-cards-1.jpg",
     },
     {
-        place: 'Japan Alps',
-        title: 'NANGANO',
-        title2: 'PREFECTURE',
-        description: 'Tucked away in the Switzerland Alps, Saint Antönien offers an idyllic retreat for those seeking tranquility and adventure alike. ',
-        image: 'https://assets.codepen.io/3685267/timed-cards-2.jpg'
+        place: "Japan Alps",
+        title2: "PREFECTURE",
+        description:
+            "Alien Breed es un videojuego run and gun visto desde arriba lanzado por Team17 para Amiga en 1991, y después por MicroLeague para MS-DOS en 1993. El juego es el primero en la serie Alien Breed. ",
+        image: "https://assets.codepen.io/3685267/timed-cards-2.jpg",
     },
     {
-        place: 'Sahara Desert - Morocco',
-        title: 'MARRAKECH',
-        title2: 'MEROUGA',
-        description: 'Tucked away in the Switzerland Alps, Saint Antönien offers an idyllic retreat for those seeking tranquility and adventure alike. ',
-        image: 'https://m.media-amazon.com/images/I/81gNfm9HTmL.png'
+        place: "Ciencia Ficción",
+        title2: "ALIEN BREED",
+        description:
+            "Tucked away in the Switzerland Alps, Saint Antönien offers an idyllic retreat for those seeking tranquility and adventure alike. ",
+        image: "https://m.media-amazon.com/images/I/81gNfm9HTmL.png",
     },
     {
-        place: 'Sierra Nevada - USA',
-        title: 'YOSEMITE',
-        title2: 'NATIONAL PARAK',
-        description: 'Tucked away in the Switzerland Alps, Saint Antönien offers an idyllic retreat for those seeking tranquility and adventure alike. ',
-        image: 'https://assets.codepen.io/3685267/timed-cards-4.jpg'
+        place: "Sierra Nevada - USA",
+        title2: "NATIONAL PARAK",
+        description:
+            "Tucked away in the Switzerland Alps, Saint Antönien offers an idyllic retreat for those seeking tranquility and adventure alike. ",
+        image: "https://assets.codepen.io/3685267/timed-cards-4.jpg",
     },
     {
-        place: 'Tarifa - Spain',
-        title: 'LOS LANCES',
-        title2: 'BEACH',
-        description: 'Tucked away in the Switzerland Alps, Saint Antönien offers an idyllic retreat for those seeking tranquility and adventure alike. ',
-        image: 'https://assets.codepen.io/3685267/timed-cards-5.jpg'
+        place: "Tarifa - Spain",
+        title2: "BEACH",
+        description:
+            "Tucked away in the Switzerland Alps, Saint Antönien offers an idyllic retreat for those seeking tranquility and adventure alike. ",
+        image: "https://assets.codepen.io/3685267/timed-cards-5.jpg",
     },
     {
-        place: 'Cappadocia - Turkey',
-        title: 'Göreme',
-        title2: 'Valley',
-        description: 'Tucked away in the Switzerland Alps, Saint Antönien offers an idyllic retreat for those seeking tranquility and adventure alike. ',
-        image: 'https://assets.codepen.io/3685267/timed-cards-6.jpg'
+        place: "Cappadocia - Turkey",
+        title2: "Valley",
+        description:
+            "Tucked away in the Switzerland Alps, Saint Antönien offers an idyllic retreat for those seeking tranquility and adventure alike. ",
+        image: "https://assets.codepen.io/3685267/timed-cards-6.jpg",
     },
-]
+];
 
-const _ = (id) => document.getElementById(id)
-const cards = data.map((i, index) => `<div class="card" id="card${index}" style="background-image:url(${i.image})"  ></div>`).join('')
+const _ = (id) => document.getElementById(id);
+const cards = data
+    .map(
+        (i, index) =>
+            `<div class="card" id="card${index}" style="background-image:url(${i.image})"  ></div>`
+    )
+    .join("");
 
-
-
-const cardContents = data.map((i, index) => `<div class="card-content" id="card-content-${index}">
+const cardContents = data
+    .map(
+        (i, index) => `<div class="card-content" id="card-content-${index}">
 <div class="content-start"></div>
 <div class="content-place">${i.place}</div>
-<div class="content-title-1">${i.title}</div>
+
 <div class="content-title-2">${i.title2}</div>
 
-</div>`).join('')
+</div>`
+    )
+    .join("");
 
-
-const sildeNumbers = data.map((_, index) => `<div class="item" id="slide-item-${index}" >${index + 1}</div>`).join('')
-_('demo').innerHTML = cards + cardContents
-_('slide-numbers').innerHTML = sildeNumbers
-
+// <div class="content-title-1">${i.title}</div>
+const sildeNumbers = data
+    .map(
+        (_, index) =>
+            `<div class="item" id="slide-item-${index}" >${index + 1}</div>`
+    )
+    .join("");
+_("demo").innerHTML = cards + cardContents;
+_("slide-numbers").innerHTML = sildeNumbers;
 
 const range = (n) =>
     Array(n)
@@ -127,7 +137,7 @@ function init() {
     gsap.set(detailsActive, { opacity: 0, zIndex: 22, x: -200 });
     gsap.set(detailsInactive, { opacity: 0, zIndex: 12 });
     gsap.set(`${detailsInactive} .text`, { y: 100 });
-    gsap.set(`${detailsInactive} .title-1`, { y: 100 });
+    // gsap.set(`${detailsInactive} .title-1`, { y: 100 });
     gsap.set(`${detailsInactive} .title-2`, { y: 100 });
     gsap.set(`${detailsInactive} .desc`, { y: 50 });
     gsap.set(`${detailsInactive} .cta`, { y: 60 });
@@ -200,8 +210,8 @@ function step() {
 
         document.querySelector(`${detailsActive} .place-box .text`).textContent =
             data[order[0]].place;
-        document.querySelector(`${detailsActive} .title-1`).textContent =
-            data[order[0]].title;
+        // document.querySelector(`${detailsActive} .title-1`).textContent =
+        // data[order[0]].title;
         document.querySelector(`${detailsActive} .title-2`).textContent =
             data[order[0]].title2;
         document.querySelector(`${detailsActive} .desc`).textContent =
@@ -215,12 +225,12 @@ function step() {
             duration: 0.7,
             ease,
         });
-        gsap.to(`${detailsActive} .title-1`, {
-            y: 0,
-            delay: 0.15,
-            duration: 0.7,
-            ease,
-        });
+        // gsap.to(`${detailsActive} .title-1`, {
+        // y: 0,
+        // delay: 0.15,
+        // duration: 0.7,
+        // ease,
+        // });
         gsap.to(`${detailsActive} .title-2`, {
             y: 0,
             delay: 0.15,
@@ -291,7 +301,7 @@ function step() {
 
                 gsap.set(detailsInactive, { opacity: 0 });
                 gsap.set(`${detailsInactive} .text`, { y: 100 });
-                gsap.set(`${detailsInactive} .title-1`, { y: 100 });
+                // gsap.set(`${detailsInactive} .title-1`, { y: 100 });
                 gsap.set(`${detailsInactive} .title-2`, { y: 100 });
                 gsap.set(`${detailsInactive} .desc`, { y: 50 });
                 gsap.set(`${detailsInactive} .cta`, { y: 60 });
@@ -360,4 +370,4 @@ async function start() {
     }
 }
 
-start()
+start();
