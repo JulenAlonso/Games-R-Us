@@ -1,0 +1,154 @@
+/* General */
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  background-color: #1a1a1a;
+  color: #fff;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Navbar */
+nav {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 36px;
+  font-weight: 500;
+  background-color: #1a1a1a; /* Asegura que el navbar tenga fondo */
+}
+
+nav svg {
+  width: 20px;
+  height: 20px;
+}
+
+nav .svg-container {
+  width: 20px;
+  height: 20px;
+}
+
+nav > div {
+  display: inline-flex;
+  align-items: center;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+nav > div:first-child {
+  gap: 10px;
+}
+
+nav > div:last-child {
+  gap: 24px;
+}
+
+nav > div:last-child > .active {
+  position: relative;
+}
+
+nav > div:last-child > .active:after {
+  bottom: -8px;
+  left: 0;
+  right: 0;
+  position: absolute;
+  content: "";
+  height: 3px;
+  border-radius: 99px;
+  background-color: #ecad29;
+}
+
+/* Login Container */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1; /* Hace que ocupe todo el espacio restante bajo el navbar */
+  width: 100%;
+  margin-top: 80px; /* Da espacio bajo el navbar */
+}
+
+.login-card {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 40px;
+  border-radius: 10px;
+  width: 400px;
+  text-align: center;
+  box-shadow: 6px 6px 10px 2px rgba(0, 0, 0, 0.6);
+}
+
+.login-title {
+  font-family: "Oswald", sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #ffffff;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group input {
+  width: 90%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  outline: none;
+  transition: background-color 0.3s ease;
+}
+
+.input-group input:focus {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.login-button,
+.signup-button {
+  width: 100%;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.login-button {
+  background-color: #ecad29;
+  color: #fff;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #d49a23;
+  transform: scale(1.05);
+}
+
+.signup-button {
+  background-color: transparent;
+  border: 1px solid #fff;
+  color: #fff;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.signup-button:hover {
+  background-color: #ffffff;
+  color: #1a1a1a;
+  transform: scale(1.05);
+}

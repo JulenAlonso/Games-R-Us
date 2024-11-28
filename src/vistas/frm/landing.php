@@ -5,12 +5,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <link rel="stylesheet" href="./src/css/landing.css">
+  <link rel="stylesheet" href="../public/css/landing.css">
 </head>
 
 <body>
+  <form method="POST" enctype="multipart/form-data" target="controlador.php" >
   <div class="indicator"></div>
-
   <nav>
     <div>
       <div class="svg-container">
@@ -40,8 +40,9 @@
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
           <path fill-rule="evenodd"
             d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z"
-            clip-rule="evenodd" />
+            clip-rule="evenodd" onclick="document.getElementById('loginbutton').click();"/>
         </svg>
+        <input type="submit" id="loginbutton" name="loginbuton" hidden>
       </div>
     </div>
   </nav>
@@ -98,11 +99,10 @@
     <div class="slide-numbers" id="slide-numbers"></div>
   </div>
 
-  <div class="cover"></div>
-
-
-
+  <div class="cover">
+  </div>
+  </form>
 </body>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="./src/js/landing.js"></script>
+<script src="../public/js/landing.js"></script>
