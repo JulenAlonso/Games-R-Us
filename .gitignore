@@ -1,2 +1,9 @@
 # Archivos de entorno
 .env
+
+
+
+# Carpeta y archivos de composer
+/vendor
+composer.json
+composer.lock
