@@ -4,6 +4,6 @@
 
 
 # Carpeta y archivos de composer
-/vendor
+/vendor/
 composer.json
 composer.lock
