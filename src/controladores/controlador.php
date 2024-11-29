@@ -12,7 +12,7 @@ class Controlador {
 
     public function Inicia() {
         // Verifica si hay una solicitud POST
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {    
             $this->procesaNav();
             $this->procesaLogin();
             $this->procesaRegister();
@@ -38,6 +38,7 @@ class Controlador {
         }
     }
 
+    // Esto ejecuta TODO el login.php
     private function procesaLogin() {
         if (isset($_POST['loginButtonBut'])) {
             $email = $_POST['email'] ?? '';
@@ -59,16 +60,18 @@ class Controlador {
 
             if ($user) {
                 // Verifica la contraseña
-                if (password_verify($password, $user['password'])) {
+                if (password_verify($password, $user['password'])) {    //Passwd que nosotros creamos y la cifrada.
                     // Autenticación exitosa, guarda los datos en la sesión
-                    $_SESSION['user_id'] = $user['id'];
-                    $_SESSION['user_email'] = $user['email'];
-                    Vista::MuestraBiblioteca();
+                    $_SESSION['user_id'] = $user['id']; //Guardamos el id del usuario
+                    $_SESSION['user_email'] = $user['email'];   //Guardamos el email del usuario
+                    Vista::MuestraBiblioteca(); //Cuando iniciamos sesion, nos manda directamente a la biblioteca
                     exit;
                 } else {
+                    //Si la parte de arriba no cumple, error de passwd
                     echo "Contraseña incorrecta.";
                 }
             } else {
+                //Si la parte de arriba no cumple y error de passwd: usuario no encontrado 
                 echo "Usuario no encontrado.";
             }
         } elseif (isset($_POST['RegisterButtonBut'])) {
@@ -76,6 +79,7 @@ class Controlador {
         }
     }
 
+    //Gestiona la pagina de  registro
     private function procesaRegister() {
         if (isset($_POST['reg_registerButton'])) {
             $username = $_POST['reg_username'] ?? '';

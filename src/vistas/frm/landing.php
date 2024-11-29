@@ -63,7 +63,7 @@
       <div class="text">Switzerland Alps</div>
     </div>
     <div class="title-box-1">
-      <div class="title-1">SAINT</div>
+      <div class="title-1"> </div>
     </div>
     <div class="title-box-2">
       <div class="title-2">ANTONIEN</div>

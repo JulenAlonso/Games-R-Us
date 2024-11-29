@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
   <!-- CSS dedicado al login -->
+  <!-- ../public/css/login.css: cada '.', me saca de una carpeta -->
   <link rel="stylesheet" href="../public/css/login.css">
   <!-- Spline Animation Script -->
   <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.46/build/spline-viewer.js"></script>
@@ -29,7 +30,7 @@
           </svg>
         </div>
         <div>
-          <p onclick="document.getElementById('nav_iniciobutton').click();">Globe Express</p>
+          <p onclick="document.getElementById('nav_iniciobutton').click();">Globe Express</p> <!-- Simula un click en el submit -->
           <input type="submit" id="nav_iniciobutton" name="nav_iniciobutton" hidden>
         </div>
       </div>
@@ -43,7 +44,7 @@
           <input type="submit" id="nav_TiendaButton" name="nav_TiendaButton" hidden>
         </div>
         <div>
-          <p onclick="document.getElementById('nav_bibliotecaButton').click();">Biblioteca</p>
+          <p onclick="document.getElementById('nav_bibliotecaButton').click();">Biblioteca</p> <!-- Simula un click en el submit -->
           <input type="submit" id="nav_bibliotecaButton" name="nav_bibliotecaButton" hidden>
         </div>
         <div class="svg-container">
