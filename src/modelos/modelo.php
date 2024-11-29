@@ -12,7 +12,7 @@ class Modelo {
 
     private function iniciaConexionBD() {
         // Cargar las variables de entorno
-        $dotenv = Dotenv::createImmutable(__DIR__ . './');
+        $dotenv = Dotenv::createImmutable(__DIR__ . '/');
         $dotenv->load();
 
         // Obtener las credenciales de la base de datos
