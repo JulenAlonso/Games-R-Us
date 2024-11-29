@@ -9,8 +9,8 @@
 </head>
 
 <body>
-  <form method="POST" enctype="multipart/form-data" target="controlador.php" >
   <div class="indicator"></div>
+  <form method="POST" enctype="multipart/form-data" target="controlador.php" >
   <nav>
     <div>
       <div class="svg-container">
@@ -23,10 +23,18 @@
       <div>Globe Express</div>
     </div>
     <div>
-      <div class="active">Home</div>
-      <div>Tienda</div>
-      <div>Biblioteca</div>
-      <div>Juegos</div>
+      <div class="active">
+        <p onclick="document.getElementById('nav_iniciobutton').click();">Home</p>
+        <input type="submit" id="nav_iniciobutton" name="nav_iniciobutton" hidden>
+      </div>
+      <div>
+        <p onclick="document.getElementById('nav_TiendaButton').click();">Tienda</p>
+        <input type="submit" id="nav_TiendaButton" name="nav_TiendaButton" hidden>
+      </div>
+      <div>
+        <p onclick="document.getElementById('nav_bibliotecaButton').click();">Biblioteca</p>
+        <input type="submit" id="nav_bibliotecaButton" name="nav_bibliotecaButton" hidden>
+      </div>
       <!-- <div>Offers</div> -->
       <!-- <div>Contact</div> -->
       <div class="svg-container">
@@ -46,6 +54,7 @@
       </div>
     </div>
   </nav>
+  </form>
 
   <div id="demo"></div>
 
@@ -101,7 +110,6 @@
 
   <div class="cover">
   </div>
-  </form>
 </body>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>

@@ -33,6 +33,8 @@ class Controlador {
             }
         } elseif (isset($_POST['nav_iniciobutton'])) {
             Vista::MuestraLanding();
+        } elseif (isset($_POST['nav_TiendaButton'])) {
+            echo "Esto es la tienda Vale!!! Y te puto callas";
         }
     }
 
