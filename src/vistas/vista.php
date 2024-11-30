@@ -15,4 +15,8 @@ class Vista {
     public static function MuestraRegistro() {
         include BASE_PATH . '/src/vistas/frm/register.php';
     }
+
+    public static function MuestraLogOut() {
+        include BASE_PATH . '/src/vistas/frm/logout.php';
+    }
 }

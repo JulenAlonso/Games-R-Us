@@ -1,12 +1,6 @@
 /* General */
 body {
-  margin: 0;
-  font-family: "Inter", sans-serif;
-  color: #fff;
   height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background: none;
   overflow: hidden; /* Evita scroll innecesario */
 }
 
@@ -18,67 +12,6 @@ body {
   width: 100%;
   height: 100%;
   z-index: -1; /* Coloca el fondo detrás del contenido */
-}
-
-/* Navbar */
-nav {
-  position: fixed;
-  left: 0;
-  top: 0;
-  right: 0;
-  z-index: 50;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 36px;
-  font-weight: 500;
-  background-color: rgba(26, 26, 26, 0.9); /* Fondo semitransparente */
-}
-
-nav svg {
-  width: 20px;
-  height: 20px;
-}
-
-nav .svg-container {
-  width: 20px;
-  height: 20px;
-}
-
-nav > div {
-  display: inline-flex;
-  align-items: center;
-  text-transform: uppercase;
-  font-size: 14px;
-}
-
-nav > div:first-child {
-  gap: 10px;
-}
-
-nav > div:last-child {
-  gap: 24px;
-}
-
-nav > div:last-child > .active {
-  position: relative;
-}
-
-nav > div:last-child > .active:after {
-  bottom: -8px;
-  left: 0;
-  right: 0;
-  position: absolute;
-  content: "";
-  height: 3px;
-  border-radius: 99px;
-  background-color: #ecad29;
-}
-
-/* Navegación */
-.nav-form {
-  display: inline; /* Mantiene el formulario compacto para navegación */
-  margin: 0;
 }
 
 /* Formulario principal */

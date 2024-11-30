@@ -18,7 +18,7 @@ const data = [
     title:'ALIEN BREED',
     title2:'MEROUGA',
     description:'Alien Breed es un videojuego run and gun visto desde arriba lanzado por Team17 para Amiga en 1991, y después por MicroLeague para MS-DOS en 1993. El juego es el primero en la serie Alien Breed.',
-    image:'https://m.media-amazon.com/images/I/81gNfm9HTmL.png"'
+    image:'https://m.media-amazon.com/images/I/81gNfm9HTmL.png'
 },
 {
     place:'Night City',

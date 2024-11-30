@@ -1,0 +1,133 @@
+/* General Styles */
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  color: #fff;
+  background-color: #1a1a1a;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navbar */
+nav {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 36px;
+  font-weight: 500;
+}
+
+nav svg {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+nav .svg-container {
+  width: 20px;
+  height: 20px;
+}
+
+nav > div {
+  display: inline-flex;
+  align-items: center;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+nav > div:first-child {
+  gap: 10px;
+}
+
+nav > div:last-child {
+  gap: 24px;
+}
+
+nav > div:last-child > .active {
+  position: relative;
+}
+
+nav > div:last-child > .active:after {
+  bottom: -8px;
+  left: 0;
+  right: 0;
+  position: absolute;
+  content: "";
+  height: 3px;
+  border-radius: 99px;
+  background-color: #ecad29;
+}
+
+/* Profile Dropdown Container */
+.profile-container {
+  position: relative;
+  cursor: pointer;
+}
+
+.profile-menu {
+  position: absolute;
+  top: 40px; /* Espaciado entre el icono y el menú */
+  right: 0;
+  background-color: rgba(26, 26, 26, 0.20); /* Fondo oscuro semitransparente */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.20);
+  overflow: hidden;
+  z-index: 100; /* Asegúrate de que sea más alto que otros elementos */
+  display: none; /* Oculto por defecto */
+  min-width: 160px; /* Asegura un ancho adecuado */
+  animation: fadeIn 0.3s ease-in-out; /* Animación de entrada */
+}
+
+/* Triángulo decorativo del menú desplegable */
+.profile-menu::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  right: 20px;
+  border-width: 0 10px 10px 10px;
+  border-style: solid;
+  border-color: transparent transparent rgba(26, 26, 26, 0.95) transparent;
+}
+
+.profile-menu p {
+  margin: 0;
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  color: #fff;
+  transition: background-color 0.3s ease-in-out;
+  text-align: left; /* Alineación de texto */
+}
+
+.profile-menu p:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Mostrar el menú cuando sea visible */
+.profile-menu.visible {
+  display: block; /* Cambiar a block para mostrar */
+}
+
+/* Animación del menú desplegable */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Navegación */
+.nav-form {
+  display: inline; /* Mantiene el formulario compacto para navegación */
+  margin: 0;
+}

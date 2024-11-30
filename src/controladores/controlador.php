@@ -2,6 +2,11 @@
 require_once BASE_PATH . '/src/vistas/vista.php';
 require_once BASE_PATH . '/src/modelos/modelo.php';
 
+// Habilitar informe de errores
+error_reporting(E_ALL); // Reporta todos los errores
+ini_set('display_errors', 1); // Muestra errores en pantalla
+
+
 class Controlador {
     private $modelo;
 
@@ -35,6 +40,10 @@ class Controlador {
             Vista::MuestraLanding();
         } elseif (isset($_POST['nav_TiendaButton'])) {
             echo "Esto es la tienda Vale!!! Y te puto callas";
+        } elseif (isset($_POST['nav_LogoutButton'])) {
+            Vista::MuestraLogOut();
+        } elseif (isset($_POST['nav_RegistroButton'])) {
+            Vista::MuestraRegistro();
         }
     }
 

@@ -1,13 +1,7 @@
 /* General */
 body {
-  margin: 0;
-  font-family: "Inter", sans-serif;
-  color: #fff;
-  height: 100vh;
-  display: flex;
   justify-content: center; /* Centra horizontalmente */
   align-items: center; /* Centra verticalmente */
-  background: none;
   overflow: hidden; /* Evita scroll innecesario */
 }
 
@@ -21,61 +15,6 @@ body {
   z-index: -1; /* Coloca el fondo detrás del contenido */
 }
 
-/* Navbar */
-nav {
-  position: fixed;
-  left: 0;
-  top: 0;
-  right: 0;
-  z-index: 50;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 36px;
-  font-weight: 500;
-  background-color: rgba(26, 26, 26, 0.9); /* Fondo semitransparente */
-}
-
-nav svg {
-  width: 20px;
-  height: 20px;
-}
-
-nav .svg-container {
-  width: 20px;
-  height: 20px;
-}
-
-nav > div {
-  display: inline-flex;
-  align-items: center;
-  text-transform: uppercase;
-  font-size: 14px;
-}
-
-nav > div:first-child {
-  gap: 10px;
-}
-
-nav > div:last-child {
-  gap: 24px;
-}
-
-nav > div:last-child > .active {
-  position: relative;
-}
-
-nav > div:last-child > .active:after {
-  bottom: -8px;
-  left: 0;
-  right: 0;
-  position: absolute;
-  content: "";
-  height: 3px;
-  border-radius: 99px;
-  background-color: #ecad29;
-}
-
 /* Registro Container */
 .register-container {
   display: flex;
@@ -85,7 +24,7 @@ nav > div:last-child > .active:after {
 }
 
 .register-card {
-  background: #1a1a1a ; /* Fondo ligeramente más claro que el login */
+  background: #1a1a1a; /* Fondo ligeramente más claro que el login */
   padding: 50px;
   border-radius: 12px;
   width: 450px;
