@@ -3,6 +3,6 @@
 
     session_start();
     session_destroy();
-    Vista::MuestraLanding();
+    header("Location: index.php");
     exit;
 ?>
