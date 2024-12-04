@@ -1,10 +1,10 @@
 const data = [
 {
-    place:'Hyrule',
-    title:'ZELDA',
-    title2:'TEARS OF THE KINGDOM',
-    description:'Une fuerzas con héroes legendarios para salvar Hyrule en esta mágica continuación de la saga de Zelda.',
-    image:'https://images.alphacoders.com/127/thumb-1920-1272163.jpg'
+    place:'1990',//año
+    title:'Action',//categoria
+    title2:'Batman: The Movie',
+    description:'El vigilante encapuchado favorito de todos ha vuelto, pero no está mejor que nunca. O, más precisamente, su anterior salida con OCEAN.',
+    image:'https://static.wixstatic.com/media/41f220_93bb0d1d5209473fb3225313a3ce9af7~mv2.png/v1/fill/w_906,h_680,al_c,q_95,enc_auto/Batman%20Amiga%20Loading%20Screen.png'
 },
 {
     place:'Football',
