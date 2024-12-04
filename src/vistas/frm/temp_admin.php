@@ -69,7 +69,8 @@
                 <option value="2">Aventura</option>
                 <option value="3">Deportes</option>
                 <option value="4">Estrategia</option>
-                <option value="5">Simulación</option>
+                <option value="5">Carreras</option>
+                <option value="6">+18</option>
             </select>
 
             <label for="precio">Precio</label>
