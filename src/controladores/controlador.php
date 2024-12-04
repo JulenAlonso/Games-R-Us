@@ -21,6 +21,7 @@ class Controlador {
             $this->procesaNav();
             $this->procesaLogin();
             $this->procesaRegister();
+            $this->procesaAgregarJuego();
         } else {
             Vista::MuestraLanding(); // Carga la vista por defecto
         }
@@ -43,7 +44,7 @@ class Controlador {
         } elseif (isset($_POST['nav_LogoutButton'])) {
             Vista::MuestraLogOut();
         } elseif (isset($_POST['nav_RegistroButton'])) {
-            Vista::MuestraRegistro();
+            Vista::MuestraTempAdmin();
         }
     }
 
@@ -122,6 +123,58 @@ class Controlador {
             $this->modelo->creaUsuario($email, $password);
             echo "Registro exitoso. Ahora puedes iniciar sesión.";
         }
+    }
+
+    private function procesaAgregarJuego() {
+        if (isset($_POST['agregarJuegoButton'])) {
+            $titulo = $_POST['titulo'] ?? '';
+            $titulo2 = $_POST['titulo2'] ?? '';
+            $descripcion = $_POST['descripcion'] ?? '';
+            $id_categoria = $_POST['categoria'] ?? '';
+            $precio = $_POST['precio'] ?? '';
+            $imagen = $_FILES['imagen'] ?? null;
+            $rutaZip = $_FILES['ruta'] ?? null;
+    
+            // Validación básica
+            if (empty($titulo) || empty($descripcion) || empty($id_categoria) || empty($precio) || !$imagen || !$rutaZip) {
+                echo "Todos los campos son obligatorios.";
+                return;
+            }
+    
+            // Subir imagen
+            $imagenNombre = $this->subeArchivo($imagen, 'image/');
+            if (!$imagenNombre) {
+                echo "Error al subir la imagen.";
+                return;
+            }
+    
+            // Subir ZIP
+            $zipNombre = $this->subeArchivo($rutaZip, 'files/');
+            if (!$zipNombre) {
+                echo "Error al subir el archivo ZIP.";
+                return;
+            }
+    
+            // Guardar juego en la base de datos
+            $resultado = $this->modelo->agregarJuego($titulo, $titulo2, $descripcion, $id_categoria, $precio, $imagenNombre, $zipNombre);
+    
+            if ($resultado) {
+                echo "Juego agregado exitosamente.";
+            } else {
+                echo "Error al agregar el juego.";
+            }
+        }
+    }
+    
+    private function subeArchivo($archivo, $directorioDestino) {
+        $nombreArchivo = basename($archivo['name']);
+        $rutaDestino = BASE_PATH . "/src/uploads/$directorioDestino" . $nombreArchivo;
+    
+        if (!move_uploaded_file($archivo['tmp_name'], $rutaDestino)) {
+            return false;
+        }
+    
+        return $nombreArchivo;
     }
 
     private function usuarioAutenticado() {

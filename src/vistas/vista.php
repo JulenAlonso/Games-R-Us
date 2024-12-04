@@ -19,4 +19,8 @@ class Vista {
     public static function MuestraLogOut() {
         include BASE_PATH . '/src/vistas/frm/logout.php';
     }
+
+    public static function MuestraTempAdmin() {
+        include BASE_PATH . '/src/vistas/frm/temp_admin.php';
+    }
 }

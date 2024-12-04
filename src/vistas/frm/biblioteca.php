@@ -14,6 +14,7 @@ if (!isset($_SESSION['user_id'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Game Library</title>
   <link rel="stylesheet" href="../public/css/nav.css">
+  <link rel="stylesheet" href="../public/css/library.css">
 </head>
 <body>
   <!-- Navbar -->
@@ -85,36 +86,34 @@ if (!isset($_SESSION['user_id'])) {
     </div>
   </nav>
 
-  <!-- Main Content -->
-  <div class="container">
-    <!-- Sidebar for Game List -->
+  <!-- Biblioteca de Juegos -->
+  <div class="game-library">
     <aside class="sidebar">
-      <h2>Your Games</h2>
-      <ul id="game-list">
-        <li class="game-item" onclick="showDetails('Game 1')">Game 1</li>
-        <li class="game-item" onclick="showDetails('Game 2')">Game 2</li>
-        <li class="game-item" onclick="showDetails('Game 3')">Game 3</li>
-        <li class="game-item" onclick="showDetails('Game 4')">Game 4</li>
+      <h2>Tu Biblioteca</h2>
+      <ul class="game-list">
+        <li class="game-item" onclick="showGameDetails('Game 1')">Game 1</li>
+        <li class="game-item" onclick="showGameDetails('Game 2')">Game 2</li>
+        <li class="game-item" onclick="showGameDetails('Game 3')">Game 3</li>
+        <li class="game-item" onclick="showGameDetails('Game 4')">Game 4</li>
       </ul>
     </aside>
-
-    <!-- Main Section for Game Details or Gallery -->
-    <main class="main-content">
-      <div id="gallery" class="gallery">
-        <h2>Featured Games</h2>
-        <div class="game-gallery">
-          <div class="game-cover">Game A</div>
-          <div class="game-cover">Game B</div>
-          <div class="game-cover">Game C</div>
-          <div class="game-cover">Game D</div>
-        </div>
+    <main class="game-content">
+      <div class="game-details hidden" id="gameDetails">
+        <h2 id="gameTitle">Detalles del Juego</h2>
+        <p id="gameDescription">Selecciona un juego para ver más información.</p>
       </div>
-      <div id="details" class="details hidden">
-        <h2 id="game-title">Game Title</h2>
-        <p id="game-description">Select a game to see its details.</p>
+      <div class="game-gallery" id="gameGallery">
+        <h2>Juegos Destacados</h2>
+        <div class="gallery">
+          <div class="gallery-item" onclick="showGameDetails('Game A')">Game A</div>
+          <div class="gallery-item" onclick="showGameDetails('Game B')">Game B</div>
+          <div class="gallery-item" onclick="showGameDetails('Game C')">Game C</div>
+          <div class="gallery-item" onclick="showGameDetails('Game D')">Game D</div>
+        </div>
       </div>
     </main>
   </div>
   <script src="../public/js/nav.js"></script>
+  <script src="../public/js/library.js"></script>
 </body>
 </html>

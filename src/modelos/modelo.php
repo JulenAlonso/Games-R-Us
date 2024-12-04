@@ -53,5 +53,28 @@ class Modelo
         $stmt->bindParam(':password', $passwordHash);//Reemplazamos el valor de passwd 
         $stmt->execute();//ejecuta
     }
+
+    public function agregarJuego($titulo, $titulo2, $descripcion, $id_categoria, $precio, $imagen, $ruta) {
+        $stmt = $this->pdo->prepare("INSERT INTO juegos (id_categoria, titulo, titulo2, descripcion, img, ruta, precio) VALUES (:id_categoria, :titulo, :titulo2, :descripcion, :img, :ruta, :precio)");
+        if (!$stmt) {
+            return false;
+        }
+    
+        // Bind de parámetros utilizando bindValue
+        $stmt->bindValue(':id_categoria', $id_categoria, PDO::PARAM_INT);
+        $stmt->bindValue(':titulo', $titulo, PDO::PARAM_STR);
+        $stmt->bindValue(':titulo2', $titulo2, PDO::PARAM_STR);
+        $stmt->bindValue(':descripcion', $descripcion, PDO::PARAM_STR);
+        $stmt->bindValue(':img', $imagen, PDO::PARAM_STR);
+        $stmt->bindValue(':ruta', $ruta, PDO::PARAM_STR);
+        $stmt->bindValue(':precio', $precio, PDO::PARAM_STR);
+    
+        // Ejecutar la consulta
+        if ($stmt->execute()) {
+            return true;
+        }
+    
+        return false;
+    }
 }
 ?>

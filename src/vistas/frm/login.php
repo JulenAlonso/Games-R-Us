@@ -89,7 +89,7 @@
   </nav>
 
   <!-- Formulario de login -->
-  <form method="POST" class="login-form" target="controlador.php">
+  <form method="POST" class="login-form">
     <div class="login-container">
       <div class="login-card">
         <h1 class="login-title">Welcome Back</h1>
