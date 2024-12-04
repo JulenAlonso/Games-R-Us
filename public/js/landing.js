@@ -7,7 +7,7 @@ const data = [
     image:'https://static.wixstatic.com/media/41f220_93bb0d1d5209473fb3225313a3ce9af7~mv2.png/v1/fill/w_906,h_680,al_c,q_95,enc_auto/Batman%20Amiga%20Loading%20Screen.png'
 },
 {
-    place:'Football',
+    place:'A',
     title:'FC 25',
     title2:'a',
     description:'Forma equipo con tus colegas en tus modos favoritos con el nuevo Rush de 5 contra 5, compite contra Mbappé, Lewandowski, Griezman, Nico Williams, Lamine, Kubo, Aitana, Weir, Ludmila y disfruta de la emoción hasta el final.',
