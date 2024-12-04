@@ -129,7 +129,7 @@
         <div class="progress-sub-foreground"></div>
       </div>
     </div>
-    <div class="slide-numbers" id="slide-numbers"></div>
+    <div class="slide-numbers" id="slide-numbers" ></div>
   </div>
 
   <div class="cover">

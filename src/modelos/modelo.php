@@ -8,13 +8,11 @@ class Modelo
 {
     private $pdo;
 
-    public function __construct()
-    {
+    public function __construct(){
         $this->iniciaConexionBD();//inicia una conexion
     }
 
-    private function iniciaConexionBD()
-    {
+    private function iniciaConexionBD(){
         // Cargar las variables de entorno
         $dotenv = Dotenv::createImmutable(__DIR__ . '/');//Esto carga el archivo .env
         $dotenv->load();//lo hace funcionar
@@ -36,8 +34,7 @@ class Modelo
     }
 
     //Usa la conexion a bbdd para buscar el usuario por email
-    public function buscaUsuarioPorEmail($email)
-    {
+    public function buscaUsuarioPorEmail($email){
         $stmt = $this->pdo->prepare("SELECT * FROM usuarios WHERE email = :email");//Coge el pdo, le hace una query de sql donde el email sea igual al email que le paso por parametro.
         $stmt->bindParam(':email', $email);//El email introducido por parametro es la variable que le damos $email: puede ser julen@hotmail.com
         $stmt->execute();//ejecuta
@@ -45,8 +42,7 @@ class Modelo
     }
 
     //Usa la conexion a bbdd para crear el usuario 
-    public function creaUsuario($email, $password)
-    {
+    public function creaUsuario($email, $password){
         $passwordHash = password_hash($password, PASSWORD_BCRYPT);//Cifra la passwd
         $stmt = $this->pdo->prepare("INSERT INTO usuarios (email, password) VALUES (:email, :password)");//En los usuarios meter el email y la passwd en su columna correspondiente.
         $stmt->bindParam(':email', $email);//Reemplazamos el valor de email 
@@ -54,7 +50,7 @@ class Modelo
         $stmt->execute();//ejecuta
     }
 
-    public function agregarJuego($titulo, $titulo2, $descripcion, $id_categoria, $precio, $imagen, $ruta) {
+    public function agregarJuego($titulo, $titulo2, $descripcion, $id_categoria, $precio, $imagen, $ruta){
         $stmt = $this->pdo->prepare("INSERT INTO juegos (id_categoria, titulo, titulo2, descripcion, img, ruta, precio) VALUES (:id_categoria, :titulo, :titulo2, :descripcion, :img, :ruta, :precio)");
         if (!$stmt) {
             return false;
@@ -76,5 +72,12 @@ class Modelo
     
         return false;
     }
+
+    public function obtenerJuegos() {
+        $stmt = $this->pdo->prepare("SELECT titulo, titulo2, id_categoria, descripcion, img AS image, precio, ruta FROM juegos LIMIT 5");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
 }
 ?>

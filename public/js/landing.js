@@ -1,67 +1,48 @@
-const data = [
-{
-    place:'1990',//año
-    title:'Action',//categoria
-    title2:'Batman: The Movie',
-    description:'El vigilante encapuchado favorito de todos ha vuelto, pero no está mejor que nunca. O, más precisamente, su anterior salida con OCEAN.',
-    image:'https://static.wixstatic.com/media/41f220_93bb0d1d5209473fb3225313a3ce9af7~mv2.png/v1/fill/w_906,h_680,al_c,q_95,enc_auto/Batman%20Amiga%20Loading%20Screen.png'
-},
-{
-    place:'A',
-    title:'FC 25',
-    title2:'a',
-    description:'Forma equipo con tus colegas en tus modos favoritos con el nuevo Rush de 5 contra 5, compite contra Mbappé, Lewandowski, Griezman, Nico Williams, Lamine, Kubo, Aitana, Weir, Ludmila y disfruta de la emoción hasta el final.',
-    image:'https://cdn.hk01.com/di/media/images/dw/20240717/890244248866131968615403.jpeg/wjoHC2jhhGrNOscfiW6_5nYnmUvHtqssA_tRIAP7USA?v=w1920'
-},
-{
-    place:'Ciencia Ficción',
-    title:'ALIEN BREED',
-    title2:'MEROUGA',
-    description:'Alien Breed es un videojuego run and gun visto desde arriba lanzado por Team17 para Amiga en 1991, y después por MicroLeague para MS-DOS en 1993. El juego es el primero en la serie Alien Breed.',
-    image:'https://m.media-amazon.com/images/I/81gNfm9HTmL.png'
-},
-{
-    place:'Night City',
-    title:'CYBERPUNK 2077',
-    title2:'NATIONAL PARAK',
-    description:'Explora un mundo abierto en el futuro distópico de Night City, donde cada decisión importa y el peligro acecha en cada esquina.',
-    image:'https://i.blogs.es/b109e9/cyberpunk2077-johnny-v-rgb_en/1366_2000.jpg'
-},
-{
-    place:'Lands Between',
-    title:'ELDEN RING',
-    title2:'a',
-    description:'Embárcate en una épica aventura en un mundo lleno de misterios, desafíos y criaturas fantásticas, creado por FromSoftware.',
-    image:'https://wallpapers.com/images/featured/elden-ring-6r85th0gnhifsqd0.jpg'
-},
-{
-    place:'Paldea Region',
-    title:'POKÉMON ',
-    title2:'ESCARLATA & PURPURA',
-    description:'Atrapa, entrena y explora en una nueva región con mecánicas innovadoras y batallas emocionantes.',
-    image:'https://images3.alphacoders.com/128/thumb-1920-1289473.png'
-},
-]
-
+let data = [];
 const _ = (id)=>document.getElementById(id)
-const cards = data.map((i, index)=>`<div class="card" id="card${index}" style="background-image:url(${i.image})"  ></div>`).join('')
 
+async function fetchData() {
+  try {
+    const response = await fetch('/Games-r-us/public/index.php', {
+      method: 'POST', // Cambiamos el método a POST
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded', // Establecemos el tipo de contenido
+      },
+      body: new URLSearchParams({ accion: 'listadoJuegos' }), // Enviamos el parámetro 'accion'
+    });
 
+    if (!response.ok) {
+      throw new Error("Error al obtener los datos");
+    }
 
-const cardContents = data.map((i, index)=>`<div class="card-content" id="card-content-${index}">
-<div class="content-start"></div>
-<div class="content-place">${i.place}</div>
-<div class="content-title-1">${i.title}</div>
-<div class="content-title-2">${i.title2}</div>
+    const result = await response.json();
+    if (result.success) {
+      data = result.data; // Asignamos los datos obtenidos al array data
+      initialize(); // Llamamos a la función de inicialización
+    } else {
+      console.error("Error en el servidor:", result.message);
+    }
+  } catch (error) {
+    console.error("Error al realizar la solicitud:", error);
+  }
+}
+function initialize() {
+  const cards = data.map((i, index)=>`<div class="card" id="card${index}" style="background-image:url(${i.image})"  ></div>`).join('')
 
-</div>`).join('')
+  const cardContents = data.map((i, index)=>`
+  <div class="card-content" id="card-content-${index}">
+    <div class="content-start"></div>
+    <div class="content-place">${i.place}</div>
+    <div class="content-title-1">${i.title}</div>
+    <div class="content-title-2">${i.title2}</div>
+  </div>`).join('')
 
+  const sildeNumbers = data.map((_, index)=>`<div class="item" id="slide-item-${index}" >${index+1}</div>`).join('')
+  _('demo').innerHTML =  cards + cardContents
+  _('slide-numbers').innerHTML =  sildeNumbers
 
-const sildeNumbers = data.map((_, index)=>`<div class="item" id="slide-item-${index}" >${index+1}</div>`).join('')
-_('demo').innerHTML =  cards + cardContents
-_('slide-numbers').innerHTML =  sildeNumbers
-
-
+  start();
+}
 const range = (n) =>
   Array(n)
     .fill(0)
@@ -359,5 +340,5 @@ async function start() {
   }
 }
 
-start()
+fetchData();
   
