@@ -23,4 +23,9 @@ class Vista {
     public static function MuestraTempAdmin() {
         include BASE_PATH . '/src/vistas/frm/temp_admin.php';
     }
+
+    public static function MuestraTienda() {
+        include BASE_PATH . '/src/vistas/frm/tienda.php';
+    }
+
 }
