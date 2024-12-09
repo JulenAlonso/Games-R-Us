@@ -86,10 +86,10 @@
             <div class="divider"></div>
             <div class="product-content">
                 <h3>Batman The Movie</h3>
-                <p>Descripción breve del producto.</p>
+                <p>El vigilante encapuchado favorito de todos ha vuel...</p>
                 <div class="buttons">
-                <button class="play-button">Comprar</button>
-                <button>Regalar</button>
+                    <button class="play-button">Comprar</button>
+                    <button>Regalar</button>
                 </div>
             </div>
         </div>
@@ -98,7 +98,7 @@
             <div class="divider"></div>
             <div class="product-content">
                 <h3>Batman The Caped Crusader</h3>
-                <p>Descripción breve del producto.</p>
+                <p>Batman: The Caped Crusader es el segundo de 3 jueg...</p>
                 <div class="buttons">
                     <button class="play-button">Comprar</button>
                     <button>Regalar</button>
@@ -110,7 +110,7 @@
             <div class="divider"></div>
             <div class="product-content">
                 <h3>Batman Forever</h3>
-                <p>Descripción breve del producto.</p>
+                <p>Batman Forever utiliza el motor Mortal Kombat de A...</p>
                 <div class="buttons">
                     <button class="play-button">Comprar</button>
                     <button>Regalar</button>
@@ -122,11 +122,11 @@
     <h2 class="section-title">Aventuras</h2>
     <div class="container">
         <div class="product">
-            <img src="https://via.placeholder.com/200" alt="Producto 1">
+            <img src="https://localhost/Games-R-US/src/uploads/image/princeOfPersia.jpg" alt="Producto 1">
             <div class="divider"></div>
             <div class="product-content">
-                <h3>Producto 1</h3>
-                <p>Descripción breve del producto.</p>
+                <h3>Prince of Persia</h3>
+                <p>Prince of Persia se estrenó en 1989 en Apple II y ...</p>
                 <div class="buttons">
                     <button class="play-button">Comprar</button>
                     <button>Regalar</button>
@@ -134,11 +134,11 @@
             </div>
         </div>
         <div class="product">
-            <img src="https://via.placeholder.com/200" alt="Producto 2">
+            <img src="https://localhost/Games-R-US/src/uploads/image/princeOfPersia2.jpg" alt="Producto 2">
             <div class="divider"></div>
             <div class="product-content">
-                <h3>Producto 2</h3>
-                <p>Descripción breve del producto.</p>
+                <h3>Prince of Persia 2 <br>The Shadow & The Flam</h3>
+                <p>¡Aquí está el videojuego “Prince of Persia 2: The ...</p>
                 <div class="buttons">
                     <button class="play-button">Comprar</button>
                     <button>Regalar</button>
@@ -146,23 +146,12 @@
             </div>
         </div>
         <div class="product">
-            <img src="https://via.placeholder.com/200" alt="Producto 3">
+            <img src="https://localhost/Games-R-US/src/uploads/image/princeOfPersia4D.jpg" alt="Producto 3">
             <div class="divider"></div>
             <div class="product-content">
-                <h3>Producto 3</h3>
-                <p>Descripción breve del producto.</p>
-                <div class="buttons">
-                    <button class="play-button">Comprar</button>
-                    <button>Regalar</button>
-                </div>
-            </div>
-        </div>
-        <div class="product">
-            <img src="https://via.placeholder.com/200" alt="Producto 3">
-            <div class="divider"></div>
-            <div class="product-content">
-                <h3>Producto 4</h3>
-                <p>Descripción breve del producto.</p>
+                <h3>Prince of Persia 4D</h3>
+                <p>En 1994, Terebilov K.A. publica 4D Prince of Persia en DOS. Este juego de acción ahora es abandonware
+                    y está ambientado en temas de plataformas, Medio Oriente y elementos de rompecabezas.</p>
                 <div class="buttons">
                     <button class="play-button">Comprar</button>
                     <button>Regalar</button>
@@ -174,11 +163,11 @@
     <h2 class="section-title">Carreras</h2>
     <div class="container">
         <div class="product">
-            <img src="https://via.placeholder.com/200" alt="Producto 1">
+            <img src="https://localhost/Games-R-US/src/uploads/image/189857--2fast4you-das-superheisse-bi-fi-race.png" alt="Producto 1">
             <div class="divider"></div>
             <div class="product-content">
-                <h3>Producto 1</h3>
-                <p>Descripción breve del producto.</p>
+                <h3>2 Fast 4 You</h3>
+                <p>2 Fast 4 U es un juego de carreras futurista prome...</p>
                 <div class="buttons">
                     <button class="play-button">Comprar</button>
                     <button>Regalar</button>
@@ -186,35 +175,11 @@
             </div>
         </div>
         <div class="product">
-            <img src="https://via.placeholder.com/200" alt="Producto 2">
+            <img src="https://localhost/Games-R-US/src/uploads/image/ghini-run_1.png" alt="Producto 2">
             <div class="divider"></div>
             <div class="product-content">
-                <h3>Producto 2</h3>
-                <p>Descripción breve del producto.</p>
-                <div class="buttons">
-                    <button class="play-button">Comprar</button>
-                    <button>Regalar</button>
-                </div>
-            </div>
-        </div>
-        <div class="product">
-            <img src="https://via.placeholder.com/200" alt="Producto 3">
-            <div class="divider"></div>
-            <div class="product-content">
-                <h3>Producto 3</h3>
-                <p>Descripción breve del producto.</p>
-                <div class="buttons">
-                    <button class="play-button">Comprar</button>
-                    <button>Regalar</button>
-                </div>
-            </div>
-        </div>
-        <div class="product">
-            <img src="https://via.placeholder.com/200" alt="Producto 3">
-            <div class="divider"></div>
-            <div class="product-content">
-                <h3>Producto 4</h3>
-                <p>Descripción breve del producto.</p>
+                <h3>'Ghini Run</h3>
+                <p>'Ghini Run es un videojuego publicado en 2002 para...</p>
                 <div class="buttons">
                     <button class="play-button">Comprar</button>
                     <button>Regalar</button>
@@ -225,11 +190,11 @@
     <h2 class="section-title">Deportes</h2>
     <div class="container">
         <div class="product">
-            <img src="https://via.placeholder.com/200" alt="Producto 1">
+            <img src="https://localhost/Games-R-US/src/uploads/image/abc-monday-night-football_1.png" alt="Producto 1">
             <div class="divider"></div>
             <div class="product-content">
-                <h3>Producto 1</h3>
-                <p>Descripción breve del producto.</p>
+                <h3>ABC Monday Night Football</h3>
+                <p>Monday Night Football es un divertido juego de fút...</p>
                 <div class="buttons">
                     <button class="play-button">Comprar</button>
                     <button>Regalar</button>
@@ -237,11 +202,11 @@
             </div>
         </div>
         <div class="product">
-            <img src="https://via.placeholder.com/200" alt="Producto 2">
+            <img src="https://localhost/Games-R-US/src/uploads/image/4d-sports-tennis_2.png" alt="Producto 2">
             <div class="divider"></div>
             <div class="product-content">
-                <h3>Producto 2</h3>
-                <p>Descripción breve del producto.</p>
+                <h3>Sports Tennis 4D</h3>
+                <p>**4D Sports Tennis** es un juego de tenis revoluci...</p>
                 <div class="buttons">
                     <button class="play-button">Comprar</button>
                     <button>Regalar</button>
@@ -249,11 +214,26 @@
             </div>
         </div>
         <div class="product">
-            <img src="https://via.placeholder.com/200" alt="Producto 3">
+            <img src="https://localhost/Games-R-US/src/uploads/image/omni-play-horse-racing_1.png" alt="Producto 3">
             <div class="divider"></div>
             <div class="product-content">
-                <h3>Producto 3</h3>
-                <p>Descripción breve del producto.</p>
+                <h3>Omni Play Horse Racing</h3>
+                <p>Omni-Play Horse Racing (también conocido como Spor...</p>
+                <div class="buttons">
+                    <button class="play-button">Comprar</button>
+                    <button>Regalar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h2 class="section-title">Estrategia</h2>
+    <div class="container">
+        <div class="product">
+            <img src="https://localhost/Games-R-US/src/uploads/image/battle-on-the-black-sea_5.png" alt="Producto 1">
+            <div class="divider"></div>
+            <div class="product-content">
+                <h3>Battle On The Black Sea</h3>
+                <p>Battle On The Black Sea es un videojuego publicado...</p>
                 <div class="buttons">
                     <button class="play-button">Comprar</button>
                     <button>Regalar</button>
@@ -261,11 +241,23 @@
             </div>
         </div>
         <div class="product">
-            <img src="https://via.placeholder.com/200" alt="Producto 3">
+            <img src="https://localhost/Games-R-US/src/uploads/image/advanced-strategic-command_1.jpg" alt="Producto 2">
             <div class="divider"></div>
             <div class="product-content">
-                <h3>Producto 4</h3>
-                <p>Descripción breve del producto.</p>
+                <h3>Advanced Strategic Command</h3>
+                <p>¡Aquí está el videojuego “Comando Estratégico Avan...</p>
+                <div class="buttons">
+                    <button class="play-button">Comprar</button>
+                    <button>Regalar</button>
+                </div>
+            </div>
+        </div>
+        <div class="product">
+            <img src="https://localhost/Games-R-US/src/uploads/image/battle-cheese.jpg" alt="Producto 3">
+            <div class="divider"></div>
+            <div class="product-content">
+                <h3>Battle Cheese</h3>
+                <p>1995, el año en que se lanzó Battle Cheese en DOS....</p>
                 <div class="buttons">
                     <button class="play-button">Comprar</button>
                     <button>Regalar</button>
@@ -276,4 +268,5 @@
 
     <script src="../public/js/nav.js"></script>
 </body>
+
 </html>
