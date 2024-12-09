@@ -44,10 +44,11 @@ class Modelo
     //Usa la conexion a bbdd para crear el usuario 
     public function creaUsuario($email, $password){
         $passwordHash = password_hash($password, PASSWORD_BCRYPT);//Cifra la passwd
+        //Plantilla
         $stmt = $this->pdo->prepare("INSERT INTO usuarios (email, password) VALUES (:email, :password)");//En los usuarios meter el email y la passwd en su columna correspondiente.
         $stmt->bindParam(':email', $email);//Reemplazamos el valor de email 
         $stmt->bindParam(':password', $passwordHash);//Reemplazamos el valor de passwd 
-        $stmt->execute();//ejecuta
+        $stmt->execute();//ejecuta: reemplaza en la plantilla el email y la passwd que hemos introducido.
     }
 
     public function agregarJuego($titulo, $titulo2, $descripcion, $id_categoria, $precio, $imagen, $ruta){
@@ -74,10 +75,9 @@ class Modelo
     }
 
     public function obtenerJuegos() {
-        $stmt = $this->pdo->prepare("SELECT titulo, titulo2, id_categoria, descripcion, img AS image, precio, ruta FROM juegos LIMIT 5");
+        $stmt = $this->pdo->prepare("SELECT titulo, titulo2, id_categoria, descripcion, img AS image, precio, ruta FROM juegos LIMIT 6");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-    
+    }   
 }
 ?>

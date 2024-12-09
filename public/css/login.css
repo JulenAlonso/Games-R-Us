@@ -27,11 +27,12 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  width: 100%; 
 }
 
 .login-card {
-  background: #1a1a1a; /* Color oscuro translúcido */
+  /* Color oscuro translúcido */
+  background: rgba(0, 0, 0, 0.8); 
   padding: 40px;
   border-radius: 10px;
   width: 400px;
@@ -57,14 +58,14 @@ body {
   border: none;
   border-radius: 5px;
   font-size: 16px;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgb(168, 163, 163);
   color: #fff;
   outline: none;
   transition: background-color 0.3s ease;
 }
 
 .input-group input:focus {
-  background-color: rgba(255, 255, 255, 0.4);
+  background-color: rgb(168, 163, 163);
 }
 
 .button-group {

@@ -159,11 +159,11 @@
             </div>
         </div>
     </div>
-
     <h2 class="section-title">Carreras</h2>
     <div class="container">
         <div class="product">
-            <img src="https://localhost/Games-R-US/src/uploads/image/189857--2fast4you-das-superheisse-bi-fi-race.png" alt="Producto 1">
+            <img src="https://localhost/Games-R-US/src/uploads/image/189857--2fast4you-das-superheisse-bi-fi-race.png"
+                alt="Producto 1">
             <div class="divider"></div>
             <div class="product-content">
                 <h3>2 Fast 4 You</h3>
@@ -265,7 +265,22 @@
             </div>
         </div>
     </div>
-
+    <h2 class="section-title">+18</h2>
+    <div class="container">
+        <div class="product">
+            <img src="https://localhost/Games-R-US/src/uploads/image/1939.jpg" alt="Producto 1">
+            <div class="divider"></div>
+            <div class="product-content">
+                <h3>1939</h3>
+                <p>Si aún no has jugado a **1939** o quieres probar este emocionante juego de estrategia, ¡descárgalo
+                    ahora gratis! </p>
+                <div class="buttons">
+                    <button class="play-button">Comprar</button>
+                    <button>Regalar</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="../public/js/nav.js"></script>
 </body>
 
