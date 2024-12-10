@@ -47,7 +47,7 @@ class Controlador {
         } elseif (isset($_POST['nav_LogoutButton'])) {
             Vista::MuestraLogOut();
         } elseif (isset($_POST['nav_RegistroButton'])) {
-            Vista::MuestraTempAdmin();
+            Vista::MuestraRegistro();
         }
     }
 

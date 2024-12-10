@@ -23,20 +23,20 @@ nav {
   font-weight: 500;
 }
 
-nav svg {
-  width: 20px;
-  height: 20px;
+nav img {
+  width: 25px;
+  height: 25px;
   cursor: pointer;
 }
 
 nav .svg-container {
   width: 20px;
   height: 20px;
+  margin-top: 10px;
 }
 
 nav > div {
   display: inline-flex;
-  align-items: center;
   text-transform: uppercase;
   font-size: 14px;
 }
