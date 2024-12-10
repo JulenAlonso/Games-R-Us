@@ -21,7 +21,7 @@
         </svg>
       </div>
       <div>
-        <p onclick="document.getElementById('nav_iniciobutton').click();">Globe Express</p>
+        <p onclick="document.getElementById('nav_iniciobutton').click();">Golden Age Games</p>
         <form method="POST">
           <input type="submit" id="nav_iniciobutton" name="nav_iniciobutton" hidden>
         </form>
