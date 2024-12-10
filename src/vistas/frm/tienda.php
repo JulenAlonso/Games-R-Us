@@ -84,8 +84,10 @@
                 <h3>Batman The Movie</h3>
                 <p>El vigilante encapuchado favorito de todos ha vuel...</p>
                 <div class="buttons">
-                    <button class="play-button">Comprar</button>
-                    <button>Regalar</button>
+                    <form method="POST">
+                            <input type="submit" class="play-input" id="tienda_comprar" name="tienda_comprar" value="Comprar">
+                            <input type="submit" id="tienda_regalar" name="tienda_regalar" value="Regalar">
+                        </form>
                 </div>
             </div>
         </div>
