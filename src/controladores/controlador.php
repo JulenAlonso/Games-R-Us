@@ -23,6 +23,7 @@ class Controlador {
                 $this->procesaLogin();
                 $this->procesaRegister();
                 $this->procesaAgregarJuego();
+                $this->procesarTienda();
             }
         } else {
             Vista::MuestraLanding(); // Carga la vista por defecto
@@ -233,6 +234,15 @@ class Controlador {
                 'message' => 'Error al obtener los juegos: ' . $e->getMessage()
             ]);
             exit;
+        }
+    }
+
+    //Esto direccionaria las peticiones de "COMPRAR" y "REGALAR"
+    public function procesarTienda(){
+        if (isset($_POST['tienda_comprar'])) { //POST
+            Vista::MuestraFormularioCompra();//Aqui habria que poner la logica de "COMPRA"
+        } else if (isset($_POST['tienda_regalar'])) { 
+            Vista::MuestraFormularioRegalo();//Aqui habria que poner la logica de "REGALAR"
         }
     }
 

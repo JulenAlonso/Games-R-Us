@@ -85,7 +85,7 @@
                 <p>El vigilante encapuchado favorito de todos ha vuel...</p>
                 <div class="buttons">
                     <form method="POST">
-                            <input type="submit" class="play-input" id="tienda_comprar" name="tienda_comprar" value="Comprar">
+                            <input type="submit" class="play-input" id=""tienda_comprar"" name="tienda_comprar" value="Comprar">
                             <input type="submit" id="tienda_regalar" name="tienda_regalar" value="Regalar">
                         </form>
                 </div>

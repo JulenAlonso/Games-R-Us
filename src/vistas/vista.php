@@ -28,4 +28,11 @@ class Vista {
         include BASE_PATH . '/src/vistas/frm/tienda.php';
     }
 
+    public static function MuestraFormularioCompra() {
+        include BASE_PATH . '/src/vistas/frm/formularioCompra.php';
+    }
+    public static function MuestraFormularioRegalo() {
+        include BASE_PATH . '/src/vistas/frm/formularioRegalo.php';
+    }
+
 }
