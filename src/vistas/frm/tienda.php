@@ -75,211 +75,27 @@
             </div>
         </div>
     </nav>
-    <h2 class="section-title">Acción</h2>
-    <div class="container">
-        <div class="product">
-            <img src="https://localhost/Games-R-US/src/uploads/image/dos_batman-the-movie_1473.png" alt="Producto 1">
-            <div class="divider"></div>
-            <div class="product-content">
-                <h3>Batman The Movie</h3>
-                <p>El vigilante encapuchado favorito de todos ha vuel...</p>
-                <div class="buttons">
-                    <form method="POST">
-                            <input type="submit" class="play-input" id=""tienda_comprar"" name="tienda_comprar" value="Comprar">
-                            <input type="submit" id="tienda_regalar" name="tienda_regalar" value="Regalar">
-                        </form>
-                </div>
-            </div>
-        </div>
-        <div class="product">
-            <img src="https://localhost/Games-R-US/src/uploads/image/BatmanTheCapedCrusader.jpg" alt="Producto 2">
-            <div class="divider"></div>
-            <div class="product-content">
-                <h3>Batman The Caped Crusader</h3>
-                <p>Batman: The Caped Crusader es el segundo de 3 jueg...</p>
-                <div class="buttons">
-                    <button class="play-button">Comprar</button>
-                    <button>Regalar</button>
-                </div>
-            </div>
-        </div>
-        <div class="product">
-            <img src="https://localhost/Games-R-US/src/uploads/image/batman-foreverjpg.jpg" alt="Producto 3">
-            <div class="divider"></div>
-            <div class="product-content">
-                <h3>Batman Forever</h3>
-                <p>Batman Forever utiliza el motor Mortal Kombat de A...</p>
-                <div class="buttons">
-                    <button class="play-button">Comprar</button>
-                    <button>Regalar</button>
-                </div>
-            </div>
-        </div>
+
+    <div style="display: flex;">
+        <!-- Barra lateral para las categorías -->
+        <aside id="sidebar" style="width: 20%; background-color: #2b2b2b; padding: 20px; height: 100vh; overflow-y: auto;">
+            <h2 class="section-title" style="text-align: left; font-size: 1.4em;">Categorías</h2>
+            <ul id="category-list" style="list-style: none; padding: 0; color: white; font-size: 1em; cursor: pointer;">
+                <!-- Categorías dinámicas -->
+            </ul>
+        </aside>
+
+        <!-- Contenedor de productos -->
+        <main id="store-container" style="width: 80%; padding: 20px;">
+            <!-- Los productos se cargarán aquí -->
+        </main>
     </div>
 
-    <h2 class="section-title">Aventuras</h2>
-    <div class="container">
-        <div class="product">
-            <img src="https://localhost/Games-R-US/src/uploads/image/princeOfPersia.jpg" alt="Producto 1">
-            <div class="divider"></div>
-            <div class="product-content">
-                <h3>Prince of Persia</h3>
-                <p>Prince of Persia se estrenó en 1989 en Apple II y ...</p>
-                <div class="buttons">
-                    <button class="play-button">Comprar</button>
-                    <button>Regalar</button>
-                </div>
-            </div>
-        </div>
-        <div class="product">
-            <img src="https://localhost/Games-R-US/src/uploads/image/princeOfPersia2.jpg" alt="Producto 2">
-            <div class="divider"></div>
-            <div class="product-content">
-                <h3>Prince of Persia 2 <br>The Shadow & The Flam</h3>
-                <p>¡Aquí está el videojuego “Prince of Persia 2: The ...</p>
-                <div class="buttons">
-                    <button class="play-button">Comprar</button>
-                    <button>Regalar</button>
-                </div>
-            </div>
-        </div>
-        <div class="product">
-            <img src="https://localhost/Games-R-US/src/uploads/image/princeOfPersia4D.jpg" alt="Producto 3">
-            <div class="divider"></div>
-            <div class="product-content">
-                <h3>Prince of Persia 4D</h3>
-                <p>En 1994, Terebilov K.A. publica 4D Prince of Persia en DOS. Este juego de acción ahora es abandonware
-                    y está ambientado en temas de plataformas, Medio Oriente y elementos de rompecabezas.</p>
-                <div class="buttons">
-                    <button class="play-button">Comprar</button>
-                    <button>Regalar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <h2 class="section-title">Carreras</h2>
-    <div class="container">
-        <div class="product">
-            <img src="https://localhost/Games-R-US/src/uploads/image/189857--2fast4you-das-superheisse-bi-fi-race.png"
-                alt="Producto 1">
-            <div class="divider"></div>
-            <div class="product-content">
-                <h3>2 Fast 4 You</h3>
-                <p>2 Fast 4 U es un juego de carreras futurista prome...</p>
-                <div class="buttons">
-                    <button class="play-button">Comprar</button>
-                    <button>Regalar</button>
-                </div>
-            </div>
-        </div>
-        <div class="product">
-            <img src="https://localhost/Games-R-US/src/uploads/image/ghini-run_1.png" alt="Producto 2">
-            <div class="divider"></div>
-            <div class="product-content">
-                <h3>'Ghini Run</h3>
-                <p>'Ghini Run es un videojuego publicado en 2002 para...</p>
-                <div class="buttons">
-                    <button class="play-button">Comprar</button>
-                    <button>Regalar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <h2 class="section-title">Deportes</h2>
-    <div class="container">
-        <div class="product">
-            <img src="https://localhost/Games-R-US/src/uploads/image/abc-monday-night-football_1.png" alt="Producto 1">
-            <div class="divider"></div>
-            <div class="product-content">
-                <h3>ABC Monday Night Football</h3>
-                <p>Monday Night Football es un divertido juego de fút...</p>
-                <div class="buttons">
-                    <button class="play-button">Comprar</button>
-                    <button>Regalar</button>
-                </div>
-            </div>
-        </div>
-        <div class="product">
-            <img src="https://localhost/Games-R-US/src/uploads/image/4d-sports-tennis_2.png" alt="Producto 2">
-            <div class="divider"></div>
-            <div class="product-content">
-                <h3>Sports Tennis 4D</h3>
-                <p>**4D Sports Tennis** es un juego de tenis revoluci...</p>
-                <div class="buttons">
-                    <button class="play-button">Comprar</button>
-                    <button>Regalar</button>
-                </div>
-            </div>
-        </div>
-        <div class="product">
-            <img src="https://localhost/Games-R-US/src/uploads/image/omni-play-horse-racing_1.png" alt="Producto 3">
-            <div class="divider"></div>
-            <div class="product-content">
-                <h3>Omni Play Horse Racing</h3>
-                <p>Omni-Play Horse Racing (también conocido como Spor...</p>
-                <div class="buttons">
-                    <button class="play-button">Comprar</button>
-                    <button>Regalar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <h2 class="section-title">Estrategia</h2>
-    <div class="container">
-        <div class="product">
-            <img src="https://localhost/Games-R-US/src/uploads/image/battle-on-the-black-sea_5.png" alt="Producto 1">
-            <div class="divider"></div>
-            <div class="product-content">
-                <h3>Battle On The Black Sea</h3>
-                <p>Battle On The Black Sea es un videojuego publicado...</p>
-                <div class="buttons">
-                    <button class="play-button">Comprar</button>
-                    <button>Regalar</button>
-                </div>
-            </div>
-        </div>
-        <div class="product">
-            <img src="https://localhost/Games-R-US/src/uploads/image/advanced-strategic-command_1.jpg" alt="Producto 2">
-            <div class="divider"></div>
-            <div class="product-content">
-                <h3>Advanced Strategic Command</h3>
-                <p>¡Aquí está el videojuego “Comando Estratégico Avan...</p>
-                <div class="buttons">
-                    <button class="play-button">Comprar</button>
-                    <button>Regalar</button>
-                </div>
-            </div>
-        </div>
-        <div class="product">
-            <img src="https://localhost/Games-R-US/src/uploads/image/battle-cheese.jpg" alt="Producto 3">
-            <div class="divider"></div>
-            <div class="product-content">
-                <h3>Battle Cheese</h3>
-                <p>1995, el año en que se lanzó Battle Cheese en DOS....</p>
-                <div class="buttons">
-                    <button class="play-button">Comprar</button>
-                    <button>Regalar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <h2 class="section-title">+18</h2>
-    <div class="container">
-        <div class="product">
-            <img src="https://localhost/Games-R-US/src/uploads/image/1939.jpg" alt="Producto 1">
-            <div class="divider"></div>
-            <div class="product-content">
-                <h3>1939</h3>
-                <p>Si aún no has jugado a **1939** o quieres probar este emocionante juego de estrategia, ¡descárgalo
-                    ahora gratis! </p>
-                <div class="buttons">
-                    <button class="play-button">Comprar</button>
-                    <button>Regalar</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- Contenedor para el modal -->
+    <div id="modal-container"></div>
+
     <script src="../public/js/nav.js"></script>
+    <script src="../public/js/tienda.js"></script>
 </body>
 
 </html>
