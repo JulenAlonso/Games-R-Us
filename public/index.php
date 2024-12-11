@@ -16,6 +16,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Llama al método correspondiente basado en la acción
         switch ($accion) {
+            case 'listadoLanding':
+                $controlador->listadoLanding();
+                break;
             case 'listadoJuegos':
                 $controlador->listadoJuegos();
                 break;

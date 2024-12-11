@@ -186,6 +186,57 @@ class Controlador {
         return isset($_SESSION['user_id']);
     }
 
+    public function listadoLanding() {
+        
+        try {
+            // Obtener los juegos desde el modelo
+            $juegos = $this->modelo->obtenerLanding();
+
+            // Si no hay juegos, devolver un mensaje adecuado
+            if (empty($juegos)) {
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'No se encontraron juegos.'
+                ]);
+                exit;
+            }
+
+            // Procesar los datos de los juegos
+            $juegosProcesados = array_map(function($juego) {
+                $baseUrl = 'https://localhost/Games-r-us/src/uploads/image/';
+
+                return [
+                    'title' => htmlspecialchars($juego['titulo']), // Sanitiza para HTML
+                    'title2' => htmlspecialchars($juego['titulo2']),
+                    'categoria' => htmlspecialchars($juego['id_categoria']),
+                    'description' => htmlspecialchars($juego['descripcion']),
+                    'image' => $baseUrl . $juego['image'], // Asume que la imagen no necesita sanitización
+                    'precio' => $juego['precio'],
+                    'ruta' => $juego['ruta'],
+                ];
+            }, $juegos);
+
+
+            // Devolver los datos como JSON
+            header('Content-Type: application/json');
+            echo json_encode([
+                'success' => true,
+                'data' => $juegosProcesados
+            ]);
+            exit;
+
+        } catch (Exception $e) {
+            // Manejar cualquier error y devolver un mensaje adecuado
+            header('Content-Type: application/json');
+            echo json_encode([
+                'success' => false,
+                'message' => 'Error al obtener los juegos: ' . $e->getMessage()
+            ]);
+            exit;
+        }
+    }
+
     public function listadoJuegos() {
         
         try {

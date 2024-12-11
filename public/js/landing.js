@@ -8,7 +8,7 @@ async function fetchData() {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded', // Establecemos el tipo de contenido
       },
-      body: new URLSearchParams({ accion: 'listadoJuegos' }), // Enviamos el parámetro 'accion'
+      body: new URLSearchParams({ accion: 'listadoLanding' }), // Enviamos el parámetro 'accion'
     });
 
     if (!response.ok) {

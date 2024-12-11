@@ -74,8 +74,14 @@ class Modelo
         return false;
     }
 
-    public function obtenerJuegos() {
+    public function obtenerLanding() {
         $stmt = $this->pdo->prepare("SELECT titulo, titulo2, id_categoria, descripcion, img AS image, precio, ruta FROM juegos LIMIT 6");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } 
+
+    public function obtenerJuegos() {
+        $stmt = $this->pdo->prepare("SELECT titulo, titulo2, id_categoria, descripcion, img AS image, precio, ruta FROM juegos");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }   

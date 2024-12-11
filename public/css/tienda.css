@@ -59,7 +59,7 @@ body {
     margin: 10px 0;
 }
 
-.product .buttons {
+.product .buttons form{
     display: flex;
     gap: 10px;
 }
@@ -75,11 +75,26 @@ body {
     text-align: center;
 }
 
+.product form input {
+    background-color: #b87400;
+    color: white;
+    border: none;
+    padding: 10px 0;
+    cursor: pointer;
+    border-radius: 5px;
+    flex: 1;
+    text-align: center;
+}
+
 .product button:hover {
     background-color: #7e4400;
 }
 
 .product .play-button {
+    background-color: #007bff;
+}
+
+.product form .play-input {
     background-color: #007bff;
 }
 
