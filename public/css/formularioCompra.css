@@ -1,22 +1,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500&display=swap');
 
 * {
-    margin: 0;
-    padding: 0;
+    /* margin: 0; */
+    /* padding: 0; */
     box-sizing: border-box;
     font-family: 'Space Grotesk', sans-serif;
     font-weight: 500;
 }
 
 :root {
-    --clr-white: hsl(0, 0%, 100%);
-    --clr-light-gray: hsl(270, 3%, 87%);
-    --clr-dark-gray: hsl(279, 6%, 55%);
+    --clr-white: hsl(0, 0%, 90%);
+    --clr-light-gray: hsl(270, 3%, 50%);
+    --clr-dark-gray: hsl(279, 6%, 50%);
     --clr-dark-violet: hsl(278, 68%, 11%);
 }
 
 body {
-    background-color: var(--clr-white);
+    font-size: 12px;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    flex-direction: column;
+    /* Alineación vertical */
+    gap: 20px;
+    /* Espacio entre las cajas */
+    padding: 0 10px;
+    /* Ajuste del espaciado */
 }
 
 .wrapper {
@@ -27,14 +38,122 @@ body {
     padding-bottom: 2rem;
 }
 
+.box1 {
+    color: white;
+    padding: 15px;
+    border-radius: 15px;
+    width: 150%;
+    /* Cambiado a 100% para que se ajusten al tamaño del contenedor */
+    max-width: 500px;
+    /* Ajuste del ancho máximo */
+    margin-bottom: 20px;
+    /* Espaciado entre las cajas */
+    margin-top: 20%;
+    margin-right: 15%;
+}
+
+.box2 {
+    color: white;
+    padding: 15px;
+    border-radius: 15px;
+    width: 100%;
+    /* Cambiado a 100% para que se ajusten al tamaño del contenedor */
+    max-width: 500px;
+    /* Ajuste del ancho máximo */
+    margin-bottom: 20px;
+    /* Espaciado entre las cajas */
+    margin-top: 20%;
+    margin-left: 15%;
+}
+
+
+fieldset {
+    border: 3px solid #ecad29;
+}
+
+legend {
+    border: 1px solid #ecad29;
+    padding: 10px;
+    text-align: center;
+    background-color: #ecad29;
+    border-radius: 8px;
+}
+
+.fechaNac {
+    text-align: center;
+    font-size: medium;
+    font-style: italic;
+    border: 1px solid #ecad29;
+    /* Color negro */
+    border-radius: .3rem;
+    width: auto;
+    background-color: #ecad29;
+}
+
+.inputBox {
+    position: relative;
+}
+
+.inputUser {
+    background: none;
+    border: none;
+    border-bottom: 1px solid white;
+    outline: none;
+    color: white;
+    font-size: 15px;
+    width: 100%;
+    letter-spacing: 2px;
+}
+
+.labelInput {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    pointer-events: none;
+    transition: .5s;
+}
+
+.inputUser:focus~.labelInput,
+.inputUser:valid~.labelInput {
+    top: -20px;
+    font-size: 12px;
+    color: #ecad29;
+}
+
+#data_nascimento {
+    border: none;
+    padding: 8px;
+    border-radius: 10px;
+    outline: none;
+    font-size: 15px;
+}
+
+#submit {
+    background-color: #ecad29;
+    width: 75%;
+    border: none;
+    padding: 15px;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+    border-radius: 10px;
+    margin: 0 auto; /* Esto centrará el botón */
+    display: block; /* Asegura que el botón sea un bloque para que el margen funcione */
+}
+
+#submit:hover {
+    background-color: #d49a23;
+}
+
 .card {
-    padding: 2rem 1rem;
+    /* padding: 2rem 1rem; */
     display: flex;
     flex-direction: column;
 }
 
 .card img {
-    max-width: 100%;
+    width: 116%;
+    
 }
 
 .card-front {
@@ -58,7 +177,7 @@ body {
     padding-bottom: 1.5rem;
 }
 
-.card-front__data > div {
+.card-front__data>div {
     display: flex;
     flex-direction: column;
     gap: .5rem;
@@ -119,7 +238,7 @@ body {
     gap: 1rem;
 }
 
-.form-group.double > div {
+.form-group.double>div {
     width: 50%;
 }
 
@@ -155,15 +274,6 @@ body {
     margin-bottom: .25rem;
 }
 
-.button {
-    background-color: var(--clr-dark-violet);
-    color: var(--clr-white);
-    font-size: 1rem;
-    padding-block: .75rem;
-    border-radius: .5rem;
-    cursor: pointer;
-    border: 0;
-}
 
 .thank-you {
     display: flex;
@@ -190,12 +300,8 @@ body {
     display: none;
 }
 
-
-
 @media screen and (min-width: 800px) {
-
     .wrapper {
-        background-image: url("../img/bg-main-desktop.png");
         background-position: left;
         background-size: auto 100%;
         display: grid;
@@ -204,7 +310,7 @@ body {
     }
 
     .card {
-        padding-inline: 6rem;
+        /* padding-inline: 6rem; */
         gap: 2rem;
         justify-content: center;
     }
@@ -237,6 +343,4 @@ body {
     .thank-you {
         width: 25rem;
     }
-
-
 }
