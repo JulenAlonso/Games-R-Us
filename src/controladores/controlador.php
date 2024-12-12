@@ -17,8 +17,9 @@ class Controlador {
         session_start(); // Asegura que las sesiones estén habilitadas en cada solicitud
     }
 
+    //FUNCIONALIDAD DE TIENDA
     public function Inicia() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') { //Primer filtrado que hacemos
             if (isset($_POST['accion']) && $_POST['accion'] === 'listadoJuegos') {
                 $this->listadoJuegos();
             } else {
