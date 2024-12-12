@@ -24,7 +24,7 @@ body {
 }
 
 .register-card {
-  background: #1a1a1a; /* Fondo ligeramente más claro que el login */
+  background: rgba(0, 0, 0, 0.8); /* Fondo ligeramente más claro que el login */
   padding: 50px;
   border-radius: 12px;
   width: 450px;
@@ -75,12 +75,12 @@ body {
   font-size: 16px;
   cursor: pointer;
   text-transform: uppercase;
-  background-color: #2aa198; /* Verde azulado único para registro */
+  background-color: #ecad29; /* Verde azulado único para registro */
   color: #fff;
   transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 .register-button:hover {
-  background-color: #239884;
+  background-color: #ecad29;
   transform: scale(1.05);
 }

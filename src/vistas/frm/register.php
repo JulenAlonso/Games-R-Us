@@ -15,7 +15,7 @@
 <body>
   <!-- Contenedor para el fondo animado -->
   <div class="background-animation">
-    <spline-viewer url="https://prod.spline.design/LkNjBYNq90bJ4OpG/scene.splinecode"></spline-viewer>
+    <spline-viewer url="https://prod.spline.design/9eH4GDnXXx0Da7it/scene.splinecode"></spline-viewer>
   </div>
 
   <!-- Contenido principal -->
