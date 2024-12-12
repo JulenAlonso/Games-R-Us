@@ -81,7 +81,13 @@ class Modelo
     } 
 
     public function obtenerJuegos() {
-        $stmt = $this->pdo->prepare("SELECT titulo, titulo2, id_categoria, descripcion, img AS image, precio, ruta FROM juegos");
+        $stmt = $this->pdo->prepare("SELECT id, titulo, titulo2, id_categoria, descripcion, img AS image, precio, ruta FROM juegos");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }   
+
+    public function obtenerCategorias() {
+        $stmt = $this->pdo->prepare("SELECT id, nombre FROM categorias");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }   

@@ -1,4 +1,7 @@
 <?php
+
+use Dotenv\Parser\Value;
+
 if (!defined('BASE_PATH')) {
     define('BASE_PATH', realpath(__DIR__ . '/../..')); // Define BASE_PATH si no está definida
 }
@@ -253,14 +256,17 @@ class Controlador {
                 exit;
             }
 
-            // Procesar los datos de los juegos
-            $juegosProcesados = array_map(function($juego) {
-                $baseUrl = 'https://localhost/Games-r-us/src/uploads/image/';
+            $categorias = $this->modelo->obtenerCategorias();
+            $categoriasPorId = array_column($categorias, 'nombre', 'id');
 
+            // Procesar los datos de los juegos
+            $juegosProcesados = array_map(function($juego) use ($categoriasPorId) {
+                $baseUrl = 'https://localhost/Games-r-us/src/uploads/image/';
                 return [
+                    'id' => htmlspecialchars($juego['id']),
                     'title' => htmlspecialchars($juego['titulo']), // Sanitiza para HTML
                     'title2' => htmlspecialchars($juego['titulo2']),
-                    'categoria' => htmlspecialchars($juego['id_categoria']),
+                    'categoria' => htmlspecialchars($categoriasPorId[$juego['id_categoria']] ?? 'Categoria Desconocida'),
                     'description' => htmlspecialchars($juego['descripcion']),
                     'image' => $baseUrl . $juego['image'], // Asume que la imagen no necesita sanitización
                     'precio' => $juego['precio'],
@@ -291,12 +297,12 @@ class Controlador {
     //Esto direccionaria las peticiones de "COMPRAR" y "REGALAR"
     public function procesarTienda(){
         if (isset($_POST['tienda_comprar'])) { //POST
+            //echo $_POST['compra_gameid'];
             Vista::MuestraFormularioCompra();//Aqui habria que poner la logica de "COMPRA"
         } else if (isset($_POST['tienda_regalar'])) { 
             Vista::MuestraFormularioRegalo();//Aqui habria que poner la logica de "REGALAR"
         }
     }
-
-    
+   
     
 }

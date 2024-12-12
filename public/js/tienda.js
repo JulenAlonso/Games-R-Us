@@ -52,6 +52,7 @@ function renderStore(data, filterCategory = null) {
                 <p><strong>Precio:</strong> ${product.precio}€</p>
                 <div class="buttons">
                     <form method="POST">
+                        <input type="text" name="compra_gameid" value="${product.id}" hidden>
                         <input type="submit" class="play-input" name="tienda_comprar" value="Comprar">
                         <input type="submit" name="tienda_regalar" value="Regalar">
                     </form>
@@ -82,6 +83,7 @@ function openModal(product) {
             <p><strong>Precio:</strong> ${product.precio}€</p>
             <div class="buttons">
                 <form method="POST">
+                    <input type="text" name="compra_gameid" value="${product.id}" hidden>
                     <input type="submit" class="play-input" name="tienda_comprar" value="Comprar">
                     <input type="submit" name="tienda_regalar" value="Regalar">
                 </form>
