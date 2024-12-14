@@ -20,6 +20,10 @@ if (!isset($_SESSION['user_id'])) {
 </head>
 
 <body>
+  <!-- Contenedor para el fondo animado -->
+  <div class="background-animation">
+    <spline-viewer url="https://prod.spline.design/9eH4GDnXXx0Da7it/scene.splinecode"></spline-viewer>
+  </div>
 
   <nav>
     <div>
@@ -88,147 +92,147 @@ if (!isset($_SESSION['user_id'])) {
   </nav>
 
   <main>
-  <div class="wrapper">
-    <div class="box1">
-      <form action="" id="payment-form">
-        <fieldset>
-          <legend><b>Formulario de Pago</b></legend>
-          <br><br>
+    <div class="wrapper">
+      <div class="box1">
+        <form action="" method="POST" id="payment-form">
+          <fieldset>
+            <legend><b>Formulario de Pago</b></legend>
+            <p>
 
-          <!-- Información Personal -->
-          <div class="inputBox">
-            <input type="text" name="name" id="name" class="inputUser" required>
-            <label for="name" class="labelInput">Nombre</label>
-          </div><br><br>
+              <!-- Información Personal -->
+            <div class="inputBox">
+              <input type="text" name="name" id="name" class="inputUser" required>
+              <label for="name" class="labelInput">Nombre</label>
+            </div><br><br>
 
-          <div class="inputBox">
-            <input type="text" name="ap1" id="ap1" class="inputUser" required>
-            <label for="ap1" class="labelInput">Apellido 1</label>
-          </div><br><br>
+            <div class="inputBox">
+              <input type="text" name="ap1" id="ap1" class="inputUser" required>
+              <label for="ap1" class="labelInput">Apellido 1</label>
+            </div><br><br>
 
-          <div class="inputBox">
-            <input type="text" name="ap2" id="ap2" class="inputUser" required>
-            <label for="ap2" class="labelInput">Apellido 2</label>
-          </div><br><br>
+            <div class="inputBox">
+              <input type="text" name="ap2" id="ap2" class="inputUser" required>
+              <label for="ap2" class="labelInput">Apellido 2</label>
+            </div><br><br>
 
-          <div class="inputBox">
-            <input type="email" name="email" id="email" class="inputUser" required>
-            <label for="email" class="labelInput">Email</label>
-          </div><br><br>
+            <div class="inputBox">
+              <input type="email" name="email" id="email" class="inputUser" required>
+              <label for="email" class="labelInput">Email</label>
+            </div><br><br>
 
-          <div class="inputBox">
-            <input type="tel" name="tlf" id="tlf" class="inputUser" required>
-            <label for="tlf" class="labelInput">Teléfono</label>
-          </div><br><br>
+            <div class="inputBox">
+              <input type="tel" name="tlf" id="tlf" class="inputUser" required>
+              <label for="tlf" class="labelInput">Teléfono</label>
+            </div><br><br>
 
-          <div class="inputBox">
-            <label for="fechaNac"><b>Fecha de Nacimiento:</b></label>
-            <input type="date" name="fechaNac" id="fechaNac" class="fechaNac" required>
-          </div><br><br>
+            <div class="inputBox">
+              <label for="fechaNac"><b>Fecha de Nacimiento:</b></label>
+              <input type="date" name="fechaNac" id="fechaNac" class="fechaNac" required>
+            </div><br><br>
 
-          <div class="inputBox">
-            <input type="text" name="calle" id="calle" class="inputUser" required>
-            <label for="calle" class="labelInput">Calle</label>
-          </div><br><br>
+            <div class="inputBox">
+              <input type="text" name="calle" id="calle" class="inputUser" required>
+              <label for="calle" class="labelInput">Calle</label>
+            </div><br><br>
 
-          <div class="inputBox">
-            <input type="text" name="num" id="num" class="inputUser" required>
-            <label for="num" class="labelInput">Número</label>
-          </div><br><br>
+            <div class="inputBox">
+              <input type="text" name="num" id="num" class="inputUser" required>
+              <label for="num" class="labelInput">Número</label>
+            </div><br><br>
 
-          <div class="inputBox">
-            <input type="text" name="piso" id="piso" class="inputUser" required>
-            <label for="piso" class="labelInput">Piso</label>
-          </div><br><br>
+            <div class="inputBox">
+              <input type="text" name="piso" id="piso" class="inputUser" required>
+              <label for="piso" class="labelInput">Piso</label>
+            </div><br><br>
 
-          <div class="inputBox">
-            <input type="text" name="letra" id="letra" class="inputUser" required>
-            <label for="letra" class="labelInput">Letra</label>
-          </div><br><br>
+            <div class="inputBox">
+              <input type="text" name="letra" id="letra" class="inputUser" required>
+              <label for="letra" class="labelInput">Letra</label>
+            </div><br><br>
 
-          <div class="inputBox">
-            <input type="text" name="cp" id="cp" class="inputUser" required>
-            <label for="cp" class="labelInput">Código Postal</label>
-          </div><br><br>
+            <div class="inputBox">
+              <input type="text" name="cp" id="cp" class="inputUser" required>
+              <label for="cp" class="labelInput">Código Postal</label>
+            </div><br><br>
 
-          <div class="inputBox">
-            <input type="text" name="localidad" id="localidad" class="inputUser" required>
-            <label for="localidad" class="labelInput">Localidad</label>
-          </div><br><br>
+            <div class="inputBox">
+              <input type="text" name="localidad" id="localidad" class="inputUser" required>
+              <label for="localidad" class="labelInput">Localidad</label>
+            </div><br><br>
 
-          <div class="inputBox">
-            <input type="text" name="pais" id="pais" class="inputUser" required>
-            <label for="pais" class="labelInput">País</label>
-          </div><br><br>
-        </fieldset>
-      </form>
-    </div>
+            <div class="inputBox">
+              <input type="text" name="pais" id="pais" class="inputUser" required>
+              <label for="pais" class="labelInput">País</label>
+            </div><br><br>
+          </fieldset>
+        </form>
+      </div>
 
-    <div class="box2">
-      <form class="form" id="form">
-        <div class="form-group">
-          <label for="input-name" class="label">Titular de la tarjeta</label>
-          <input type="text" class="input" id="input-name" placeholder="ej: Pepe Navarro" required>
-        </div>
+      <div class="box2">
+        <form class="form" id="form">
+          <div class="form-group">
+            <label for="input-name" class="label">Titular de la tarjeta</label>
+            <input type="text" class="input" id="input-name" placeholder="ej: Pepe Navarro" required>
+          </div>
 
-        <div class="form-group">
-          <label for="input-number" class="label">Número de la tarjeta</label>
-          <input type="text" class="input" id="input-number" placeholder="ej: 1234 5678 9123 0000" required>
-        </div>
+          <div class="form-group">
+            <label for="input-number" class="label">Número de la tarjeta</label>
+            <input type="text" class="input" id="input-number" placeholder="ej: 1234 5678 9123 0000" required>
+          </div>
 
-        <div class="form-group double">
-          <div class="rows">
-            <label for="input-month" class="label">Exp. Date (MES/AÑO)</label>
-            <div class="columns">
-              <input type="text" class="input" id="input-month" placeholder="MES" maxlength="2" required>
-              <input type="text" class="input" id="input-year" placeholder="AÑO" maxlength="2" required>
+          <div class="form-group double">
+            <div class="rows">
+              <label for="input-month" class="label">Exp. Date (MES/AÑO)</label>
+              <div class="columns">
+                <input type="text" class="input" id="input-month" placeholder="MES" maxlength="2" required>
+                <input type="text" class="input" id="input-year" placeholder="AÑO" maxlength="2" required>
+              </div>
+            </div>
+
+            <div class="rows">
+              <label for="input-cvc" class="label">CVC</label>
+              <input type="text" class="input" id="input-cvc" placeholder="ej: 123" maxlength="3" required>
             </div>
           </div>
 
-          <div class="rows">
-            <label for="input-cvc" class="label">CVC</label>
-            <input type="text" class="input" id="input-cvc" placeholder="ej: 123" maxlength="3" required>
-          </div>
-        </div>
-
-        <div class="form-wrapper">
-          <div class="card">
-            <div class="card-front">
-              <img src="../public/img/bg-card-front.png" alt="Frente de la tarjeta">
-              <div class="card-front__data">
-                <img src="../public/img/card-logo.svg" alt="">
-                <div>
-                  <p class="card-number" id="card-number">0000 0000 0000 0000</p>
-                  <div class="card-name-date">
-                    <p class="card-name" id="card-name">Pepe Navarro</p>
-                    <p class="card-date">
-                      <span id="card-month">00</span>/<span id="card-year">00</span>
-                    </p>
+          <div class="form-wrapper">
+            <div class="card">
+              <div class="card-front">
+                <img src="../public/img/bg-card-front.png" alt="Frente de la tarjeta">
+                <div class="card-front__data">
+                  <img src="../public/img/card-logo.svg" alt="">
+                  <div>
+                    <p class="card-number" id="card-number">0000 0000 0000 0000</p>
+                    <div class="card-name-date">
+                      <p class="card-name" id="card-name">Pepe Navarro</p>
+                      <p class="card-date">
+                        <span id="card-month">00</span>/<span id="card-year">00</span>
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="card-back">
-              <img src="../public/img/bg-card-back.png" alt="Dorso de la tarjeta">
-              <div class="card-back__data">
-                <p class="card-cvc" id="card-cvc">000</p>
+              <div class="card-back">
+                <img src="../public/img/bg-card-back.png" alt="Dorso de la tarjeta">
+                <div class="card-back__data">
+                  <p class="card-cvc" id="card-cvc">000</p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="thank-you disabled" id="thank-you">
-          <img src="../public/img/icon-complete.svg" alt="Ícono de completado">
-          <p class="thank-you-title">Thank you!</p>
-          <p class="thank-you-text">We've added your card details</p>
-          <button class="button" id="continue">Continue</button>
-        </div>
+          <div class="thank-you disabled" id="thank-you">
+            <img src="../public/img/icon-complete.svg" alt="Ícono de completado">
+            <p class="thank-you-title">Thank you!</p>
+            <p class="thank-you-text">We've added your card details</p>
+            <button class="button" id="continue">Continue</button>
+          </div>
 
-        <input type="submit" name="submit" id="submit" value="Realizar Pago">
-      </form>
+          <input type="submit" name="submit" id="submit" value="Realizar Pago">
+        </form>
+      </div>
     </div>
-  </div>
-</main>
+  </main>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.0.2/cleave.min.js"
     integrity="sha512-SvgzybymTn9KvnNGu0HxXiGoNeOi0TTK7viiG0EGn2Qbeu/NFi3JdWrJs2JHiGA1Lph+dxiDv5F9gDlcgBzjfA=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>

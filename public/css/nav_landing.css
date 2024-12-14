@@ -39,6 +39,7 @@ nav > div {
   display: inline-flex;
   text-transform: uppercase;
   font-size: 14px;
+  cursor: pointer;
 }
 
 nav > div:first-child {
@@ -62,6 +63,19 @@ nav > div:last-child > .active:after {
   height: 3px;
   border-radius: 99px;
   background-color: #ecad29;
+}
+
+/* Hover */
+/* Hover para Home, Tienda y Biblioteca */
+nav div p:hover {
+  background-color: #e0e0e059; /* Fondo gris claro */
+  border-radius: 4px; /* Bordes redondeados */
+  cursor: pointer; /* Cambiar el cursor */
+}
+
+/* Transiciones suaves */
+nav div p, .profile-container {
+  transition: background-color 0.2s ease;
 }
 
 /* Profile Dropdown Container */

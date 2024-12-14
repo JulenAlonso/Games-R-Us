@@ -32,7 +32,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    /* min-height: 100vh; */
     flex-direction: column;
     /* Alineación vertical */
     gap: 20px;
@@ -48,29 +48,38 @@ body {
     background-size: 100%;
     padding-bottom: 2rem;
     margin-top: 21rem;
-
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
+.div1,
 .box1,
 .box2 {
-    
     color: white;
     padding: 15px;
     border-radius: 15px;
     margin-bottom: 20px;
     max-width: 500px;
+    padding: 0px 10px 0px;
+}
+
+.div1 {
+    flex: 1;
+    /* margin-left: 10%; */
 }
 
 .box1 {
+    flex: 2;
     width: 150%;
     margin-right: 15%;
 }
 
 .box2 {
+    flex: 3;
     width: 100%;
     margin-left: 15%;
 }
-
 
 fieldset {
     position: relative;
@@ -181,7 +190,6 @@ legend {
 
 .card img {
     width: 116%;
-
 }
 
 .card-front {
@@ -302,7 +310,6 @@ legend {
     margin-bottom: .25rem;
 }
 
-
 .thank-you {
     display: flex;
     flex-direction: column;
@@ -328,12 +335,19 @@ legend {
     display: none;
 }
 
+/* Modificar el tamaño del placeholder en los campos "Mensaje de Regalo" y "Lista de Productos a Regalar" */
+#gift_message::placeholder,
+#product_list::placeholder {
+    font-size: 12px; /* Ajusta el tamaño de la fuente según lo necesites */
+    letter-spacing: 1px; /* Ajusta el espaciado entre letras si lo deseas */
+}
+
 @media screen and (min-width: 800px) {
     .wrapper {
         background-position: left;
         background-size: auto 100%;
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr 1fr auto;
         min-height: 100vh;
     }
 
