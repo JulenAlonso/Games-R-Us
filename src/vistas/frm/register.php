@@ -88,7 +88,7 @@
   <div class="register-container">
     <div class="register-card">
       <h1 class="register-title">Create an Account</h1>
-      <form method="POST" action="controlador.php" enctype="multipart/form-data">
+      <form method="POST" enctype="multipart/form-data">
         <div class="input-group">
           <input type="text" name="reg_username" placeholder="Username" required>
         </div>

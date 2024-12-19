@@ -92,7 +92,7 @@
       <div class="login-card">
         <h1 class="login-title">Welcome Back</h1>
         <div class="input-group">
-          <input type="email" name="email" placeholder="Email">
+          <input type="text" name="nick" placeholder="Usuario">
         </div>
         <div class="input-group">
           <input type="password" name="password" placeholder="Password">

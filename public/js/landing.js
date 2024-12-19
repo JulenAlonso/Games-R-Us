@@ -18,6 +18,7 @@ async function fetchData() {
     const result = await response.json();
     if (result.success) {
       data = result.data; // Asignamos los datos obtenidos al array data
+      console.log(data);
       initialize(); // Llamamos a la función de inicialización
     } else {
       console.error("Error en el servidor:", result.message);
@@ -27,14 +28,13 @@ async function fetchData() {
   }
 }
 function initialize() {
-  const cards = data.map((i, index)=>`<div class="card" id="card${index}" style="background-image:url(${i.image})"  ></div>`).join('')
+  const cards = data.map((i, index)=>`<div class="card" id="card${index}" style="background-image:url(${i.ruta_imagen})"  ></div>`).join('')
 
   const cardContents = data.map((i, index)=>`
   <div class="card-content" id="card-content-${index}">
     <div class="content-start"></div>
-    <div class="content-place">${i.place}</div>
-    <div class="content-title-1">${i.title}</div>
-    <div class="content-title-2">${i.title2}</div>
+    <div class="content-place">${i.distribuidor}</div>
+    <div class="content-title-1">${i.titulo}</div>
   </div>`).join('')
 
   const sildeNumbers = data.map((_, index)=>`<div class="item" id="slide-item-${index}" >${index+1}</div>`).join('')
@@ -327,7 +327,7 @@ async function loadImage(src) {
 }
 
 async function loadImages() {
-  const promises = data.map(({ image }) => loadImage(image));
+  const promises = data.map(({ ruta_imagen }) => loadImage(ruta_imagen));
   return Promise.all(promises);
 }
 

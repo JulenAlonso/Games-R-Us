@@ -56,31 +56,33 @@ class Controlador {
         }
     }
 
+    // REV //
     // Esto ejecuta TODO el login.php
     private function procesaLogin() {
         if (isset($_POST['loginButtonBut'])) {
-            $email = $_POST['email'] ?? '';
+            $nick = $_POST['nick'] ?? '';
             $password = $_POST['password'] ?? '';
 
-            // Valida los datos
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                echo "Formato de email inválido.";
-                return;
-            }
+            // // Valida los datos
+            // if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            //     echo "Formato de email inválido.";
+            //     return;
+            // }
 
             if (empty($password)) {
                 echo "La contraseña no puede estar vacía.";
                 return;
             }
 
+           
             // Busca al usuario en el modelo
-            $user = $this->modelo->buscaUsuarioPorEmail($email);
+            $user = $this->modelo->buscaUsuarioPorNick($nick);
 
             if ($user) {
                 // Verifica la contraseña
                 if (password_verify($password, $user['password'])) {    //Passwd que nosotros creamos y la cifrada.
                     // Autenticación exitosa, guarda los datos en la sesión
-                    $_SESSION['user_id'] = $user['id']; //Guardamos el id del usuario
+                    $_SESSION['user_nick'] = $user['nick']; //Guardamos el id del usuario
                     $_SESSION['user_email'] = $user['email'];   //Guardamos el email del usuario
                     Vista::MuestraBiblioteca(); //Cuando iniciamos sesion, nos manda directamente a la biblioteca
                     exit;
@@ -91,12 +93,14 @@ class Controlador {
             } else {
                 //Si la parte de arriba no cumple y error de passwd: usuario no encontrado 
                 echo "Usuario no encontrado.";
+                echo $nick;
             }
         } elseif (isset($_POST['RegisterButtonBut'])) {
             Vista::MuestraRegistro();
         }
     }
 
+    // REV //
     //Gestiona la pagina de  registro
     private function procesaRegister() {
         if (isset($_POST['reg_registerButton'])) {
@@ -122,13 +126,13 @@ class Controlador {
             }
 
             // Verifica si el email ya está registrado
-            if ($this->modelo->buscaUsuarioPorEmail($email)) {
+            if ($this->modelo->buscaUsuarioPorNick($username)) {
                 echo "El email ya está registrado.";
                 return;
             }
 
             // Crea el usuario
-            $this->modelo->creaUsuario($email, $password);
+            $this->modelo->creaUsuario($username, $email, $password);
             echo "Registro exitoso. Ahora puedes iniciar sesión.";
         }
     }
@@ -185,11 +189,13 @@ class Controlador {
         return $nombreArchivo;
     }
 
+    // REV //
     private function usuarioAutenticado() {
         // Devuelve verdadero si hay una sesión activa
-        return isset($_SESSION['user_id']);
+        return isset($_SESSION['user_nick']);
     }
 
+    // REV //
     public function listadoLanding() {
         
         try {
@@ -211,13 +217,11 @@ class Controlador {
                 $baseUrl = 'https://localhost/Games-r-us/src/uploads/image/';
 
                 return [
-                    'title' => htmlspecialchars($juego['titulo']), // Sanitiza para HTML
-                    'title2' => htmlspecialchars($juego['titulo2']),
-                    'categoria' => htmlspecialchars($juego['id_categoria']),
-                    'description' => htmlspecialchars($juego['descripcion']),
-                    'image' => $baseUrl . $juego['image'], // Asume que la imagen no necesita sanitización
-                    'precio' => $juego['precio'],
-                    'ruta' => $juego['ruta'],
+                    'titulo' => htmlspecialchars($juego['titulo']), // Sanitiza para HTML
+                    'ruta_imagen' => $baseUrl . $juego['ruta_imagen'],
+                    'desarrollador' => htmlspecialchars($juego['desarrollador']),
+                    'distribuidor' => htmlspecialchars($juego['distribuidor']),
+                    'anio' => htmlspecialchars($juego['anio'])
                 ];
             }, $juegos);
 

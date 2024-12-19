@@ -2,7 +2,7 @@
 require_once BASE_PATH . '/src/vistas/vista.php';
 
 // AL ENTRAR AKI YA TENEMOS LA SESIÓN INICIADA
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['user_nick'])) {
   Vista::MuestraLanding();
   exit;
 }
@@ -63,7 +63,7 @@ if (!isset($_SESSION['user_id'])) {
             clip-rule="evenodd" />
         </svg>
         <div class="profile-menu hidden" id="profileMenu">
-          <?php if (!isset($_SESSION['user_id'])): ?>
+          <?php if (!isset($_SESSION['user_nick'])): ?>
             <p onclick="document.getElementById('nav_loginButton').click();">Login</p>
             <form method="POST">
               <input type="submit" id="nav_loginButton" name="nav_loginButton" hidden>
