@@ -20,7 +20,7 @@ class Vista {
         include BASE_PATH . '/src/vistas/frm/logout.php';
     }
 
-    public static function MuestraTempAdmin() {
+    public static function MuestraAdmin() {
         include BASE_PATH . '/src/vistas/frm/temp_admin.php';
     }
 

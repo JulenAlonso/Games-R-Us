@@ -53,6 +53,10 @@ class Controlador {
             Vista::MuestraLogOut();
         } elseif (isset($_POST['nav_RegistroButton'])) {
             Vista::MuestraRegistro();
+        } elseif (isset($_POST['nav_ProfileButton'])) {
+            echo "Perfil de usuario";
+        } elseif (isset($_POST['nav_AdminButton'])) {
+            Vista::MuestraAdmin();
         }
     }
 
@@ -77,13 +81,14 @@ class Controlador {
            
             // Busca al usuario en el modelo
             $user = $this->modelo->buscaUsuarioPorNick($nick);
+            $role = $this->modelo->buscarRolePorNick($nick);
 
             if ($user) {
                 // Verifica la contraseña
                 if (password_verify($password, $user['password'])) {    //Passwd que nosotros creamos y la cifrada.
                     // Autenticación exitosa, guarda los datos en la sesión
                     $_SESSION['user_nick'] = $user['nick']; //Guardamos el id del usuario
-                    $_SESSION['user_email'] = $user['email'];   //Guardamos el email del usuario
+                    $_SESSION['user_role'] = $role['id_rol'];   //Guardamos el rol del usuario
                     Vista::MuestraBiblioteca(); //Cuando iniciamos sesion, nos manda directamente a la biblioteca
                     exit;
                 } else {
@@ -133,7 +138,7 @@ class Controlador {
 
             // Crea el usuario
             $this->modelo->creaUsuario($username, $email, $password);
-            echo "Registro exitoso. Ahora puedes iniciar sesión.";
+            Vista::MuestraLogin();
         }
     }
 

@@ -42,6 +42,13 @@ class Modelo
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function buscarRolePorNick($nick){
+        $stmt = $this->pdo->prepare("SELECT id_rol FROM USUARIO WHERE nick = :nick");
+        $stmt->bindParam(':nick', $nick);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     // REV //
     //Usa la conexion a bbdd para crear el usuario 
     public function creaUsuario($nick, $email, $password){
