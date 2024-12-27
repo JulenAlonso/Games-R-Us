@@ -22,6 +22,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             case 'listadoJuegos':
                 $controlador->listadoJuegos();
                 break;
+            case 'listadoUsers':
+                $controlador->admn_listarUsers();
+                break;
             // Puedes agregar otros casos aquí si es necesario
             default:
                 header('Content-Type: application/json');

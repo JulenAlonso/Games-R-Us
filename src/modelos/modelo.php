@@ -92,15 +92,65 @@ class Modelo
     } 
 
     public function obtenerJuegos() {
-        $stmt = $this->pdo->prepare("SELECT id, titulo, titulo2, id_categoria, descripcion, img AS image, precio, ruta FROM juegos");
+        $stmt = $this->pdo->prepare("SELECT id_juego, titulo, ruta, ruta_imagen, desarrollador, distribuidor, anio FROM JUEGO");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }   
 
     public function obtenerCategorias() {
-        $stmt = $this->pdo->prepare("SELECT id, nombre FROM categorias");
+        $stmt = $this->pdo->prepare("SELECT id, nombre_genero FROM GENERO");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }   
+
+    public function obtenerCategoriasJuego($id_juego) {
+        $categorias = $this->obtenerCategorias();
+        $categoriasPorId = array_column($categorias, 'nombre_genero', 'id');
+
+        $stmt = $this->pdo->prepare("SELECT id_juego, id_genero FROM JUEGO_GENERO WHERE id_juego = :id_juego");
+        $stmt->bindParam(':id_juego', $id_juego);
+        $stmt->execute();
+        $categoriasJuego = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $categoriasJuegoNombre = array_map(function($categoria) use ($categoriasPorId) {
+            return $categoriasPorId[$categoria['id_genero']];
+        }, $categoriasJuego);
+
+        return $categoriasJuegoNombre;
+    }  
+
+    public function obtenerSistemas() {
+        $stmt = $this->pdo->prepare("SELECT id_sistema, nombre_sistema FROM SISTEMA");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }   
+
+    public function obtenerSistemasJuego($id_juego) {
+        $categorias = $this->obtenerSistemas();
+        $categoriasPorId = array_column($categorias, 'nombre_sistema', 'id_sistema');
+
+        $stmt = $this->pdo->prepare("SELECT id_juego, id_sistema FROM JUEGO_SISTEMA WHERE id_juego = :id_juego");
+        $stmt->bindParam(':id_juego', $id_juego);
+        $stmt->execute();
+        $categoriasJuego = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $categoriasJuegoNombre = array_map(function($categoria) use ($categoriasPorId) {
+            return $categoriasPorId[$categoria['id_sistema']];
+        }, $categoriasJuego);
+
+        return $categoriasJuegoNombre;
+    } 
+
+    public function obtenerUsuarios() {
+        $stmt = $this->pdo->prepare("SELECT nick, email, nombre, ape1, ape2, tlf, direccion, direccion_tipo, direccion_via, direccion_numero, direccion_otros, id_rol FROM USUARIO");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } 
+
+    public function obtenerRoles() {
+        $stmt = $this->pdo->prepare("SELECT nombre_rol, id_rol  FROM ROL");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } 
 }
 ?>

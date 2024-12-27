@@ -266,24 +266,21 @@ class Controlador {
                 exit;
             }
 
-            $categorias = $this->modelo->obtenerCategorias();
-            $categoriasPorId = array_column($categorias, 'nombre', 'id');
-
             // Procesar los datos de los juegos
-            $juegosProcesados = array_map(function($juego) use ($categoriasPorId) {
+            $juegosProcesados = array_map(function($juego) {
                 $baseUrl = 'https://localhost/Games-r-us/src/uploads/image/';
                 return [
-                    'id' => htmlspecialchars($juego['id']),
-                    'title' => htmlspecialchars($juego['titulo']), // Sanitiza para HTML
-                    'title2' => htmlspecialchars($juego['titulo2']),
-                    'categoria' => htmlspecialchars($categoriasPorId[$juego['id_categoria']] ?? 'Categoria Desconocida'),
-                    'description' => htmlspecialchars($juego['descripcion']),
-                    'image' => $baseUrl . $juego['image'], // Asume que la imagen no necesita sanitización
-                    'precio' => $juego['precio'],
+                    'id' => htmlspecialchars($juego['id_juego']),
+                    'titulo' => htmlspecialchars($juego['titulo']), // Sanitiza para HTML
+                    'desarrollador' => htmlspecialchars($juego['desarrollador']),
+                    'distribuidor' => htmlspecialchars($juego['distribuidor']),
+                    'anio' => htmlspecialchars($juego['anio']),
+                    'genero' => $this->modelo->obtenerCategoriasJuego($juego['id_juego']),
+                    'sistema' => $this->modelo->obtenerSistemasJuego($juego['id_juego']),
                     'ruta' => $juego['ruta'],
+                    'ruta_imagen' => $baseUrl . $juego['ruta_imagen'],
                 ];
             }, $juegos);
-
 
             // Devolver los datos como JSON
             header('Content-Type: application/json');
@@ -314,5 +311,62 @@ class Controlador {
         }
     }
    
+    public function admn_listarUsers() {
+        try {
+            // Obtener los usuarios del modelo
+            $usuarios = $this->modelo->obtenerUsuarios();
+    
+            // Si no hay usuarios, devolver un mensaje adecuado
+            if (empty($usuarios)) {
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'No se encontraron usuarios.'
+                ]);
+                exit;
+            }
+    
+            $roles = $this->modelo->obtenerRoles();
+            $RolesPorId = array_column($roles, 'nombre_rol', 'id_rol');
+    
+            // Procesar los datos de los usuarios
+            $usuariosProcesados = array_map(function($user) use ($RolesPorId) {
+                return [
+                    'nick' => htmlspecialchars($user['nick']),
+                    'email' => htmlspecialchars($user['email']),
+                    'nombre' => htmlspecialchars($user['nombre'] ?? 'Desconocido'),
+                    'ape1' => htmlspecialchars($user['ape1'] ?? 'Desconocido'),
+                    'ape2' => htmlspecialchars($user['ape2'] ?? 'Desconocido'),
+                    'tlf' => htmlspecialchars($user['tlf'] ?? 'Desconocido'),
+                    'direccion' => htmlspecialchars(sprintf(
+                        '%s %s %s %s %s',
+                        $user['direccion'] ?? 'Desconocida',
+                        $user['direccion_tipo'],
+                        $user['direccion_via'],
+                        ($user['direccion_numero'] === '0' ? null : $user['direccion_numero']),
+                        $user['direccion_otros']
+                    )),
+                    'rol' => htmlspecialchars($RolesPorId[$user['id_rol']]),
+                ];
+            }, $usuarios);
+    
+            // Devolver los datos como JSON
+            header('Content-Type: application/json');
+            echo json_encode([
+                'success' => true,
+                'data' => $usuariosProcesados
+            ]);
+            exit;
+    
+        } catch (Exception $e) {
+            // Manejar cualquier error y devolver un mensaje adecuado
+            header('Content-Type: application/json');
+            echo json_encode([
+                'success' => false,
+                'message' => 'Error al obtener los usuarios: ' . $e->getMessage()
+            ]);
+            exit;
+        }
+    }
     
 }
