@@ -105,6 +105,7 @@ function loadGames() {
           <td><input type="text" value="${game.genero.join(', ')}" id="genero-${game.id}"></td>
           <td><input type="text" value="${game.sistema.join(', ')}" id="sistema-${game.id}"></td>
           <td><button onclick="saveGame(${game.id})">Save</button></td>
+          <td><button onclick="deleteGame(${game.id})">Delete</button></td>
       </tr>`;
     tableBody.innerHTML += row;
   });
@@ -367,5 +368,41 @@ async function deleteUser(userId) {
   } catch (error) {
     console.error("Error during the request:", error);
     alert('There was an error while updating the user: ' + error.message);  // Mensaje de error al usuario
+  }
+}
+
+async function deleteGame(gameId) {
+
+  const game = {
+    id: gameId, 
+  };
+
+  try {
+    const response = await fetch('/Games-r-us/public/index.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({
+        accion: 'eliminarJuego',
+        ...game,
+      }),
+    });
+
+    const text = await response.text();
+    console.log("Response text:", text);
+
+    const result = JSON.parse(text);
+
+    if (result.success) {
+      alert('Game deleted successfully!');
+      GameData(); // Recargar los juegos después de eliminar
+    } else {
+      console.error("Error deleting game:", result.message);
+      alert('Error deleting game: ' + result.message);
+    }
+  } catch (error) {
+    console.error("Error during the request:", error);
+    alert('There was an error while deleting the game: ' + error.message);
   }
 }

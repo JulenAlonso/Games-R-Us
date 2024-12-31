@@ -344,22 +344,30 @@ class Modelo
 
     public function deleteJuego($id) {
         try {
-            // Crear la consulta SQL para eliminar el juego
-            $sql = "DELETE FROM JUEGO WHERE id_juego = :id";
+            // Eliminar las relaciones en la tabla JUEGO_GENERO
+            $sql1 = "DELETE FROM JUEGO_GENERO WHERE id_juego = :id_juego";
+            $stmt1 = $this->pdo->prepare($sql1);
+            $stmt1->bindParam(':id_juego', $id);
+            $stmt1->execute();
+    
+            // Eliminar las relaciones en la tabla JUEGO_SISTEMA
+            $sql2 = "DELETE FROM JUEGO_SISTEMA WHERE id_juego = :id_juego";
+            $stmt2 = $this->pdo->prepare($sql2);
+            $stmt2->bindParam(':id_juego', $id);
+            $stmt2->execute();
             
-            // Preparar la consulta
+            // Eliminar el juego en la tabla principal JUEGO
+            $sql = "DELETE FROM JUEGO WHERE id_juego = :id";
             $stmt = $this->pdo->prepare($sql);
-        
-            // Enlazar los parámetros
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        
-            // Ejecutar la consulta
-            return $stmt->execute();
+    
+            return $stmt->execute(); // Ejecuta la eliminación y devuelve el resultado
         } catch (PDOException $e) {
             error_log("Error deleting game: " . $e->getMessage());
             return false;
         }
     }
+    
     
     
 }

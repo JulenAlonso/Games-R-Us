@@ -181,7 +181,7 @@
                         <th>Teléfono</th>
                         <th>Dirección</th>
                         <th>ID Rol</th>
-                        <th>Acciones</th> <!-- Añadimos columna de acciones para editar -->
+                        <th colspan="2">Acciones</th> <!-- Añadimos columna de acciones para editar -->
                     </tr>
                 </thead>
                 <tbody id="userTableBody">
@@ -201,7 +201,7 @@
                         <th>Año</th>
                         <th>Genero</th>
                         <th>Sistema</th>
-                        <th>Acciones</th> <!-- Añadimos columna de acciones para editar -->
+                        <th colspan="2">Acciones</th> <!-- Añadimos columna de acciones para editar -->
                     </tr>
                 </thead>
                 <tbody id="gameTableBody">

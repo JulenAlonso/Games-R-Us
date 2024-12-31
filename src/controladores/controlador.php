@@ -549,14 +549,20 @@ class Controlador
         }
     }
 
-    public function eliminarJuego()
-    {
+    public function eliminarJuego() {
         if (isset($_POST['id'])) {
-            $id = intval($_POST['id']);
-
+            $id = intval($_POST['id']); // Asegúrate de convertir el ID a entero
+    
+            // // Verificar que el juego exista antes de eliminarlo
+            // $gameExists = $this->modelo->buscarJuegoPorId($id);
+            // if (!$gameExists) {
+            //     echo json_encode(['success' => false, 'message' => 'Game not found']);
+            //     return;
+            // }
+    
             // Llamar al modelo para eliminar el juego
             $result = $this->modelo->deleteJuego($id);
-
+    
             if ($result) {
                 echo json_encode(['success' => true, 'message' => 'Game deleted successfully']);
             } else {
@@ -566,6 +572,7 @@ class Controlador
             echo json_encode(['success' => false, 'message' => 'Missing required fields']);
         }
     }
+    
     
     // private function usuarioAutenticado()
     // {

@@ -40,6 +40,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             case 'eliminarUsuario':
                 $controlador->eliminarUsuario();
                 break;
+            case 'eliminarJuego':
+                $controlador->eliminarJuego();
+                break;
             
             // Puedes agregar otros casos aquí si es necesario
             default:
