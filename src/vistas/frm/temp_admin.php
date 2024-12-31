@@ -96,12 +96,75 @@
             <div class="card">
                 <h2>Manage Users</h2>
                 <button class="button" onclick="UserData()">Go to Users</button>
+                <button class="button" onclick="showUserForm()">Add User</button>
             </div>
             <div class="card">
                 <h2>Manage Games</h2>
                 <button class="button" onclick="GameData()">Go to Games</button>
+                <button class="button" onclick="showGameForm()">Add Game</button>
             </div>
         </div>
+
+        <!-- Formulario de agregar usuario -->
+        <div id="userForm" class="user-list hidden">
+            <h2>Add User</h2>
+            <form id="addUserForm" onsubmit="addUser(event)">
+                <input type="text" id="nick" placeholder="Nick" required>
+                <input type="email" id="email" placeholder="Email" required>
+                <input type="password" id="pass" placeholder="Contraseña" required>
+                <input type="text" id="nombre" placeholder="First Name" >
+                <input type="text" id="ape1" placeholder="Last Name 1" >
+                <input type="text" id="ape2" placeholder="Last Name 2" >
+                <input type="text" id="tlf" placeholder="Phone Number" >
+                <input type="text" id="direccion" placeholder="Address">
+                
+                <!-- Role Selector -->
+                <select id="rol" required>
+                    <option value="" disabled selected>Select Role</option>
+                    <option value="1">User</option>
+                    <option value="2">Admin</option>
+                </select>
+
+                <button type="submit">Add User</button>
+            </form>
+        </div>
+
+        <!-- Formulario de agregar juego -->
+        <div id="gameForm" class="user-list hidden">
+            <h2>Add Game</h2>
+            <form id="addGameForm" onsubmit="addGame(event)" enctype="multipart/form-data">
+                <input type="text" id="titulo" placeholder="Title" required>
+                <input type="text" id="desarrollador" placeholder="Developer" required>
+                <input type="text" id="distribuidor" placeholder="Distributor" required>
+                <input type="text" id="anio" placeholder="Year" required>
+
+                <!-- Genre Selector -->
+                <select id="genero" required>
+                    <option value="" disabled selected>Select Genre</option>
+                    <option value="Acción">Acción</option>
+                    <option value="Fantasia">Fantasia</option>
+                </select>
+
+                <!-- Systems Selector -->
+                <select id="sistema" required>
+                    <option value="" disabled selected>Select System</option>
+                    <option value="DOS">DOS</option>
+                    <option value="Windows Vista">Windows Vista</option>
+                </select>
+
+                <!-- Image Upload (Cover Image) -->
+                <input type="file" id="coverImage" name="coverImage" accept="image/*" required>
+
+                <!-- ZIP Upload -->
+                <input type="file" id="gameZip" name="gameZip" accept=".zip" required>
+
+                <button type="submit">Add Game</button>
+            </form>
+        </div>
+
+
+
+        <!-- Tabla de Usuarios -->
         <div id="userList" class="user-list hidden">
             <h2>User List</h2>
             <table>
@@ -115,6 +178,7 @@
                         <th>Teléfono</th>
                         <th>Dirección</th>
                         <th>ID Rol</th>
+                        <th>Acciones</th> <!-- Añadimos columna de acciones para editar -->
                     </tr>
                 </thead>
                 <tbody id="userTableBody">
@@ -122,6 +186,7 @@
             </table>
         </div>
 
+        <!-- Tabla de Juegos -->
         <div id="gameList" class="user-list hidden">
             <h2>Game List</h2>
             <table>
@@ -133,12 +198,14 @@
                         <th>Año</th>
                         <th>Genero</th>
                         <th>Sistema</th>
+                        <th>Acciones</th> <!-- Añadimos columna de acciones para editar -->
                     </tr>
                 </thead>
                 <tbody id="gameTableBody">
                 </tbody>
             </table>
         </div>
+
     </main>
     <script src="../public/js/adminpage.js"></script>
 </body>

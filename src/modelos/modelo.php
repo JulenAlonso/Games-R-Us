@@ -33,8 +33,6 @@ class Modelo
         }
     }
 
-    // REV //
-    //Usa la conexion a bbdd para buscar el usuario por email
     public function buscaUsuarioPorNick($nick){
         $stmt = $this->pdo->prepare("SELECT * FROM USUARIO WHERE nick = :nick");//Coge el pdo, le hace una query de sql donde el email sea igual al email que le paso por parametro.
         $stmt->bindParam(':nick', $nick);//El email introducido por parametro es la variable que le damos $email: puede ser julen@hotmail.com
@@ -49,8 +47,6 @@ class Modelo
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // REV //
-    //Usa la conexion a bbdd para crear el usuario 
     public function creaUsuario($nick, $email, $password){
         $passwordHash = password_hash($password, PASSWORD_BCRYPT);//Cifra la passwd
         //Plantilla
@@ -61,30 +57,6 @@ class Modelo
         $stmt->execute();//ejecuta: reemplaza en la plantilla el email y la passwd que hemos introducido.
     }
 
-    public function agregarJuego($titulo, $titulo2, $descripcion, $id_categoria, $precio, $imagen, $ruta){
-        $stmt = $this->pdo->prepare("INSERT INTO juegos (id_categoria, titulo, titulo2, descripcion, img, ruta, precio) VALUES (:id_categoria, :titulo, :titulo2, :descripcion, :img, :ruta, :precio)");
-        if (!$stmt) {
-            return false;
-        }
-    
-        // Bind de parámetros utilizando bindValue
-        $stmt->bindValue(':id_categoria', $id_categoria, PDO::PARAM_INT);
-        $stmt->bindValue(':titulo', $titulo, PDO::PARAM_STR);
-        $stmt->bindValue(':titulo2', $titulo2, PDO::PARAM_STR);
-        $stmt->bindValue(':descripcion', $descripcion, PDO::PARAM_STR);
-        $stmt->bindValue(':img', $imagen, PDO::PARAM_STR);
-        $stmt->bindValue(':ruta', $ruta, PDO::PARAM_STR);
-        $stmt->bindValue(':precio', $precio, PDO::PARAM_STR);
-    
-        // Ejecutar la consulta
-        if ($stmt->execute()) {
-            return true;
-        }
-    
-        return false;
-    }
-
-    // REV //
     public function obtenerLanding() {
         $stmt = $this->pdo->prepare("SELECT titulo, ruta_imagen, desarrollador, distribuidor, anio FROM JUEGO LIMIT 6");
         $stmt->execute();
@@ -152,5 +124,240 @@ class Modelo
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } 
+
+    
+    public function insertarUsuario($nick, $nombre, $pass, $ape1, $ape2, $tlf, $email, $rol) {
+        try {
+            // Crear la consulta SQL para insertar el usuario
+            $sql = "INSERT INTO USUARIO (nick, nombre, password, ape1, ape2, tlf, email, id_rol)
+                    VALUES (:nick, :nombre, :pass, :ape1, :ape2, :tlf, :email, :id_rol)";
+            
+            // Preparar la consulta
+            $stmt = $this->pdo->prepare($sql);
+        
+            $haspass = password_hash($pass, PASSWORD_BCRYPT);
+            // Enlazar los parámetros
+            $stmt->bindParam(':nick', $nick);
+            $stmt->bindParam(':nombre', $nombre);
+            $stmt->bindParam(':pass', $haspass);
+            $stmt->bindParam(':ape1', $ape1);
+            $stmt->bindParam(':ape2', $ape2);
+            $stmt->bindParam(':tlf', $tlf);
+            $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':id_rol', $rol);
+        
+            // Ejecutar la consulta
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function insertarJuego($titulo, $desarrollador, $distribuidor, $anio, $genero, $sistema, $coverImagePath, $gameZipPath)
+    {
+        try {
+            // Crear la consulta SQL para insertar el juego
+            $sql = "INSERT INTO JUEGO (titulo, desarrollador, distribuidor, anio, ruta_imagen, ruta) 
+                    VALUES (:titulo, :desarrollador, :distribuidor, :anio, :portada, :archivo_zip)";
+            
+            // Preparar la consulta
+            $stmt = $this->pdo->prepare($sql);
+    
+            // Enlazar los parámetros
+            $stmt->bindParam(':titulo', $titulo);
+            $stmt->bindParam(':desarrollador', $desarrollador);
+            $stmt->bindParam(':distribuidor', $distribuidor);
+            $stmt->bindParam(':anio', $anio);
+            $stmt->bindParam(':portada', $coverImagePath);
+            $stmt->bindParam(':archivo_zip', $gameZipPath);
+    
+            // Ejecutar la consulta
+            $stmt->execute();
+            $stmt = null;
+    
+            // Obtener el id del juego recién insertado
+            $sql = "SELECT id_juego FROM JUEGO WHERE titulo = :titulo";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(':titulo', $titulo);
+            $stmt->execute();
+            $id_juego = $stmt->fetch(PDO::FETCH_ASSOC)['id_juego']; // Obtener el id del juego recién insertado
+            $stmt = null;
+    
+            // Insertar los géneros en la tabla JUEGO_GENEREO
+            foreach ($genero as $gen) {
+                // Verificar si el género ya existe
+                $sql = "SELECT id FROM GENERO WHERE nombre_genero = :nombre";
+                $stmt = $this->pdo->prepare($sql);
+                $stmt->bindParam(':nombre', $gen);
+                $stmt->execute();
+                $id_genero = $stmt->fetch(PDO::FETCH_ASSOC)['id'];
+                $stmt = null;
+    
+                // Si el género no existe, insertarlo
+                if (!$id_genero) {
+                    $sql = "INSERT INTO GENERO (nombre_genero) VALUES (:nombre)";
+                    $stmt = $this->pdo->prepare($sql);
+                    $stmt->bindParam(':nombre', $gen);
+                    $stmt->execute();
+                    $id_genero = $this->pdo->lastInsertId(); // Obtener el ID del nuevo género
+                    $stmt = null;
+                }
+    
+                // Insertar la relación en la tabla intermedia JUEGO_GENEREO
+                $sql = "INSERT INTO JUEGO_GENERO (id_juego, id_genero) VALUES (:id_juego, :id_genero)";
+                $stmt = $this->pdo->prepare($sql);
+                $stmt->bindParam(':id_juego', $id_juego);
+                $stmt->bindParam(':id_genero', $id_genero);
+                $stmt->execute();
+                $stmt = null;
+            }
+    
+            // Insertar los sistemas en la tabla JUEGO_SISTEMA
+            foreach ($sistema as $sys) {
+                // Verificar si el sistema ya existe
+                $sql = "SELECT id_sistema FROM SISTEMA WHERE nombre_sistema = :nombre";
+                $stmt = $this->pdo->prepare($sql);
+                $stmt->bindParam(':nombre', $sys);
+                $stmt->execute();
+                $id_sistema = $stmt->fetch(PDO::FETCH_ASSOC)['id_sistema'];
+                $stmt = null;
+    
+                // Si el sistema no existe, insertarlo
+                if (!$id_sistema) {
+                    $sql = "INSERT INTO SISTEMA (nombre_sistema) VALUES (:nombre)";
+                    $stmt = $this->pdo->prepare($sql);
+                    $stmt->bindParam(':nombre', $sys);
+                    $stmt->execute();
+                    $id_sistema = $this->pdo->lastInsertId(); // Obtener el ID del nuevo sistema
+                    $stmt = null;
+                }
+    
+                // Insertar la relación en la tabla intermedia JUEGO_SISTEMA
+                $sql = "INSERT INTO JUEGO_SISTEMA (id_juego, id_sistema) VALUES (:id_juego, :id_sistema)";
+                $stmt = $this->pdo->prepare($sql);
+                $stmt->bindParam(':id_juego', $id_juego);
+                $stmt->bindParam(':id_sistema', $id_sistema);
+                $stmt->execute();
+                $stmt = null;
+            }
+    
+            // Si todo salió bien, devolver éxito
+            return true;
+        } catch (PDOException $e) {
+            // Manejar errores (es importante para el registro de errores)
+            error_log("Error inserting game: " . $e->getMessage());
+            return $e->getMessage();
+        }
+    }
+    
+    public function actualizarUsuario($nick, $nombre, $ape1, $ape2, $tlf) {
+        try {
+            // Crear la consulta SQL para actualizar el usuario
+            $sql = "UPDATE USUARIO 
+                    SET nombre = :nombre, 
+                        ape1 = :ape1, 
+                        ape2 = :ape2, 
+                        tlf = :tlf
+                    WHERE nick = :nick";
+    
+            // Preparar la consulta
+            $stmt = $this->pdo->prepare($sql);
+    
+            // Enlazar los parámetros
+            $stmt->bindParam(':nick', $nick);
+            $stmt->bindParam(':nombre', $nombre);
+            $stmt->bindParam(':ape1', $ape1);
+            $stmt->bindParam(':ape2', $ape2);
+            $stmt->bindParam(':tlf', $tlf);
+    
+            // Ejecutar la consulta
+            $stmt->execute();
+    
+            // Verificar si se realizó la actualización correctamente
+            if ($stmt->rowCount() > 0) {
+                return json_encode(['success' => true, 'message' => 'User updated successfully']);
+            } else {
+                return json_encode(['success' => false, 'message' => 'No changes made']);
+            }
+        } catch (PDOException $e) {
+            // Manejar errores (es importante para el registro de errores)
+            error_log("Error updating user: " . $e->getMessage());
+            // Devolver un mensaje de error en formato JSON
+            return json_encode(['success' => false, 'message' => 'Error updating user: ' . $e->getMessage()]);
+        }
+    }    
+    
+    public function actualizarJuego($id, $titulo, $desarrollador, $distribuidor, $anio, $genero, $sistema) {
+        try {
+            // Crear la consulta SQL para actualizar el juego
+            $sql = "UPDATE JUEGO SET 
+                        titulo = :titulo, 
+                        desarrollador = :desarrollador, 
+                        distribuidor = :distribuidor, 
+                        anio = :anio
+                    WHERE id_juego = :id";
+    
+            // Preparar la consulta
+            $stmt = $this->pdo->prepare($sql);
+    
+            // Convertir los arrays a cadenas separadas por comas
+            $generoStr = implode(',', $genero);
+            $sistemaStr = implode(',', $sistema);
+    
+            // Enlazar los parámetros
+            $stmt->bindParam(':titulo', $titulo);
+            $stmt->bindParam(':desarrollador', $desarrollador);
+            $stmt->bindParam(':distribuidor', $distribuidor);
+            $stmt->bindParam(':anio', $anio);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    
+            // Ejecutar la consulta
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            // Manejar errores (es importante para el registro de errores)
+            error_log("Error updating game: " . $e->getMessage());
+            return $e->getMessage();
+        }
+    }
+
+    public function deleteUsuario($nick) {
+        try {
+            // Crear la consulta SQL para eliminar el usuario
+            $sql = "DELETE FROM USUARIO WHERE nick = :nick";
+            
+            // Preparar la consulta
+            $stmt = $this->pdo->prepare($sql);
+        
+            // Enlazar los parámetros
+            $stmt->bindParam(':nick', $nick);
+        
+            // Ejecutar la consulta
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            error_log("Error deleting user: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function deleteJuego($id) {
+        try {
+            // Crear la consulta SQL para eliminar el juego
+            $sql = "DELETE FROM JUEGO WHERE id_juego = :id";
+            
+            // Preparar la consulta
+            $stmt = $this->pdo->prepare($sql);
+        
+            // Enlazar los parámetros
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        
+            // Ejecutar la consulta
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            error_log("Error deleting game: " . $e->getMessage());
+            return false;
+        }
+    }
+    
+    
 }
 ?>

@@ -25,6 +25,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             case 'listadoUsers':
                 $controlador->admn_listarUsers();
                 break;
+            case 'agregarUsuario':
+                $controlador->agregarUsuario();
+                break;
+            case 'agregarJuego':
+                $controlador->agregarJuego();
+                break;
+            case 'editarUsuario':
+                $controlador->editarUsuario();
+                break;
+            case 'editarJuego':
+                $controlador->editarJuego();
+                break;
+            
             // Puedes agregar otros casos aquí si es necesario
             default:
                 header('Content-Type: application/json');
