@@ -79,6 +79,7 @@ function loadUsers() {
           <td><input type="text" value="${user.direccion}" id="direccion-${user.id}"></td>
           <td><input type="number" value="${user.rol}" id="rol-${user.id}"></td>
           <td><button onclick="saveUser(${user.id})">Save</button></td>
+          <td><button onclick="deleteUser(${user.id})">Delete</button></td>
       </tr>`;
     tableBody.innerHTML += row;
   });
@@ -328,5 +329,43 @@ async function addGame(event) {
   } catch (error) {
     console.error("Error during the request:", error);
     alert('There was an error while adding the game: ' + error.message);  // Mensaje de error al usuario
+  }
+}
+
+async function deleteUser(userId) {
+  const user = {
+    nick: document.getElementById(`nick-${userId}`).value,
+  };
+
+  try {
+    // Enviar los datos al backend
+    const response = await fetch('/Games-r-us/public/index.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({
+        accion: 'eliminarUsuario',
+        ...user,
+      }),
+    });
+
+    // Capturar el contenido de la respuesta como texto para diagnosticar el problema
+    const text = await response.text(); // Obtén la respuesta como texto
+    console.log("Response text:", text); // Imprime el contenido de la respuesta
+
+    // Intentar convertirlo a JSON
+    const result = JSON.parse(text); // Usamos JSON.parse para ver el contenido antes de asumir que es JSON
+
+    if (result.success) {
+      alert('User deleted successfully!');
+      UserData();
+    } else {
+      console.error("Error deleting user:", result.message);
+      alert('Error deleting user: ' + result.message);
+    }
+  } catch (error) {
+    console.error("Error during the request:", error);
+    alert('There was an error while updating the user: ' + error.message);  // Mensaje de error al usuario
   }
 }

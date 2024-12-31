@@ -37,6 +37,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             case 'editarJuego':
                 $controlador->editarJuego();
                 break;
+            case 'eliminarUsuario':
+                $controlador->eliminarUsuario();
+                break;
             
             // Puedes agregar otros casos aquí si es necesario
             default:
