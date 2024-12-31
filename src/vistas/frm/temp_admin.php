@@ -112,20 +112,20 @@
                 <input type="text" id="nick" placeholder="Nick" required>
                 <input type="email" id="email" placeholder="Email" required>
                 <input type="password" id="pass" placeholder="Contraseña" required>
-                <input type="text" id="nombre" placeholder="First Name" >
-                <input type="text" id="ape1" placeholder="Last Name 1" >
-                <input type="text" id="ape2" placeholder="Last Name 2" >
-                <input type="text" id="tlf" placeholder="Phone Number" >
-                <input type="text" id="direccion" placeholder="Address">
+                <input type="text" id="nombre" placeholder="Nombree" >
+                <input type="text" id="ape1" placeholder="Apellido 1" >
+                <input type="text" id="ape2" placeholder="Apellido 2" >
+                <input type="text" id="tlf" placeholder="Numero de Telefono" >
+                <input type="text" id="direccion" placeholder="Dirección">
                 
                 <!-- Role Selector -->
                 <select id="rol" required>
-                    <option value="" disabled selected>Select Role</option>
+                    <option value="" disabled selected>Selecciona Role</option>
                     <option value="1">User</option>
                     <option value="2">Admin</option>
                 </select>
 
-                <button type="submit">Add User</button>
+                <button type="submit">Añadir User</button>
             </form>
         </div>
 
@@ -133,30 +133,33 @@
         <div id="gameForm" class="user-list hidden">
             <h2>Add Game</h2>
             <form id="addGameForm" onsubmit="addGame(event)" enctype="multipart/form-data">
-                <input type="text" id="titulo" placeholder="Title" required>
-                <input type="text" id="desarrollador" placeholder="Developer" required>
-                <input type="text" id="distribuidor" placeholder="Distributor" required>
-                <input type="text" id="anio" placeholder="Year" required>
+                <input type="text" id="titulo" placeholder="Titulo" required>
+                <input type="text" id="desarrollador" placeholder="Desarrollador" required>
+                <input type="text" id="distribuidor" placeholder="Bistribuidor" required>
+                <input type="text" id="anio" placeholder="Año" required>
 
                 <!-- Genre Selector -->
                 <select id="genero" required>
-                    <option value="" disabled selected>Select Genre</option>
+                    <option value="" disabled selected>Selecciona Genero</option>
                     <option value="Acción">Acción</option>
                     <option value="Fantasia">Fantasia</option>
                 </select>
 
                 <!-- Systems Selector -->
                 <select id="sistema" required>
-                    <option value="" disabled selected>Select System</option>
+                    <option value="" disabled selected>Selecciona Sistema</option>
                     <option value="DOS">DOS</option>
                     <option value="Windows Vista">Windows Vista</option>
                 </select>
 
-                <!-- Image Upload (Cover Image) -->
-                <input type="file" id="coverImage" name="coverImage" accept="image/*" required>
+            <!-- Image Upload (Cover Image) -->
+            <label for="coverImage">Imagen de Portada:</label>
+            <input type="file" id="coverImage" name="coverImage" accept="image/*" required>
 
-                <!-- ZIP Upload -->
-                <input type="file" id="gameZip" name="gameZip" accept=".zip" required>
+            <!-- ZIP Upload -->
+            <label for="gameZip">Juego en Zip:</label>
+            <input type="file" id="gameZip" name="gameZip" accept=".zip" required>
+
 
                 <button type="submit">Add Game</button>
             </form>

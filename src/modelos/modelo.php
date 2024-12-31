@@ -124,8 +124,7 @@ class Modelo
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } 
-
-    
+  
     public function insertarUsuario($nick, $nombre, $pass, $ape1, $ape2, $tlf, $email, $rol) {
         try {
             // Crear la consulta SQL para insertar el usuario
@@ -156,6 +155,10 @@ class Modelo
     public function insertarJuego($titulo, $desarrollador, $distribuidor, $anio, $genero, $sistema, $coverImagePath, $gameZipPath)
     {
         try {
+            // Extraer el nombre del archivo de la ruta
+            $coverImageName = basename($coverImagePath); // Extraer solo el nombre del archivo de la ruta completa
+            $gameZipName = basename($gameZipPath); // Extraer solo el nombre del archivo de la ruta completa
+    
             // Crear la consulta SQL para insertar el juego
             $sql = "INSERT INTO JUEGO (titulo, desarrollador, distribuidor, anio, ruta_imagen, ruta) 
                     VALUES (:titulo, :desarrollador, :distribuidor, :anio, :portada, :archivo_zip)";
@@ -168,8 +171,8 @@ class Modelo
             $stmt->bindParam(':desarrollador', $desarrollador);
             $stmt->bindParam(':distribuidor', $distribuidor);
             $stmt->bindParam(':anio', $anio);
-            $stmt->bindParam(':portada', $coverImagePath);
-            $stmt->bindParam(':archivo_zip', $gameZipPath);
+            $stmt->bindParam(':portada', $coverImageName); // Guardar solo el nombre de la imagen
+            $stmt->bindParam(':archivo_zip', $gameZipName); // Guardar solo el nombre del archivo ZIP
     
             // Ejecutar la consulta
             $stmt->execute();
