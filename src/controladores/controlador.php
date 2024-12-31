@@ -31,7 +31,6 @@ class Controlador
                 $this->procesaRegister();
                 $this->procesaAgregarJuego();
                 $this->procesarTienda();
-                // $this->MuestraPerfilUsuario();
             }
         } else {
             Vista::MuestraLanding(); // Carga la vista por defecto
@@ -376,17 +375,57 @@ class Controlador
         }
     }
 
+    private function procesaPerfilUsuario()
+    {
+        // Verifica qué botón fue presionado
+        if (isset($_POST['nav_loginButton'])) {
+            Vista::MuestraLogin();
+        } elseif (isset($_POST['nav_bibliotecaButton'])) {
+            if ($this->usuarioAutenticado()) {
+                Vista::MuestraBiblioteca();
+                
+            } else {
+                
+                Vista::MuestraLogin(); // Redirige a login si no está autenticado
+            }
+        } elseif (isset($_POST['nav_iniciobutton'])) {
+            Vista::MuestraLanding();
+        } elseif (isset($_POST['nav_TiendaButton'])) {
+            Vista::MuestraTienda();
+        } elseif (isset($_POST['nav_LogoutButton'])) {
+            Vista::MuestraLogOut();
+        } elseif (isset($_POST['nav_RegistroButton'])) {
+            Vista::MuestraRegistro();
+        } elseif (isset($_POST['nav_ProfileButton'])) {
+            $this->MuestraPerfilUsuario();
+        } elseif (isset($_POST['nav_AdminButton'])) {
+            if ($this->usuarioEsAdmin()) {
+                Vista::MuestraAdmin();
+            } else {
+                // Vista::MuestraErrorPermisos(); // Mostrar un error si no es admin
+            }
+        }
+    }
+    
     private function MuestraPerfilUsuario()
     {
-        if (!isset($_SESSION['user_email'])) {
-            $_SESSION['user_email'] = 'admin@example.com';
-        }
-        if (!isset($_SESSION['user_nick'])) {
-            $_SESSION['user_nick'] = 'Admin';
-        }
-        if (!isset($_SESSION['user_role'])) {
-            $_SESSION['user_role'] = 2; // 2 = Administrador
-        }
+        // Asegurarse de que las variables de sesión necesarias estén configuradas
+        $_SESSION['user_email'] = $_SESSION['user_email'] ?? 'admin@example.com';
+        $_SESSION['user_nick'] = $_SESSION['user_nick'] ?? 'Admin';
+        $_SESSION['user_role'] = $_SESSION['user_role'] ?? 2; // 2 = Administrador
+        // Muestra el perfil del usuario
         Vista::MuestraPerfilUsuario();
     }
-}
+    
+    // private function usuarioAutenticado()
+    // {
+    //     // Verifica si hay una sesión activa del usuario
+    //     return isset($_SESSION['user_email']);
+    // }
+    
+    private function usuarioEsAdmin()
+    {
+        // Verifica si el usuario tiene rol de administrador
+        return isset($_SESSION['user_role']) && $_SESSION['user_role'] === 2;
+    }
+}    
