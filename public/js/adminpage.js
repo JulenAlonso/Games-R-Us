@@ -77,9 +77,9 @@ function loadUsers() {
           <td><input type="text" value="${user.ape2}" id="ape2-${user.id}"></td>
           <td><input type="text" value="${user.tlf}" id="tlf-${user.id}"></td>
           <td><input type="text" value="${user.direccion}" id="direccion-${user.id}"></td>
-          <td><input type="number" value="${user.rol}" id="rol-${user.id}"></td>
+          <td><input type="number" value="${user.id_rol}" id="rol-${user.id}"></td>
           <td><button onclick="saveUser(${user.id})">Save</button></td>
-          <td><button onclick="deleteUser(${user.id})">Delete</button></td>
+          <td><button onclick="deleteUser('${user.nick}')">Delete</button></td>
       </tr>`;
     tableBody.innerHTML += row;
   });
@@ -335,7 +335,7 @@ async function addGame(event) {
 
 async function deleteUser(userId) {
   const user = {
-    nick: document.getElementById(`nick-${userId}`).value,
+    nick: userId
   };
 
   try {

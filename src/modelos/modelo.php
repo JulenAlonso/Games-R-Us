@@ -368,7 +368,5 @@ class Modelo
         }
     }
     
-    
-    
 }
 ?>

@@ -180,7 +180,7 @@
                         <th>Apellido 2</th>
                         <th>Teléfono</th>
                         <th>Dirección</th>
-                        <th>ID Rol</th>
+                        <th>Role</th>
                         <th colspan="2">Acciones</th> <!-- Añadimos columna de acciones para editar -->
                     </tr>
                 </thead>

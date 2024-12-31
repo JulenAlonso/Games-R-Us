@@ -291,7 +291,6 @@ class Controlador
                         ($user['direccion_numero'] === '0' ? null : $user['direccion_numero']),
                         $user['direccion_otros']
                     )))),
-
                     'rol' => htmlspecialchars($RolesPorId[$user['id_rol']]),
                 ];
             }, $usuarios);
