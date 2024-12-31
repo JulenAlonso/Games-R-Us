@@ -35,4 +35,7 @@ class Vista {
         include BASE_PATH . '/src/vistas/frm/formularioRegalo.php';
     }
 
+    public static function MuestraPerfilUsuario() {
+        require_once BASE_PATH . '/src/vistas/frm/perfilUsuario.php';
+    }
 }

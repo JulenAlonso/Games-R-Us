@@ -101,6 +101,11 @@ if (!isset($_SESSION['user_id'])) {
 
               <!-- Información Personal -->
             <div class="inputBox">
+              <input type="text" name="nick" id="nick" class="inputUser" required>
+              <label for="nick" class="labelInput">Nick</label>
+            </div><br><br>
+
+            <div class="inputBox">
               <input type="text" name="name" id="name" class="inputUser" required>
               <label for="name" class="labelInput">Nombre</label>
             </div><br><br>

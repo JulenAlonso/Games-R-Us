@@ -95,6 +95,11 @@ if (!isset($_SESSION['user_id'])) {
             <legend><b>Formulario de Regalo</b></legend>
             <p></p>
             <div class="inputBox">
+              <input type="text" name="gift_nick" id="gift_nick" class="inputUser" required>
+              <label for="gift_nick" class="labelInput">Nick del destinatario</label>
+            </div><br><br>
+
+            <div class="inputBox">
               <input type="text" name="gift_name" id="gift_name" class="inputUser" required>
               <label for="gift_name" class="labelInput">Nombre del destinatario</label>
             </div><br><br>

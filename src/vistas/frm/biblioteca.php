@@ -7,8 +7,10 @@ if (!isset($_SESSION['user_nick'])) {
   exit;
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,6 +18,7 @@ if (!isset($_SESSION['user_nick'])) {
   <link rel="stylesheet" href="../public/css/nav.css">
   <link rel="stylesheet" href="../public/css/library.css">
 </head>
+
 <body>
   <!-- Navbar -->
   <nav>
@@ -50,7 +53,8 @@ if (!isset($_SESSION['user_nick'])) {
         </form>
       </div>
       <div class="svg-container">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+          stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round"
             d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
         </svg>
@@ -92,6 +96,7 @@ if (!isset($_SESSION['user_nick'])) {
         <li class="game-item" onclick="showGameDetails('Game 2')">Game 2</li>
         <li class="game-item" onclick="showGameDetails('Game 3')">Game 3</li>
         <li class="game-item" onclick="showGameDetails('Game 4')">Game 4</li>
+        <li class="game-item" onclick="showGameDetails('Game 5')">Game 5</li>
       </ul>
     </aside>
     <main class="game-content">
@@ -102,10 +107,21 @@ if (!isset($_SESSION['user_nick'])) {
       <div class="game-gallery" id="gameGallery">
         <h2>Juegos Destacados</h2>
         <div class="gallery">
-          <div class="gallery-item" onclick="showGameDetails('Game A')">Game A</div>
-          <div class="gallery-item" onclick="showGameDetails('Game B')">Game B</div>
-          <div class="gallery-item" onclick="showGameDetails('Game C')">Game C</div>
-          <div class="gallery-item" onclick="showGameDetails('Game D')">Game D</div>
+          <div class="gallery-item" onclick="showGameDetails('Game 1')">Game 1</div>
+          <div class="gallery-item" onclick="showGameDetails('Game 2')">Game 2</div>
+          <div class="gallery-item" onclick="showGameDetails('Game 3')">Game 3</div>
+          <div class="gallery-item" onclick="showGameDetails('Game 4')">Game 4</div>
+          <div class="gallery-item" onclick="showGameDetails('Game 5')">Game 5</div>
+        </div>
+      </div>
+      <div class="game-gallery" id="gameGallery">
+        <h2>Todos los Juegos</h2>
+        <div class="gallery">
+          <div class="gallery-item" onclick="showGameDetails('Game 1')">Game 1</div>
+          <div class="gallery-item" onclick="showGameDetails('Game 2')">Game 2</div>
+          <div class="gallery-item" onclick="showGameDetails('Game 3')">Game 3</div>
+          <div class="gallery-item" onclick="showGameDetails('Game 4')">Game 4</div>
+          <div class="gallery-item" onclick="showGameDetails('Game 5')">Game 5</div>
         </div>
       </div>
     </main>
