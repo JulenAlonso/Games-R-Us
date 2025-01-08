@@ -53,19 +53,19 @@ if (isset($_POST['update_image']) && isset($_FILES['profile_image'])) {
             </div>
         </div>
         <div>
-            <div>
+            <div class="active">
                 <p onclick="document.getElementById('nav_iniciobutton').click();">Home</p>
                 <form method="POST">
                     <input type="submit" id="nav_iniciobutton" name="nav_iniciobutton" hidden>
                 </form>
             </div>
-            <div class="<?php echo basename($_SERVER['PHP_SELF']) == 'perfilUsuario.php' ? 'active' : ''; ?>">
+            <div>
                 <p onclick="document.getElementById('nav_TiendaButton').click();">Tienda</p>
                 <form method="POST">
                     <input type="submit" id="nav_TiendaButton" name="nav_TiendaButton" hidden>
                 </form>
             </div>
-            <div class="<?php echo basename($_SERVER['PHP_SELF']) == 'perfilUsuario.php' ? 'active' : ''; ?>">
+            <div>
                 <p onclick="document.getElementById('nav_bibliotecaButton').click();">Biblioteca</p>
                 <form method="POST">
                     <input type="submit" id="nav_bibliotecaButton" name="nav_bibliotecaButton" hidden>
@@ -87,6 +87,7 @@ if (isset($_POST['update_image']) && isset($_FILES['profile_image'])) {
                 </svg>
                 <div class="profile-menu hidden" id="profileMenu">
                     <?php if (!isset($_SESSION['user_nick'])): ?>
+                        <!-- Opciones para usuarios no autenticados -->
                         <p onclick="document.getElementById('nav_loginButton').click();">Login</p>
                         <form method="POST">
                             <input type="submit" id="nav_loginButton" name="nav_loginButton" hidden>
@@ -96,6 +97,18 @@ if (isset($_POST['update_image']) && isset($_FILES['profile_image'])) {
                             <input type="submit" id="nav_RegistroButton" name="nav_RegistroButton" hidden>
                         </form>
                     <?php else: ?>
+                        <!-- Opciones para usuarios autenticados -->
+                        <p onclick="document.getElementById('nav_ProfileButton').click();">Perfil</p>
+                        <form method="POST">
+                            <input type="submit" id="nav_ProfileButton" name="nav_ProfileButton" hidden>
+                        </form>
+                        <?php if ($_SESSION['user_role'] == 2): ?>
+                            <!-- Opción para administradores -->
+                            <p onclick="document.getElementById('nav_AdminButton').click();">Admin Zone</p>
+                            <form method="POST">
+                                <input type="submit" id="nav_AdminButton" name="nav_AdminButton" hidden>
+                            </form>
+                        <?php endif; ?>
                         <p onclick="document.getElementById('nav_LogoutButton').click();">Cerrar Sesión</p>
                         <form method="POST">
                             <input type="submit" id="nav_LogoutButton" name="nav_LogoutButton" hidden>

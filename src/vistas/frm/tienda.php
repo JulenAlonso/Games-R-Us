@@ -10,6 +10,7 @@
 </head>
 
 <body>
+    <!-- Navbar -->
     <nav>
         <div>
             <div class="svg-container">
@@ -23,13 +24,13 @@
             </div>
         </div>
         <div>
-            <div>
+            <div class="active">
                 <p onclick="document.getElementById('nav_iniciobutton').click();">Home</p>
                 <form method="POST">
                     <input type="submit" id="nav_iniciobutton" name="nav_iniciobutton" hidden>
                 </form>
             </div>
-            <div class="active">
+            <div>
                 <p onclick="document.getElementById('nav_TiendaButton').click();">Tienda</p>
                 <form method="POST">
                     <input type="submit" id="nav_TiendaButton" name="nav_TiendaButton" hidden>
@@ -57,6 +58,7 @@
                 </svg>
                 <div class="profile-menu hidden" id="profileMenu">
                     <?php if (!isset($_SESSION['user_nick'])): ?>
+                        <!-- Opciones para usuarios no autenticados -->
                         <p onclick="document.getElementById('nav_loginButton').click();">Login</p>
                         <form method="POST">
                             <input type="submit" id="nav_loginButton" name="nav_loginButton" hidden>
@@ -66,6 +68,18 @@
                             <input type="submit" id="nav_RegistroButton" name="nav_RegistroButton" hidden>
                         </form>
                     <?php else: ?>
+                        <!-- Opciones para usuarios autenticados -->
+                        <p onclick="document.getElementById('nav_ProfileButton').click();">Perfil</p>
+                        <form method="POST">
+                            <input type="submit" id="nav_ProfileButton" name="nav_ProfileButton" hidden>
+                        </form>
+                        <?php if ($_SESSION['user_role'] == 2): ?>
+                            <!-- Opción para administradores -->
+                            <p onclick="document.getElementById('nav_AdminButton').click();">Admin Zone</p>
+                            <form method="POST">
+                                <input type="submit" id="nav_AdminButton" name="nav_AdminButton" hidden>
+                            </form>
+                        <?php endif; ?>
                         <p onclick="document.getElementById('nav_LogoutButton').click();">Cerrar Sesión</p>
                         <form method="POST">
                             <input type="submit" id="nav_LogoutButton" name="nav_LogoutButton" hidden>
@@ -78,7 +92,8 @@
 
     <div style="display: flex;">
         <!-- Barra lateral para las categorías -->
-        <aside id="sidebar" style="width: 20%; background-color: #2b2b2b; padding: 20px; height: 100vh; overflow-y: auto;">
+        <aside id="sidebar"
+            style="width: 20%; background-color: #2b2b2b; padding: 20px; height: 100vh; overflow-y: auto;">
             <h2 class="section-title" style="text-align: left; font-size: 1.4em;">Categorías</h2>
             <ul id="category-list" style="list-style: none; padding: 0; color: white; font-size: 1em; cursor: pointer;">
                 <!-- Categorías dinámicas -->
