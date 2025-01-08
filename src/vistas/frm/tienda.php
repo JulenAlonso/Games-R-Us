@@ -24,13 +24,13 @@
             </div>
         </div>
         <div>
-            <div class="active">
+            <div>
                 <p onclick="document.getElementById('nav_iniciobutton').click();">Home</p>
                 <form method="POST">
                     <input type="submit" id="nav_iniciobutton" name="nav_iniciobutton" hidden>
                 </form>
             </div>
-            <div>
+            <div class="active">
                 <p onclick="document.getElementById('nav_TiendaButton').click();">Tienda</p>
                 <form method="POST">
                     <input type="submit" id="nav_TiendaButton" name="nav_TiendaButton" hidden>

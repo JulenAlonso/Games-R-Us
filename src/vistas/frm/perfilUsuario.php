@@ -53,7 +53,7 @@ if (isset($_POST['update_image']) && isset($_FILES['profile_image'])) {
             </div>
         </div>
         <div>
-            <div class="active">
+            <div>
                 <p onclick="document.getElementById('nav_iniciobutton').click();">Home</p>
                 <form method="POST">
                     <input type="submit" id="nav_iniciobutton" name="nav_iniciobutton" hidden>
@@ -187,6 +187,7 @@ if (isset($_POST['update_image']) && isset($_FILES['profile_image'])) {
             </div>
         </section>
     </main>
+    <script src="../public/js/nav.js"></script>
 </body>
 
 </html>
