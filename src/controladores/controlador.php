@@ -84,18 +84,6 @@ class Controlador
                     // Autenticación exitosa, guarda los datos en la sesión
                     $_SESSION['user_nick'] = $user['nick']; //Guardamos el id del usuario
                     $_SESSION['user_role'] = $role['id_rol'];   //Guardamos el rol del usuario
-                    $_SESSION['email'] = $user['email'];
-                    $_SESSION['nombre'] = $user['nombre'];
-                    $_SESSION['ape1'] = $user['ape1'];
-                    $_SESSION['ape2'] = $user['ape2'];
-                    $_SESSION['user_image'] = $user['imagen'];
-                    $_SESSION['user_direccion_tipo'] = $user['direccion_tipo'];
-                    $_SESSION['user_direccion_via'] = $user['direccion_via'];
-                    $_SESSION['user_direccion_numero'] = $user['direccion_numero'];
-                    $_SESSION['user_direccion_ciudad'] = $user['direccion_ciudad'];
-                    $_SESSION['user_direccion_provincia'] = $user['direccion_provincia'];
-                    $_SESSION['user_direccion_cp'] = $user['direccion_cp'];
-                    $_SESSION['user_direccion_pais'] = $user['direccion_pais'];
                     Vista::MuestraBiblioteca(); //Cuando iniciamos sesion, nos manda directamente a la biblioteca
                     exit;
                 } else {
@@ -297,12 +285,23 @@ class Controlador
                     'direccion' => htmlspecialchars(trim(preg_replace('/\s+/', ' ', sprintf(
                         '%s %s %s %s %s',
                         $user['direccion'] ?? 'Desconocida',
-                        $user['direccion_tipo'],
-                        $user['direccion_via'],
-                        ($user['direccion_numero'] === '0' ? null : $user['direccion_numero']),
-                        $user['direccion_otros']
+                        $user['direccion_tipo'] ?? '',
+                        $user['direccion_via'] ?? '',
+                        ($user['direccion_numero'] === '0' ? '' : $user['direccion_numero']),
+                        $user['direccion_otros'] ?? ''
                     )))),
-                    'rol' => htmlspecialchars($RolesPorId[$user['id_rol']]),
+                    'rol' => htmlspecialchars($RolesPorId[$user['id_rol']] ?? 'Desconocido'),
+
+
+
+
+
+
+
+
+
+
+
                 ];
             }, $usuarios);
 
@@ -322,47 +321,6 @@ class Controlador
             ]);
             exit;
         }
-    }
-
-    private function procesaPerfilUsuario()
-    {
-        // Verifica qué botón fue presionado
-        if (isset($_POST['nav_loginButton'])) {
-            Vista::MuestraLogin();
-        } elseif (isset($_POST['nav_bibliotecaButton'])) {
-            if ($this->usuarioAutenticado()) {
-                Vista::MuestraBiblioteca();
-
-            } else {
-
-                Vista::MuestraLogin(); // Redirige a login si no está autenticado
-            }
-        } elseif (isset($_POST['nav_iniciobutton'])) {
-            Vista::MuestraLanding();
-        } elseif (isset($_POST['nav_TiendaButton'])) {
-            Vista::MuestraTienda();
-        } elseif (isset($_POST['nav_LogoutButton'])) {
-            Vista::MuestraLogOut();
-        } elseif (isset($_POST['nav_RegistroButton'])) {
-            Vista::MuestraRegistro();
-        } elseif (isset($_POST['nav_ProfileButton'])) {
-            $this->MuestraPerfilUsuario();
-        } elseif (isset($_POST['nav_AdminButton'])) {
-            if ($this->usuarioEsAdmin()) {
-                Vista::MuestraAdmin();
-            } else {
-                // Vista::MuestraErrorPermisos(); // Mostrar un error si no es admin
-            }
-        }
-    }
-    private function MuestraPerfilUsuario()
-    {
-        // Asegurarse de que las variables de sesión necesarias estén configuradas
-        $_SESSION['user_email'] = $_SESSION['user_email'] ?? 'admin@example.com';
-        $_SESSION['user_nick'] = $_SESSION['user_nick'] ?? 'Admin';
-        $_SESSION['user_role'] = $_SESSION['user_role'] ?? 2; // 2 = Administrador
-        // Muestra el perfil del usuario
-        Vista::MuestraPerfilUsuario();
     }
 
     public function agregarUsuario()
@@ -412,7 +370,6 @@ class Controlador
             echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
         }
     }
-
     public function agregarJuego()
     {
         try {
@@ -474,7 +431,6 @@ class Controlador
             echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
         }
     }
-
     public function editarUsuario()
     {
         // Verificar que los campos necesarios estén presentes en el POST
@@ -514,7 +470,6 @@ class Controlador
             echo json_encode(['success' => false, 'message' => 'Missing required fields']);
         }
     }
-
     public function editarJuego()
     {
         if (isset($_POST['id'], $_POST['titulo'], $_POST['desarrollador'], $_POST['distribuidor'], $_POST['anio'], $_POST['genero'], $_POST['sistema'])) {
@@ -540,7 +495,6 @@ class Controlador
             echo json_encode(['success' => false, 'message' => 'Missing required fields']);
         }
     }
-
     public function eliminarUsuario()
     {
         if (isset($_POST['nick'])) {
@@ -584,16 +538,61 @@ class Controlador
         }
     }
 
+    function procesarUsuario()
+    {
+        if (isset($_POST['accion']) && $_POST['accion'] === 'cargarUsuario') {
+            // Decodificar el JSON recibido en el parámetro 'usuario'
+            $userNick = json_decode($_POST['usuario'], true);
 
-    // private function usuarioAutenticado()
-    // {
-    //     // Verifica si hay una sesión activa del usuario
-    //     return isset($_SESSION['user_email']);
-    // }
+            // Validar que el parámetro no esté vacío
+            if (empty($userNick)) {
+                echo json_encode(['success' => false, 'message' => 'El usuario no fue proporcionado.']);
+                return;
+            }
+
+            // Llamar al modelo para buscar el usuario
+            $user = $this->modelo->buscaUsuarioPorNick($userNick);
+
+            // Si el usuario no se encuentra, responder con un error
+            if (!$user) {
+                echo json_encode(['success' => false, 'message' => 'Usuario no encontrado.']);
+                return;
+            }
+
+            // Roles disponibles (ejemplo, ajustar según tu contexto)
+            $RolesPorId = [
+                1 => 'Administrador',
+                2 => 'Usuario',
+                3 => 'Invitado',
+            ];
+
+            // Preparar la respuesta con los datos del usuario
+            $result = [
+                'nick' => htmlspecialchars($user['nick']),
+                'email' => htmlspecialchars($user['email']),
+                'rol' => htmlspecialchars($RolesPorId[$user['id_rol']]),
+                'nombre' => htmlspecialchars($user['nombre'] ?? 'Desconocido'),
+                'ape1' => htmlspecialchars($user['ape1'] ?? 'Desconocido'),
+                'ape2' => htmlspecialchars($user['ape2'] ?? 'Desconocido'),
+                'tlf' => htmlspecialchars($user['tlf'] ?? 'Desconocido'),
+                'direccion_tipo' => htmlspecialchars($user['direccion_tipo'] ?? 'Desconocido'),
+                'direccion_via' => htmlspecialchars($user['direccion_via'] ?? 'Desconocido'),
+                'direccion_numero' => htmlspecialchars($user['direccion_numero'] ?? 'Desconocido'),
+                'direccion_otros' => htmlspecialchars($user['direccion_otros'] ?? 'Desconocido'),
+            ];
+            // Responder con los datos del usuario
+            echo json_encode(['success' => true, 'data' => $result]);
+            return;
+        }
+
+        // Respuesta para solicitudes inválidas
+        echo json_encode(['success' => false, 'message' => 'Solicitud inválida o falta de parámetros.']);
+    }
 
     private function usuarioEsAdmin()
     {
         // Verifica si el usuario tiene rol de administrador
         return isset($_SESSION['user_role']) && $_SESSION['user_role'] === 2;
     }
+
 }

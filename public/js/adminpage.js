@@ -63,7 +63,7 @@ function loadUsers() {
   document.getElementById('userForm').classList.add('hidden');
   document.getElementById('gameForm').classList.add('hidden')
   document.getElementById("userList").classList.remove("hidden");
-;
+
 
   const tableBody = document.getElementById("userTableBody");
   tableBody.innerHTML = "";

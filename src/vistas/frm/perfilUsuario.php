@@ -1,28 +1,7 @@
 <?php
-require_once BASE_PATH . '/src/vistas/vista.php';
-
 // AL ENTRAR AKI YA TENEMOS LA SESIÓN INICIADA
 if (!isset($_SESSION['user_nick'])) {
     exit;
-}
-// Manejo de subida de imagen
-if (isset($_POST['update_image']) && isset($_FILES['profile_image'])) {
-    $image = $_FILES['profile_image'];
-    $targetDir = BASE_PATH . '/public/uploads/profile/';
-    $targetFile = $targetDir . basename($image['name']);
-    $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
-
-    // Validar tipo de archivo
-    $validExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-    if (in_array($imageFileType, $validExtensions) && $image['size'] <= 500000) { // Tamaño máximo 500KB
-        if (move_uploaded_file($image['tmp_name'], $targetFile)) {
-            $_SESSION['user_image'] = basename($image['name']);
-        } else {
-            echo "Error al subir la imagen.";
-        }
-    } else {
-        echo "Formato de imagen no válido o archivo demasiado grande.";
-    }
 }
 ?>
 <!DOCTYPE html>
@@ -118,6 +97,7 @@ if (isset($_POST['update_image']) && isset($_FILES['profile_image'])) {
             </div>
         </div>
     </nav>
+
     <main class="perfil-usuario">
         <section class="layout">
             <div class="grow1">
@@ -125,8 +105,7 @@ if (isset($_POST['update_image']) && isset($_FILES['profile_image'])) {
                     <h1>Perfil de Usuario</h1>
                     <div class="profile-picture-section">
                         <div class="picture-frame">
-                            <img src="../public/uploads/profile/<?php echo $_SESSION['user_image'] ?? 'default.png'; ?>"
-                                class="profile-picture">
+                            <img src="../public/uploads/profile/" class="profile-picture">
                         </div>
                         <p>
                         <form method="POST" enctype="multipart/form-data">
@@ -143,35 +122,36 @@ if (isset($_POST['update_image']) && isset($_FILES['profile_image'])) {
                     <div class="direcciones">
                         <div class="dir1">
                             <div class="profile-details">
-                                <p><strong>Nick:</strong>
-                                    <?php echo htmlspecialchars($_SESSION['user_nick']); ?>
-                                </p>
-                                <p><strong>Email:</strong> <?php echo htmlspecialchars($_SESSION['email']); ?></p>
-                                <p><strong>Rol:</strong>
-                                    <?php echo $_SESSION['user_role'] == 2 ? 'Administrador' : 'Usuario'; ?></p>
+                                <strong>Nick: </strong>
+                                <p id="user_nick"> </p>
+                                <strong>Email: </strong>
+                                <p id="user_email"> </p>
+                                <strong>Rol: </strong>
+                                <p id="user_role"> </p>
                             </div>
                         </div>
                         <div class="dir2">
                             <p><strong>DATOS DE USUARIO</strong></p>
-                            <p><strong>Nombre de usuario:</strong>
-                                <?php echo htmlspecialchars($_SESSION['nombre'] ?? 'No especificado'); ?></p>
-                            <p><strong>Primer apellido:</strong>
-                                <?php echo htmlspecialchars($_SESSION['ape1'] ?? 'No especificado'); ?></p>
-                            <p><strong>Segundo apellido:</strong>
-                                <?php echo htmlspecialchars($_SESSION['ape2'] ?? 'No especificado'); ?></p>
+                            <strong>Nombre de usuario: </strong>
+                            <p id="user_nombre"> </p>
+                            <strong>Primer apellido: </strong>
+                            <p id="user_ape1"> </p>
+                            <strong>Segundo apellido: </strong>
+                            <p id="user_ape2"> </p>
+                            <strong>Telefono: </strong>
+                            <p id="user_tlf"> </p>
                         </div>
                         <div class="dir3">
                             <!-- Aqui irian los campos de direccion -->
-                            <p><strong>DIRECCIÓN</strong>
-                            <p><strong>Tipo de vía:</strong>
-                                <?php echo htmlspecialchars($_SESSION['user_direccion_tipo'] ?? 'No especificado'); ?>
-                            </p>
-                            <p><strong>Nombre de la vía:</strong>
-                                <?php echo htmlspecialchars($_SESSION['user_direccion_via'] ?? 'No especificado'); ?>
-                            </p>
-                            <p><strong>Número:</strong>
-                                <?php echo htmlspecialchars($_SESSION['user_direccion_numero'] ?? 'No especificado'); ?>
-                            </p>
+                            <p><strong>DIRECCIÓN</strong></p>
+                            <strong>Tipo de vía: </strong>
+                            <p id="user_direccion_tipo"> </p>
+                            <strong>Nombre de la vía: </strong>
+                            <p id="user_direccion_via"> </p>
+                            <strong>Número: </strong>
+                            <p id="user_direccion_numero"> </p>
+                            <strong>Otros datos de dirección: </strong>
+                            <p id="user_direccion_otros"> </p>
                         </div>
                     </div>
                 </div>
@@ -179,7 +159,7 @@ if (isset($_POST['update_image']) && isset($_FILES['profile_image'])) {
             </div>
             <hr>
             <div class="grow3">
-                Editar datos<br>
+                
                 <form method="POST" action="editar_perfil.php">
                     <button type="submit" name="edit_profile" formaction="editarDatosPerfil.php">Editar Datos</button>
                 </form>
@@ -187,6 +167,11 @@ if (isset($_POST['update_image']) && isset($_FILES['profile_image'])) {
         </section>
     </main>
     <script src="../public/js/nav.js"></script>
+    <script src="../public/js/perfilUsuario.js"></script>
+    <script>
+        const user = '<?php echo $_SESSION['user_nick']; ?>';
+        enviarUsuario(user);
+    </script>
 </body>
 
 </html>
