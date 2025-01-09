@@ -146,32 +146,31 @@ if (isset($_POST['update_image']) && isset($_FILES['profile_image'])) {
                                 <p><strong>Nick:</strong>
                                     <?php echo htmlspecialchars($_SESSION['user_nick']); ?>
                                 </p>
-                                <p><strong>Email:</strong> <?php echo htmlspecialchars($_SESSION['user_email']); ?></p>
+                                <p><strong>Email:</strong> <?php echo htmlspecialchars($_SESSION['email']); ?></p>
                                 <p><strong>Rol:</strong>
                                     <?php echo $_SESSION['user_role'] == 2 ? 'Administrador' : 'Usuario'; ?></p>
                             </div>
                         </div>
                         <div class="dir2">
-                            <p><strong>DATOS DE USUARIO</strong>
-                                <!-- Aqui irian los campos nombre, apellidos 1 y 2 -->
+                            <p><strong>DATOS DE USUARIO</strong></p>
                             <p><strong>Nombre de usuario:</strong>
-                                <?php echo htmlspecialchars($_SESSION['user_nombre']); ?>
-                            <p><strong>Primer apellido de usuario:</strong>
-                                <?php echo htmlspecialchars($_SESSION['user_ape1']); ?>
-                            <p><strong>Segundo apellido de usuario:</strong>
-                                <?php echo htmlspecialchars($_SESSION['user_ape2']); ?>
+                                <?php echo htmlspecialchars($_SESSION['nombre'] ?? 'No especificado'); ?></p>
+                            <p><strong>Primer apellido:</strong>
+                                <?php echo htmlspecialchars($_SESSION['ape1'] ?? 'No especificado'); ?></p>
+                            <p><strong>Segundo apellido:</strong>
+                                <?php echo htmlspecialchars($_SESSION['ape2'] ?? 'No especificado'); ?></p>
                         </div>
                         <div class="dir3">
                             <!-- Aqui irian los campos de direccion -->
                             <p><strong>DIRECCIÓN</strong>
-                            <p><strong>· </strong>
-                                <?php echo htmlspecialchars($_SESSION['user_direccion_tipo']); ?>
+                            <p><strong>Tipo de vía:</strong>
+                                <?php echo htmlspecialchars($_SESSION['user_direccion_tipo'] ?? 'No especificado'); ?>
                             </p>
-                            <p><strong>· </strong>
-                                <?php echo htmlspecialchars($_SESSION['user_direccion_via']); ?>
+                            <p><strong>Nombre de la vía:</strong>
+                                <?php echo htmlspecialchars($_SESSION['user_direccion_via'] ?? 'No especificado'); ?>
                             </p>
                             <p><strong>Número:</strong>
-                                <?php echo htmlspecialchars($_SESSION['user_direccion_numero']); ?>
+                                <?php echo htmlspecialchars($_SESSION['user_direccion_numero'] ?? 'No especificado'); ?>
                             </p>
                         </div>
                     </div>
@@ -182,7 +181,7 @@ if (isset($_POST['update_image']) && isset($_FILES['profile_image'])) {
             <div class="grow3">
                 Editar datos<br>
                 <form method="POST" action="editar_perfil.php">
-                    <button type="submit" name="edit_profile">Editar Datos</button>
+                    <button type="submit" name="edit_profile" formaction="editarDatosPerfil.php">Editar Datos</button>
                 </form>
             </div>
         </section>

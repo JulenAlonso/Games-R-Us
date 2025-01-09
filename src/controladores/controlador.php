@@ -33,7 +33,6 @@ class Controlador
             }
         } else {
             Vista::MuestraLanding(); // Carga la vista por defecto
-
         }
     }
 
@@ -85,6 +84,18 @@ class Controlador
                     // Autenticación exitosa, guarda los datos en la sesión
                     $_SESSION['user_nick'] = $user['nick']; //Guardamos el id del usuario
                     $_SESSION['user_role'] = $role['id_rol'];   //Guardamos el rol del usuario
+                    $_SESSION['email'] = $user['email'];
+                    $_SESSION['nombre'] = $user['nombre'];
+                    $_SESSION['ape1'] = $user['ape1'];
+                    $_SESSION['ape2'] = $user['ape2'];
+                    $_SESSION['user_image'] = $user['imagen'];
+                    $_SESSION['user_direccion_tipo'] = $user['direccion_tipo'];
+                    $_SESSION['user_direccion_via'] = $user['direccion_via'];
+                    $_SESSION['user_direccion_numero'] = $user['direccion_numero'];
+                    $_SESSION['user_direccion_ciudad'] = $user['direccion_ciudad'];
+                    $_SESSION['user_direccion_provincia'] = $user['direccion_provincia'];
+                    $_SESSION['user_direccion_cp'] = $user['direccion_cp'];
+                    $_SESSION['user_direccion_pais'] = $user['direccion_pais'];
                     Vista::MuestraBiblioteca(); //Cuando iniciamos sesion, nos manda directamente a la biblioteca
                     exit;
                 } else {
@@ -312,7 +323,7 @@ class Controlador
             exit;
         }
     }
-    
+
     private function procesaPerfilUsuario()
     {
         // Verifica qué botón fue presionado
@@ -321,9 +332,9 @@ class Controlador
         } elseif (isset($_POST['nav_bibliotecaButton'])) {
             if ($this->usuarioAutenticado()) {
                 Vista::MuestraBiblioteca();
-                
+
             } else {
-                
+
                 Vista::MuestraLogin(); // Redirige a login si no está autenticado
             }
         } elseif (isset($_POST['nav_iniciobutton'])) {
@@ -359,7 +370,7 @@ class Controlador
         try {
             // Verificar si los campos necesarios están presentes en el POST
             if (isset($_POST['nick'], $_POST['nombre'], $_POST['pass'], $_POST['ape1'], $_POST['ape2'], $_POST['tlf'], $_POST['email'], $_POST['rol'])) {
-                
+
                 // Filtrar y validar los datos (seguridad)
                 $nick = htmlspecialchars($_POST['nick']);
                 $nombre = htmlspecialchars($_POST['nombre']);
@@ -548,20 +559,21 @@ class Controlador
         }
     }
 
-    public function eliminarJuego() {
+    public function eliminarJuego()
+    {
         if (isset($_POST['id'])) {
             $id = intval($_POST['id']); // Asegúrate de convertir el ID a entero
-    
+
             // // Verificar que el juego exista antes de eliminarlo
             // $gameExists = $this->modelo->buscarJuegoPorId($id);
             // if (!$gameExists) {
             //     echo json_encode(['success' => false, 'message' => 'Game not found']);
             //     return;
             // }
-    
+
             // Llamar al modelo para eliminar el juego
             $result = $this->modelo->deleteJuego($id);
-    
+
             if ($result) {
                 echo json_encode(['success' => true, 'message' => 'Game deleted successfully']);
             } else {
@@ -571,17 +583,17 @@ class Controlador
             echo json_encode(['success' => false, 'message' => 'Missing required fields']);
         }
     }
-    
-    
+
+
     // private function usuarioAutenticado()
     // {
     //     // Verifica si hay una sesión activa del usuario
     //     return isset($_SESSION['user_email']);
     // }
-    
+
     private function usuarioEsAdmin()
     {
         // Verifica si el usuario tiene rol de administrador
         return isset($_SESSION['user_role']) && $_SESSION['user_role'] === 2;
     }
-}    
+}
