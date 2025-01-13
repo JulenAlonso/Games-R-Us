@@ -1,8 +1,9 @@
 <?php
-// AL ENTRAR AKI YA TENEMOS LA SESIÓN INICIADA
+// AL ENTRAR AKI YA TENEMOS LA SESIÓN INICIADA -->
 if (!isset($_SESSION['user_nick'])) {
     exit;
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -97,7 +98,6 @@ if (!isset($_SESSION['user_nick'])) {
             </div>
         </div>
     </nav>
-
     <main class="perfil-usuario">
         <section class="layout">
             <div class="grow1">
@@ -109,60 +109,55 @@ if (!isset($_SESSION['user_nick'])) {
                         </div>
                         <p>
                         <form method="POST" enctype="multipart/form-data">
-                            <label for="profileImageInput" class="button">Cambiar imagen</label>
                             <input type="file" id="profileImageInput" name="profile_image" accept="image/*" hidden>
-                            <button type="submit" name="update_image">Guardar</button>
+                            <button type="submit" name="update_image">Cambiar imagen</button>
                         </form>
                     </div>
                 </div>
                 <hr>
                 <div class="datosPersonales">
                     <center>Datos personales</center>
-                    <p></p>
-                    <div class="direcciones">
-                        <div class="dir1">
-                            <div class="profile-details">
-                                <strong>Nick: </strong>
-                                <p id="user_nick"> </p>
-                                <strong>Email: </strong>
-                                <p id="user_email"> </p>
-                                <strong>Rol: </strong>
-                                <p id="user_role"> </p>
+                    <form id="userForm" method="POST">
+                        <div class="direcciones">
+                            <div class="dir1">
+                                <div class="profile-details">
+                                    <strong>Nick: </strong>
+                                    <p id="user_nick"> </p> <!-- Campo no editable -->
+                                    <strong>Email: </strong>
+                                    <p id="user_email"> </p> <!-- Campo no editable -->
+                                    <strong>Rol: </strong>
+                                    <p id="user_role"> </p> <!-- Campo no editable -->
+                                </div>
                             </div>
-                        </div>
-                        <div class="dir2">
-                            <p><strong>DATOS DE USUARIO</strong></p>
-                            <strong>Nombre de usuario: </strong>
-                            <p id="user_nombre"> </p>
-                            <strong>Primer apellido: </strong>
-                            <p id="user_ape1"> </p>
-                            <strong>Segundo apellido: </strong>
-                            <p id="user_ape2"> </p>
-                            <strong>Telefono: </strong>
-                            <p id="user_tlf"> </p>
-                        </div>
-                        <div class="dir3">
-                            <!-- Aqui irian los campos de direccion -->
-                            <p><strong>DIRECCIÓN</strong></p>
-                            <strong>Tipo de vía: </strong>
-                            <p id="user_direccion_tipo"> </p>
-                            <strong>Nombre de la vía: </strong>
-                            <p id="user_direccion_via"> </p>
-                            <strong>Número: </strong>
-                            <p id="user_direccion_numero"> </p>
-                            <strong>Otros datos de dirección: </strong>
-                            <p id="user_direccion_otros"> </p>
-                        </div>
-                    </div>
+                            <div class="dir2">
+                                <p><strong>DATOS DE USUARIO</strong></p>
+                                <strong>Nombre de usuario: </strong><br>
+                                <input type="text" id="user_nombre" name="user_nombre"><br>
+                                <strong>Primer apellido: </strong><br>
+                                <input type="text" id="user_ape1" name="user_ape1"><br>
+                                <strong>Segundo apellido: </strong><br>
+                                <input type="text" id="user_ape2" name="user_ape2"><br>
+                                <strong>Teléfono: </strong><br>
+                                <input type="tel" id="user_tlf" name="user_tlf"><br>
+                            </div>
+                            <div class="dir3">
+                                <p><strong>DIRECCIÓN</strong></p>
+                                <strong>Tipo de vía: </strong><br>
+                                <input type="text" id="user_direccion_tipo" name="user_direccion_tipo"><br>
+                                <strong>Nombre de la vía: </strong><br>
+                                <input type="text" id="user_direccion_via" name="user_direccion_via"><br>
+                                <strong>Número: </strong><br>
+                                <input type="number" id="user_direccion_numero" name="user_direccion_numero"><br>
+                                <strong>Otros datos de dirección: </strong><br>
+                                <input type="text" id="user_direccion_otros" name="user_direccion_otros"><br>
+                            </div>
+                        </div>+
+                        <center><button type="submit">Guardar</button></center>
+                    </form>
                 </div>
-            </div>
             </div>
             <hr>
             <div class="grow3">
-                
-                <form method="POST" action="editar_perfil.php">
-                    <button type="submit" name="edit_profile" formaction="editarDatosPerfil.php">Editar Datos</button>
-                </form>
             </div>
         </section>
     </main>
@@ -171,6 +166,7 @@ if (!isset($_SESSION['user_nick'])) {
     <script>
         const user = '<?php echo $_SESSION['user_nick']; ?>';
         enviarUsuario(user);
+
     </script>
 </body>
 

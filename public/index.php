@@ -46,6 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             case 'cargarUsuario':
                 $controlador->procesarUsuario();
                 break;
+                
             
             // Puedes agregar otros casos aquí si es necesario
             default:

@@ -291,17 +291,6 @@ class Controlador
                         $user['direccion_otros'] ?? ''
                     )))),
                     'rol' => htmlspecialchars($RolesPorId[$user['id_rol']] ?? 'Desconocido'),
-
-
-
-
-
-
-
-
-
-
-
                 ];
             }, $usuarios);
 
@@ -588,11 +577,9 @@ class Controlador
         // Respuesta para solicitudes inválidas
         echo json_encode(['success' => false, 'message' => 'Solicitud inválida o falta de parámetros.']);
     }
-
     private function usuarioEsAdmin()
     {
         // Verifica si el usuario tiene rol de administrador
         return isset($_SESSION['user_role']) && $_SESSION['user_role'] === 2;
     }
-
 }

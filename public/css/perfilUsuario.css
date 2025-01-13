@@ -24,27 +24,29 @@
     /* Espacio entre los elementos */
     justify-content: space-between;
     /* Distribuye los elementos horizontalmente */
-    margin-left: 5%;
-    margin-right: 5%;
+    margin-left: 15%;
+    margin-right: 15%;
 }
 
 .dir1 {
     flex: 1;
-    border: 1px solid #ccc;
+    /* border: 1px solid #ccc; */
     /* Opcional: Bordes para prueba */
     padding: 10px;
+    background-color: #656464;
+    border-radius: 15px;
 }
 
 .dir2 {
     flex: 1;
-    border: 1px solid #ccc;
+    /* border: 1px solid #ccc; */
     /* Opcional */
     padding: 10px;
 }
 
 .dir3 {
     flex: 1;
-    border: 1px solid #ccc;
+    /* border: 1px solid #ccc; */
     /* Opcional */
     padding: 10px;
 }
@@ -108,4 +110,63 @@ button {
 
 button:hover {
     background-color: #d4a017;
+}
+
+/* Estilo para los campos de entrada en .datosPersonales */
+.datosPersonales input[type="text"], 
+.datosPersonales input[type="tel"], 
+.datosPersonales input[type="number"] {
+    width: 70%;
+    padding: 10px 15px;
+    font-size: 16px;
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+/* Efecto de foco en los campos */
+.datosPersonales input:focus {
+    border-color: #ecad29;
+    box-shadow: 0 0 5px rgba(236, 173, 41, 0.5);
+    outline: none;
+}
+
+/* Botón de guardar en .datosPersonales */
+.datosPersonales button {
+    background-color: #ecad29;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 20px;
+}
+
+.datosPersonales button:hover {
+    background-color: #d4a017;
+    transform: translateY(-2px);
+}
+
+.datosPersonales button:active {
+    background-color: #b58815;
+    transform: translateY(0);
+}
+
+
+/* Responsive design para .direcciones */
+@media (max-width: 768px) {
+    .direcciones {
+        flex-direction: column;
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+
+    .dir1, .dir2, .dir3 {
+        margin-bottom: 16px;
+    }
 }

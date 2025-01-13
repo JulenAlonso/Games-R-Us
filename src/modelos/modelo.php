@@ -124,7 +124,7 @@ class Modelo
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } 
-  
+    
     public function insertarUsuario($nick, $nombre, $pass, $ape1, $ape2, $tlf, $email, $rol) {
         try {
             // Crear la consulta SQL para insertar el usuario

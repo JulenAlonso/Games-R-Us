@@ -62,20 +62,20 @@ Cómo funciona:
 // }
 //
 function loadUserInfo(data) {
-    document.getElementById("user_nick").innerHTML = data.nick; //Los valores de data son los que contiene function procesarUsuario() en controlador.php
-    document.getElementById("user_email").innerHTML = data.email;
-    document.getElementById("user_role").innerHTML = data.rol;
-    document.getElementById("user_nombre").innerHTML = data.nombre;
-    document.getElementById("user_ape1").innerHTML = data.ape1;
-    document.getElementById("user_ape2").innerHTML = data.ape2;
-    document.getElementById("user_tlf").innerHTML = data.tlf;
-    document.getElementById("user_direccion_tipo").innerHTML = data.direccion_tipo;
-    document.getElementById("user_direccion_via").innerHTML = data.direccion_via;
-    document.getElementById("user_direccion_numero").innerHTML = data.direccion_numero;
-    document.getElementById("user_direccion_otros").innerHTML = data.direccion_otros;
+    // Los campos Nick y Email se muestran como texto no editable
+    document.getElementById("user_nick").innerText = data.nick;
+    document.getElementById("user_email").innerText = data.email;
+    document.getElementById("user_role").innerText = data.rol;
 
-    //Añadir direccion_otros
-    //Añadir tlf
+    // Precargar valores en los campos del formulario
+    document.getElementById("user_nombre").value = data.nombre;
+    document.getElementById("user_ape1").value = data.ape1;
+    document.getElementById("user_ape2").value = data.ape2;
+    document.getElementById("user_tlf").value = data.tlf;
+    document.getElementById("user_direccion_tipo").value = data.direccion_tipo;
+    document.getElementById("user_direccion_via").value = data.direccion_via;
+    document.getElementById("user_direccion_numero").value = data.direccion_numero;
+    document.getElementById("user_direccion_otros").value = data.direccion_otros;
 }
 
 async function enviarUsuario(user) {
