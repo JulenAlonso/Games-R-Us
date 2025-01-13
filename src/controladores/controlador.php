@@ -66,36 +66,37 @@ class Controlador
     private function procesaLogin()
     {
         if (isset($_POST['loginButtonBut'])) {
-            $nick = $_POST['nick'] ?? '';
+            // Obtén los datos del formulario
+            $input = $_POST['nick'] ?? ''; // Puede ser el nick o el correo
             $password = $_POST['password'] ?? '';
-
+    
+            // Verifica que la contraseña no esté vacía
             if (empty($password)) {
                 echo "La contraseña no puede estar vacía.";
                 return;
             }
-
-            // Busca al usuario en el modelo
-            $user = $this->modelo->buscaUsuarioPorNick($nick);
-            $role = $this->modelo->buscarRolePorNick($nick);
-
+    
+            // Busca al usuario por nick o correo
+            $user = $this->modelo->buscaUsuarioPorNick($input) ?: $this->modelo->buscaUsuarioPorMail($input);
+    
             if ($user) {
                 // Verifica la contraseña
-                if (password_verify($password, $user['password'])) {    //Passwd que nosotros creamos y la cifrada.
+                if (password_verify($password, $user['password'])) {
                     // Autenticación exitosa, guarda los datos en la sesión
-                    $_SESSION['user_nick'] = $user['nick']; //Guardamos el id del usuario
-                    $_SESSION['user_role'] = $role['id_rol'];   //Guardamos el rol del usuario
-                    Vista::MuestraBiblioteca(); //Cuando iniciamos sesion, nos manda directamente a la biblioteca
+                    $_SESSION['user_nick'] = $user['nick'];
+                    $_SESSION['user_role'] = $user['id_rol']; // Asumiendo que el rol está incluido en el usuario
+    
+                    // Redirige a la biblioteca
+                    Vista::MuestraBiblioteca();
                     exit;
                 } else {
-                    //Si la parte de arriba no cumple, error de passwd
                     echo "Contraseña incorrecta.";
                 }
             } else {
-                //Si la parte de arriba no cumple y error de passwd: usuario no encontrado 
                 echo "Usuario no encontrado.";
-                echo $nick;
             }
         } elseif (isset($_POST['RegisterButtonBut'])) {
+            // Redirige al registro si se presiona el botón de registro
             Vista::MuestraRegistro();
         }
     }

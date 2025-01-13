@@ -40,6 +40,13 @@ class Modelo
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function buscaUsuarioPorMail($mail){
+        $stmt = $this->pdo->prepare("SELECT * FROM USUARIO WHERE email = :email");//Coge el pdo, le hace una query de sql donde el email sea igual al email que le paso por parametro.
+        $stmt->bindParam(':email', $mail);//El email introducido por parametro es la variable que le damos $email: puede ser julen@hotmail.com
+        $stmt->execute();//ejecuta
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     public function buscarRolePorNick($nick){
         $stmt = $this->pdo->prepare("SELECT id_rol FROM USUARIO WHERE nick = :nick");
         $stmt->bindParam(':nick', $nick);
@@ -50,10 +57,11 @@ class Modelo
     public function creaUsuario($nick, $email, $password){
         $passwordHash = password_hash($password, PASSWORD_BCRYPT);//Cifra la passwd
         //Plantilla
-        $stmt = $this->pdo->prepare("INSERT INTO USUARIO (nick, email, password) VALUES (:nick, :email, :password)");//En los usuarios meter el email y la passwd en su columna correspondiente.
+        $stmt = $this->pdo->prepare("INSERT INTO USUARIO (nick, email, password, id_rol) VALUES (:nick, :email, :password, :id_rol)");//En los usuarios meter el email y la passwd en su columna correspondiente.
         $stmt->bindParam(':nick', $nick);
         $stmt->bindParam(':email', $email);//Reemplazamos el valor de email 
         $stmt->bindParam(':password', $passwordHash);//Reemplazamos el valor de passwd 
+        $stmt->bindParam(':id_rol', 1);//Reemplazamos el valor de rol
         $stmt->execute();//ejecuta: reemplaza en la plantilla el email y la passwd que hemos introducido.
     }
 
@@ -152,8 +160,7 @@ class Modelo
         }
     }
 
-    public function insertarJuego($titulo, $desarrollador, $distribuidor, $anio, $genero, $sistema, $coverImagePath, $gameZipPath)
-    {
+    public function insertarJuego($titulo, $desarrollador, $distribuidor, $anio, $genero, $sistema, $coverImagePath, $gameZipPath){
         try {
             // Extraer el nombre del archivo de la ruta
             $coverImageName = basename($coverImagePath); // Extraer solo el nombre del archivo de la ruta completa
