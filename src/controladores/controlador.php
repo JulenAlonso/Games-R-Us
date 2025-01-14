@@ -341,7 +341,7 @@ class Controlador
                 }
 
                 // Si el usuario no existe, proceder a insertar
-                $result = $this->modelo->insertarUsuario($nick, $nombre, $pass, $ape1, $ape2, $tlf, $email, $rol, $avatar);
+                $result = $this->modelo->insertarUsuario($nick, $nombre, $pass, $ape1, $ape2, $tlf, $email, $rol);
 
                 if ($result) {
                     echo json_encode(['success' => true, 'message' => 'User added successfully']);
