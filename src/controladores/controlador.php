@@ -284,7 +284,7 @@ class Controlador
                     'ape1' => htmlspecialchars($user['ape1'] ?? 'Desconocido'),
                     'ape2' => htmlspecialchars($user['ape2'] ?? 'Desconocido'),
                     'tlf' => htmlspecialchars($user['tlf'] ?? 'Desconocido'),
-                    'avatar' => htmlspecialchars($user['avatar'] ?? 'Desconocido'),
+                    'avatar' => htmlspecialchars($user['avatar'] ?? 'default.png'),
                     'direccion_tipo' => htmlspecialchars($user['direccion_tipo'] ?? 'Desconocido'),
                     'direccion_via' => htmlspecialchars($user['direccion_via'] ?? 'Desconocido'),
                     'direccion_numero' => htmlspecialchars($user['direccion_numero'] ?? 'Desconocido'),

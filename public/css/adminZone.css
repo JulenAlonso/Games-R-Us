@@ -16,7 +16,7 @@ body {
     padding: 20px 10px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
     position: fixed;
-    top: 70px; /* Ajuste para que no colisione con el navbar */
+    top: 70px;
     left: 0;
     bottom: 0;
     overflow-y: auto;
@@ -41,12 +41,12 @@ body {
 }
 
 .sidebar ul li:hover {
-    background-color: #00bcd4;
+    background-color: #ecad29;
     color: #121212;
 }
 
 .sidebar ul li.active {
-    background-color: #00bcd4;
+    background-color: #ecad29;
     color: #121212;
     font-weight: 700;
 }
@@ -70,6 +70,10 @@ body {
 
 .section.visible {
     display: block;
+}
+
+.hidden {
+    display: none;
 }
 
 /* Header Styles */
@@ -105,13 +109,17 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
+    position: fixed;
+    top: 100px;
+    left: 300px;
+    width: 95%;
 }
 
 .card {
     background-color: #1f1f1f;
     padding: 20px;
     border-radius: 10px;
-    width: calc(33.33% - 20px);
+    width: calc(25% - 15px);
     text-align: center;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
     transition: transform 0.3s;
@@ -153,6 +161,7 @@ body {
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    backdrop-filter: blur(5px);
 }
 
 .modal.hidden {
@@ -161,31 +170,136 @@ body {
 
 .modal-content {
     background-color: #1f1f1f;
-    padding: 20px;
-    border-radius: 10px;
+    padding: 30px;
+    border-radius: 15px;
     width: 50%;
+    max-width: 600px;
+    max-height: 80%;
+    overflow-y: auto;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
     position: relative;
+    animation: fadeIn 0.3s ease-out;
 }
 
 .modal-content h2 {
     margin: 0;
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 700;
     color: #ffffff;
+    border-bottom: 2px solid #ecad29;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.modal-content form {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 10px 15px;
+    align-items: center;
+}
+
+.modal-content form div {
+    display: contents;
+}
+
+.modal-content p {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: #ecad29;
+    text-align: right;
+}
+
+.modal-content input {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #272727;
+    border-radius: 5px;
+    background-color: #121212;
+    color: #ffffff;
+    outline: none;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
+}
+
+.modal-content input:focus {
+    border-color: #ecad29;
+}
+
+.direccion {
+    grid-column: span 2;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.direccion input {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #272727;
+    border-radius: 5px;
+    background-color: #121212;
+    color: #ffffff;
+    outline: none;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
+}
+
+.direccion input:focus {
+    border-color: #ecad29;
+}
+
+.modal-content button {
+    grid-column: span 2;
+    padding: 12px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #00bcd4;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.modal-content button:hover {
+    background-color: #0199a4;
+}
+
+.modal-content .delete-btn {
+    background-color: #e53935;
+}
+
+.modal-content .delete-btn:hover {
+    background-color: #c62828;
 }
 
 .close-btn {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 20px;
+    top: 15px;
+    right: 15px;
+    font-size: 24px;
     cursor: pointer;
     color: #ffffff;
     transition: color 0.3s;
 }
 
 .close-btn:hover {
-    color: #ff3b3b;
+    color: #ecad29;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 /* Scrollbars for Sidebar */
@@ -203,5 +317,24 @@ body {
 }
 
 .sidebar::-webkit-scrollbar-thumb:hover {
+    background: #00bcd4;
+}
+
+/* Scrollbar for Modal Content */
+.modal-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+    background: #1f1f1f;
+    border-radius: 5px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+    background: #ecad29;
+    border-radius: 5px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
     background: #00bcd4;
 }

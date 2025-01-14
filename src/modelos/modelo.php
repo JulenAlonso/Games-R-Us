@@ -122,7 +122,7 @@ class Modelo
     } 
 
     public function obtenerUsuarios() {
-        $stmt = $this->pdo->prepare("SELECT nick, email, nombre, ape1, ape2, tlf, direccion, direccion_tipo, direccion_via, direccion_numero, direccion_otros, id_rol, avatar FROM USUARIO");
+        $stmt = $this->pdo->prepare("SELECT nick, email, nombre, ape1, ape2, tlf, direccion_tipo, direccion_via, direccion_numero, direccion_otros, id_rol, avatar FROM USUARIO");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } 

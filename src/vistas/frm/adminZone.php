@@ -109,7 +109,7 @@
                 <button onclick="showUserForm()">Añadir Usuario</button>
             </div>
         </div>
-        <div id="userList"></div>
+        <div id="userList" class="section hidden"></div>
         <!-- Juegos -->
         <div id="games" class="section hidden">
             <div class="header">
@@ -117,7 +117,7 @@
                 <button onclick="showGameForm()">Añadir Juego</button>
             </div>
         </div>
-        <div id="gameList"></div>
+        <div id="gameList" class="section hidden"></div>
         <!-- Géneros -->
         <div id="genres" class="section hidden">
             <div class="header">
@@ -125,7 +125,7 @@
                 <button onclick="showGenreForm()">Añadir Género</button>
             </div>
         </div>
-        <div id="genreList"></div>
+        <div id="genreList" class="section hidden"></div>
         <!-- Sistemas -->
         <div id="systems" class="section hidden">
             <div class="header">
@@ -133,7 +133,7 @@
                 <button onclick="showSystemForm()">Añadir Sistema</button>
             </div>
         </div>
-        <div id="systemList"></div>
+        <div id="systemList" class="section hidden"></div>
     </div>
 
     <!-- Popout (Modal) -->
