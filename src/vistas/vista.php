@@ -28,7 +28,7 @@ class Vista
 
     public static function MuestraAdmin()
     {
-        include BASE_PATH . '/src/vistas/frm/temp_admin.php';
+        include BASE_PATH . '/src/vistas/frm/adminZone.php';
     }
 
     public static function MuestraTienda()

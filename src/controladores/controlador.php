@@ -285,14 +285,10 @@ class Controlador
                     'ape2' => htmlspecialchars($user['ape2'] ?? 'Desconocido'),
                     'tlf' => htmlspecialchars($user['tlf'] ?? 'Desconocido'),
                     'avatar' => htmlspecialchars($user['avatar'] ?? 'Desconocido'),
-                    'direccion' => htmlspecialchars(trim(preg_replace('/\s+/', ' ', sprintf(
-                        '%s %s %s %s %s',
-                        $user['direccion'] ?? 'Desconocida',
-                        $user['direccion_tipo'] ?? '',
-                        $user['direccion_via'] ?? '',
-                        ($user['direccion_numero'] === '0' ? '' : $user['direccion_numero']),
-                        $user['direccion_otros'] ?? ''
-                    )))),
+                    'direccion_tipo' => htmlspecialchars($user['direccion_tipo'] ?? 'Desconocido'),
+                    'direccion_via' => htmlspecialchars($user['direccion_via'] ?? 'Desconocido'),
+                    'direccion_numero' => htmlspecialchars($user['direccion_numero'] ?? 'Desconocido'),
+                    'direccion_otros' => htmlspecialchars($user['direccion_otros'] ?? 'Desconocido'),
                     'rol' => htmlspecialchars($RolesPorId[$user['id_rol']] ?? 'Desconocido'),
                 ];
             }, $usuarios);
@@ -345,7 +341,7 @@ class Controlador
                 }
 
                 // Si el usuario no existe, proceder a insertar
-                $result = $this->modelo->insertarUsuario($nick, $nombre, $pass, $ape1, $ape2, $tlf, $email, $rol);
+                $result = $this->modelo->insertarUsuario($nick, $nombre, $pass, $ape1, $ape2, $tlf, $email, $rol, $avatar);
 
                 if ($result) {
                     echo json_encode(['success' => true, 'message' => 'User added successfully']);
