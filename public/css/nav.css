@@ -68,16 +68,30 @@ nav > div:last-child > .active:after {
 }
 
 /* Hover */
-/* Hover para Home, Tienda y Biblioteca */
-nav div p:hover {
-  background-color: #e0e0e059; /* Fondo gris claro */
-  border-radius: 4px; /* Bordes redondeados */
-  cursor: pointer; /* Cambiar el cursor */
+/* Hover con fondo dinámico */
+nav div p {
+  position: relative; /* Necesario para usar ::before */
+  z-index: 1; /* Asegura que el texto esté sobre el fondo */
+  display: inline-block; /* Asegura que el tamaño del fondo se ajuste al texto */
 }
 
-/* Transiciones suaves */
-nav div p, .profile-container {
-  transition: background-color 0.2s ease;
+nav div p::before {
+  content: ""; /* Elemento vacío para el fondo */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1); /* Centrar y escalar inicialmente */
+  width: 100%; /* Igual al texto */
+  height: 100%; /* Igual al texto */
+  background-color: #e0e0e059; /* Fondo gris claro */
+  border-radius: 4px; /* Bordes redondeados */
+  z-index: -1; /* Detrás del texto */
+  transition: transform 0.2s ease, background-color 0.2s ease; /* Transición suave */
+}
+
+nav div p:hover::before {
+  transform: translate(-50%, -50%) scale(1.5); /* Aumentar 1.5x el tamaño */
+  background-color: #e0e0e0a1; /* Fondo ligeramente más visible */
 }
 
 /* Profile Dropdown Container */

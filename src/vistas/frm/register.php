@@ -4,12 +4,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Register</title>
   <!-- CSS dedicado al registro -->
   <link rel="stylesheet" href="../public/css/nav.css">
   <link rel="stylesheet" href="../public/css/register.css">
   <!-- Spline Animation Script -->
   <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.46/build/spline-viewer.js"></script>
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <title>Register</title>
 </head>
 
 <body>
@@ -19,7 +21,7 @@
   </div>
 
   <!-- Contenido principal -->
-    <!-- Navbar -->
+  <!-- Navbar -->
   <nav>
     <div>
       <div class="svg-container">
@@ -45,19 +47,13 @@
           <input type="submit" id="nav_TiendaButton" name="nav_TiendaButton" hidden>
         </form>
       </div>
-      <div class="active">
+      <div>
         <p onclick="document.getElementById('nav_bibliotecaButton').click();">Biblioteca</p>
         <form method="POST">
           <input type="submit" id="nav_bibliotecaButton" name="nav_bibliotecaButton" hidden>
         </form>
       </div>
-      <div class="svg-container">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round"
-            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-        </svg>
-      </div>
-      <!-- User Menu -->
+      <p class="bi bi-bag"></p>
       <div class="svg-container profile-container" onclick="toggleProfileMenu()">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
           <path fill-rule="evenodd"
@@ -65,7 +61,8 @@
             clip-rule="evenodd" />
         </svg>
         <div class="profile-menu hidden" id="profileMenu">
-          <?php if (!isset($_SESSION['user_id'])): ?>
+          <?php if (!isset($_SESSION['user_nick'])): ?>
+            <!-- Opciones para usuarios no autenticados -->
             <p onclick="document.getElementById('nav_loginButton').click();">Login</p>
             <form method="POST">
               <input type="submit" id="nav_loginButton" name="nav_loginButton" hidden>
@@ -75,6 +72,18 @@
               <input type="submit" id="nav_RegistroButton" name="nav_RegistroButton" hidden>
             </form>
           <?php else: ?>
+            <!-- Opciones para usuarios autenticados -->
+            <p onclick="document.getElementById('nav_ProfileButton').click();">Perfil</p>
+            <form method="POST">
+              <input type="submit" id="nav_ProfileButton" name="nav_ProfileButton" hidden>
+            </form>
+            <?php if ($_SESSION['user_role'] == 2): ?>
+              <!-- Opción para administradores -->
+              <p onclick="document.getElementById('nav_AdminButton').click();">Admin Zone</p>
+              <form method="POST">
+                <input type="submit" id="nav_AdminButton" name="nav_AdminButton" hidden>
+              </form>
+            <?php endif; ?>
             <p onclick="document.getElementById('nav_LogoutButton').click();">Cerrar Sesión</p>
             <form method="POST">
               <input type="submit" id="nav_LogoutButton" name="nav_LogoutButton" hidden>

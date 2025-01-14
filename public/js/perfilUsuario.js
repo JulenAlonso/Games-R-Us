@@ -65,7 +65,7 @@ function loadUserInfo(data) {
     // Los campos Nick y Email se muestran como texto no editable
     document.getElementById("user_nick").innerText = data.nick;
     document.getElementById("user_email").innerText = data.email;
-    document.getElementById("user_role").innerText = data.rol;
+    document.getElementById("user_role").innerText = data.rol;w1
 
     // Precargar valores en los campos del formulario
     document.getElementById("user_nombre").value = data.nombre;
@@ -76,6 +76,9 @@ function loadUserInfo(data) {
     document.getElementById("user_direccion_via").value = data.direccion_via;
     document.getElementById("user_direccion_numero").value = data.direccion_numero;
     document.getElementById("user_direccion_otros").value = data.direccion_otros;
+    // document.getElementById("user_avatar").value = data.avatar;
+
+    //Añadir imagen de perfil
 }
 
 async function enviarUsuario(user) {

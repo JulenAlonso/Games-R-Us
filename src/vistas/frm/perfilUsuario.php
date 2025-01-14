@@ -1,5 +1,4 @@
-<?php
-// AL ENTRAR AKI YA TENEMOS LA SESIÓN INICIADA -->
+<?php // AL ENTRAR AKI YA TENEMOS LA SESIÓN INICIADA -->
 if (!isset($_SESSION['user_nick'])) {
     exit;
 }
@@ -11,11 +10,13 @@ if (!isset($_SESSION['user_nick'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil de Usuario</title>
     <link rel="stylesheet" href="../public/css/nav.css">
     <link rel="stylesheet" href="../public/css/nav_landing.css">
     <link rel="stylesheet" href="../public/css/library.css">
     <link rel="stylesheet" href="../public/css/perfilUsuario.css">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <title>Perfil de Usuario</title>
 </head>
 
 <body>
@@ -51,14 +52,7 @@ if (!isset($_SESSION['user_nick'])) {
                     <input type="submit" id="nav_bibliotecaButton" name="nav_bibliotecaButton" hidden>
                 </form>
             </div>
-            <div class="svg-container">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-                </svg>
-            </div>
-            <!-- User Menu -->
+            <p class="bi bi-bag"></p>
             <div class="svg-container profile-container" onclick="toggleProfileMenu()">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                     <path fill-rule="evenodd"
@@ -98,26 +92,30 @@ if (!isset($_SESSION['user_nick'])) {
             </div>
         </div>
     </nav>
-    <main class="perfil-usuario">
-        <section class="layout">
-            <div class="grow1">
-                <div class="profile-container">
-                    <h1>Perfil de Usuario</h1>
-                    <div class="profile-picture-section">
-                        <div class="picture-frame">
-                            <img src="../public/uploads/profile/" class="profile-picture">
+    <form id="userForm" method="POST">
+        <main class="perfil-usuario">
+            <section class="layout">
+                <div class="grow1">
+                    <div class="profile-container">
+                        <h1>Perfil de Usuario</h1>
+                        <div class="profile-picture-section">
+                            <div class="picture-frame">
+                                <!-- Añadir usuario -->
+                                <img id="user_avatar" src="../public/img/" alt="Avatar">
+                            </div>
+                            <p>
+                            <form method="POST" enctype="multipart/form-data">
+                                <input type="file" id="profileImageInput" name="profile_image" accept="image/*" hidden>
+                                <button type="submit" name="update_image">Cambiar imagen</button>
+                            </form>
                         </div>
-                        <p>
-                        <form method="POST" enctype="multipart/form-data">
-                            <input type="file" id="profileImageInput" name="profile_image" accept="image/*" hidden>
-                            <button type="submit" name="update_image">Cambiar imagen</button>
-                        </form>
                     </div>
-                </div>
-                <hr>
-                <div class="datosPersonales">
-                    <center>Datos personales</center>
-                    <form id="userForm" method="POST">
+                    <hr>
+                    <div class="datosPersonales">
+                        <center>
+                            <h1>DATOS PERSONALES</h1>
+                        </center>
+
                         <div class="direcciones">
                             <div class="dir1">
                                 <div class="profile-details">
@@ -151,15 +149,15 @@ if (!isset($_SESSION['user_nick'])) {
                                 <strong>Otros datos de dirección: </strong><br>
                                 <input type="text" id="user_direccion_otros" name="user_direccion_otros"><br>
                             </div>
-                        </div>+
+                        </div>
                         <center><button type="submit">Guardar</button></center>
-                    </form>
-                </div>
-            </div>
-            <hr>
-            <div class="grow3">
-            </div>
-        </section>
+    </form>
+    </div>
+    </div>
+    <hr>
+    <div class="grow3">
+    </div>
+    </section>
     </main>
     <script src="../public/js/nav.js"></script>
     <script src="../public/js/perfilUsuario.js"></script>

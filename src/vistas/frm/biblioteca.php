@@ -14,9 +14,11 @@ if (!isset($_SESSION['user_nick'])) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Game Library</title>
   <link rel="stylesheet" href="../public/css/nav.css">
   <link rel="stylesheet" href="../public/css/library.css">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <title>Game Library</title>
 </head>
 
 <body>
@@ -46,20 +48,13 @@ if (!isset($_SESSION['user_nick'])) {
           <input type="submit" id="nav_TiendaButton" name="nav_TiendaButton" hidden>
         </form>
       </div>
-      <div  class="active">
+      <div>
         <p onclick="document.getElementById('nav_bibliotecaButton').click();">Biblioteca</p>
         <form method="POST">
           <input type="submit" id="nav_bibliotecaButton" name="nav_bibliotecaButton" hidden>
         </form>
       </div>
-      <div class="svg-container">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-          stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round"
-            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-        </svg>
-      </div>
-      <!-- User Menu -->
+      <p class="bi bi-bag"></p>
       <div class="svg-container profile-container" onclick="toggleProfileMenu()">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
           <path fill-rule="evenodd"
