@@ -83,15 +83,14 @@ nav div p::before {
   transform: translate(-50%, -50%) scale(1); /* Centrar y escalar inicialmente */
   width: 100%; /* Igual al texto */
   height: 100%; /* Igual al texto */
-  background-color: #e0e0e059; /* Fondo gris claro */
   border-radius: 4px; /* Bordes redondeados */
   z-index: -1; /* Detrás del texto */
   transition: transform 0.2s ease, background-color 0.2s ease; /* Transición suave */
 }
 
 nav div p:hover::before {
-  transform: translate(-50%, -50%) scale(1.5); /* Aumentar 1.5x el tamaño */
-  background-color: #e0e0e0a1; /* Fondo ligeramente más visible */
+  transform: translate(-50%, -50%) scale(1.2); /* Aumentar 1.5x el tamaño */
+  background-color: #e0e0e0a1; 
 }
 
 /* Profile Dropdown Container */
@@ -135,9 +134,6 @@ nav div p:hover::before {
   text-align: left; /* Alineación de texto */
 }
 
-.profile-menu p:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
 
 /* Mostrar el menú cuando sea visible */
 .profile-menu.visible {

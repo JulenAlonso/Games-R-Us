@@ -93,7 +93,7 @@ if (!isset($_SESSION['user_nick'])) {
         </div>
     </nav>
     <form id="userForm" method="POST">
-        <main class="perfil-usuario">
+        <div class="perfil-usuario">
             <section class="layout">
                 <div class="grow1">
                     <div class="profile-container">
@@ -101,7 +101,8 @@ if (!isset($_SESSION['user_nick'])) {
                         <div class="profile-picture-section">
                             <div class="picture-frame">
                                 <!-- Añadir usuario -->
-                                <img id="user_avatar" src="../public/img/" alt="Avatar">
+                                <img id="user_avatar" accesskey="user_avatar"
+                                    alt="Avatar de usuario">
                             </div>
                             <p>
                             <form method="POST" enctype="multipart/form-data">
@@ -115,7 +116,6 @@ if (!isset($_SESSION['user_nick'])) {
                         <center>
                             <h1>DATOS PERSONALES</h1>
                         </center>
-
                         <div class="direcciones">
                             <div class="dir1">
                                 <div class="profile-details">
@@ -145,19 +145,19 @@ if (!isset($_SESSION['user_nick'])) {
                                 <strong>Nombre de la vía: </strong><br>
                                 <input type="text" id="user_direccion_via" name="user_direccion_via"><br>
                                 <strong>Número: </strong><br>
-                                <input type="number" id="user_direccion_numero" name="user_direccion_numero"><br>
+                                <input type="text" id="user_direccion_numero" name="user_direccion_numero"><br>
                                 <strong>Otros datos de dirección: </strong><br>
                                 <input type="text" id="user_direccion_otros" name="user_direccion_otros"><br>
                             </div>
                         </div>
                         <center><button type="submit">Guardar</button></center>
+                    </div>
+                </div>
+                <hr>
+                <div class="grow3">
+                </div>
+            </section>
     </form>
-    </div>
-    </div>
-    <hr>
-    <div class="grow3">
-    </div>
-    </section>
     </main>
     <script src="../public/js/nav.js"></script>
     <script src="../public/js/perfilUsuario.js"></script>

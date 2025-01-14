@@ -68,7 +68,7 @@ nav > div:last-child > .active:after {
 /* Hover */
 /* Hover para Home, Tienda y Biblioteca */
 nav div p:hover {
-  background-color: #e0e0e059; /* Fondo gris claro */
+  background-color: #e0e0e059; /*Fondo gris claro*/
   border-radius: 4px; /* Bordes redondeados */
   cursor: pointer; /* Cambiar el cursor */
 }

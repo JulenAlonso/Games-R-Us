@@ -122,7 +122,7 @@ class Modelo
     } 
 
     public function obtenerUsuarios() {
-        $stmt = $this->pdo->prepare("SELECT nick, email, nombre, ape1, ape2, tlf, direccion, direccion_tipo, direccion_via, direccion_numero, direccion_otros, id_rol FROM USUARIO");
+        $stmt = $this->pdo->prepare("SELECT nick, email, nombre, ape1, ape2, tlf, direccion, direccion_tipo, direccion_via, direccion_numero, direccion_otros, id_rol, avatar FROM USUARIO");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } 
@@ -133,11 +133,11 @@ class Modelo
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } 
     
-    public function insertarUsuario($nick, $nombre, $pass, $ape1, $ape2, $tlf, $email, $rol) {
+    public function insertarUsuario($nick, $nombre, $pass, $ape1, $ape2, $tlf, $email, $rol, $avatar) {
         try {
             // Crear la consulta SQL para insertar el usuario
-            $sql = "INSERT INTO USUARIO (nick, nombre, password, ape1, ape2, tlf, email, id_rol)
-                    VALUES (:nick, :nombre, :pass, :ape1, :ape2, :tlf, :email, :id_rol)";
+            $sql = "INSERT INTO USUARIO (nick, nombre, password, ape1, ape2, tlf, email, id_rol, avatar)
+                    VALUES (:nick, :nombre, :pass, :ape1, :ape2, :tlf, :email, :id_rol, avatar)";
             
             // Preparar la consulta
             $stmt = $this->pdo->prepare($sql);
@@ -152,7 +152,7 @@ class Modelo
             $stmt->bindParam(':tlf', $tlf);
             $stmt->bindParam(':email', $email);
             $stmt->bindParam(':id_rol', $rol);
-        
+            $stmt->bindParam(':avatar', $avatar);
             // Ejecutar la consulta
             return $stmt->execute();
         } catch (PDOException $e) {

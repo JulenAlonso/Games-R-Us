@@ -276,6 +276,7 @@ class Controlador
 
             // Procesar los datos de los usuarios
             $usuariosProcesados = array_map(function ($user) use ($RolesPorId) {
+
                 return [
                     'nick' => htmlspecialchars($user['nick']),
                     'email' => htmlspecialchars($user['email']),
@@ -283,6 +284,7 @@ class Controlador
                     'ape1' => htmlspecialchars($user['ape1'] ?? 'Desconocido'),
                     'ape2' => htmlspecialchars($user['ape2'] ?? 'Desconocido'),
                     'tlf' => htmlspecialchars($user['tlf'] ?? 'Desconocido'),
+                    'avatar' => htmlspecialchars($user['avatar'] ?? 'Desconocido'),
                     'direccion' => htmlspecialchars(trim(preg_replace('/\s+/', ' ', sprintf(
                         '%s %s %s %s %s',
                         $user['direccion'] ?? 'Desconocida',
@@ -294,7 +296,7 @@ class Controlador
                     'rol' => htmlspecialchars($RolesPorId[$user['id_rol']] ?? 'Desconocido'),
                 ];
             }, $usuarios);
-
+            
             // Devolver los datos como JSON
             header('Content-Type: application/json');
             echo json_encode([
@@ -569,6 +571,7 @@ class Controlador
                 'direccion_via' => htmlspecialchars($user['direccion_via'] ?? 'Desconocido'),
                 'direccion_numero' => htmlspecialchars($user['direccion_numero'] ?? 'Desconocido'),
                 'direccion_otros' => htmlspecialchars($user['direccion_otros'] ?? 'Desconocido'),
+                'avatar' => htmlspecialchars($user['avatar'] ?? 'default.png'),
             ];
             // Responder con los datos del usuario
             echo json_encode(['success' => true, 'data' => $result]);
