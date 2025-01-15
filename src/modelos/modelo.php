@@ -292,7 +292,12 @@ class Modelo
         }
     }
        
-    
+    public function obtenerGeneros() {
+        $stmt = $this->pdo->prepare("SELECT id, nombre_genero FROM GENERO");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function actualizarJuego($id, $titulo, $desarrollador, $distribuidor, $anio, $genero, $sistema) {
         try {
             // Crear la consulta SQL para actualizar el juego

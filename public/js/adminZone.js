@@ -3,6 +3,7 @@ let games = [];
 let genres = [];
 let systems = [];
 
+// ------------------- Funciones de UI -------------------
 // Mostrar la sección seleccionada
 function showSection(sectionId) {
     console.log('Mostrando sección:', sectionId);
@@ -32,6 +33,7 @@ function showSection(sectionId) {
     }
 }
 
+// ------------------- Funciones de USUARIO -------------------
 // Cargar lista de usuarios
 async function loadUsers() {
     console.log("Cargando usuarios...");
@@ -188,6 +190,12 @@ async function deleteUser(userNick) {
     }
 }
 
+// ------------------- Funciones de JUEGOS -------------------
+let allGenres = [];
+let allSystems = [];
+let selectedGenres = [];
+let selectedSystems = []; 
+
 // Cargar lista de juegos
 async function loadGames() {
     console.log("Cargando juegos...");
@@ -218,23 +226,18 @@ async function loadGames() {
     }
 }
 
-let allGenres = [
-    "Acción", "Aventura", "RPG", "Estrategia", "Deportes", "Simulación", 
-    "Shooter", "Carreras", "Terror", "Música", "Puzzle", "Plataformas"
-  ];
-  let selectedGenres = [];
-  
+// Mostrar detalles de un Juego
 function showGameDetails(gameId) {
     console.log("Games array:", games); // Verifica los datos del array
     const game = games.find(g => g.id == gameId);
     if (!game) return console.error("Juego no encontrado:", gameId);
 
     selectedGenres = [...game.genero]; // Inicializar los géneros seleccionados del juego
+    selectedSystems = [...game.sistema]; // Inicializar los sistemas seleccionados del juego
 
     const modalHTML = `
         <h2>Editar Juego</h2>
-        <img src="${game.ruta_imagen}" alt="Game Cover">
-
+        <img src="${game.ruta_imagen}" alt="Game Cover" class="game-cover">
         <!-- Formulario de edición -->
         <form onsubmit="saveGame(event, ${game.id})">
             <p>Título:</p>
@@ -248,6 +251,8 @@ function showGameDetails(gameId) {
             
             <!-- Campo oculto para los géneros seleccionados -->
             <input type="hidden" id="selectedGenresField" name="generos" value="">
+            <!-- Campo oculto para los sistemas seleccionados -->
+            <input type="hidden" id="selectedSystemsField" name="sistemas" value="">
         </form>
 
         <!-- Buscador de género fuera del formulario -->
@@ -267,6 +272,23 @@ function showGameDetails(gameId) {
             </div>
         </div>
 
+        <!-- Buscador de sistemas fuera del formulario -->
+        <div style="margin-bottom: 20px;">
+            <p style="text-align: left;">Sistema:</p>
+            <div style="position: relative;">
+                <input type="text" id="sistemaSearch" 
+                        placeholder="Buscar sistema" 
+                        oninput="filterSystems()" 
+                        onclick="toggleSystemSuggestions(true)" 
+                        onfocus="toggleSystemSuggestions(true)" 
+                        onblur="hideSystemSuggestions()">
+                <div id="sistemaSuggestions" class="suggestions hidden"></div>
+            </div>
+            <div id="sistemaContainer" class="tag-container">
+                <!-- Sistemas seleccionados -->
+            </div>
+        </div>
+
         <!-- Botones al final -->
         <div class="button-container">
             <button type="button" onclick="submitGameForm(${game.id})">Guardar</button>
@@ -275,22 +297,11 @@ function showGameDetails(gameId) {
     `;
     openPopout(modalHTML);
 
-    // Actualiza los géneros seleccionados y las sugerencias al abrir el modal
+    // Actualizar los géneros y sistemas seleccionados al abrir el modal
     updateSelectedGenres();
+    updateSelectedSystems();
     filterGenres();
-}
-
-function toggleSuggestions(show) {
-    const suggestions = document.getElementById("generoSuggestions");
-    if (show) {
-        suggestions.classList.remove("hidden");
-    } else {
-        suggestions.classList.add("hidden");
-    }
-}
-
-function hideSuggestions() {
-    setTimeout(() => toggleSuggestions(false), 200); // Espera para permitir clics en sugerencias
+    filterSystems();
 }
 
 function submitGameForm(gameId) {
@@ -309,7 +320,85 @@ function submitGameForm(gameId) {
     saveGame({ preventDefault: () => {} }, gameId, formData);
 }
 
-  
+// Guardar juego
+async function saveGame(event, gameId) {
+    event.preventDefault();
+    const game = {
+        id: gameId,
+        titulo: document.getElementById('editTitle').value,
+        desarrollador: document.getElementById('editDeveloper').value,
+    };
+
+    console.log("Guardando juego:", game);
+    try {
+        const response = await fetch("/Games-r-us/public/index.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams({ accion: "editarJuego", ...game }),
+        });
+
+        const result = await response.json();
+        if (result.success) {
+            alert("Juego guardado correctamente");
+            closePopout();
+            loadGames();
+        } else {
+            console.error("Error al guardar juego:", result.message);
+        }
+    } catch (error) {
+        console.error("Error al guardar juego:", error);
+    }
+}
+
+// ------------------- Funciones de JUEGOS-Generos -------------------
+// Función para cargar géneros desde la base de datos
+async function loadGenres() {
+    try {
+        // Hacer la solicitud al back-end
+        const response = await fetch("/Games-r-us/public/index.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams({ accion: "listadoGeneros" }) // Asegúrate de que "listadoGeneros" coincida con tu back-end
+        });
+
+        // Verificar si la respuesta es válida
+        if (!response.ok) {
+            throw new Error(`Error en la solicitud: ${response.statusText}`);
+        }
+
+        // Parsear el JSON devuelto por el servidor
+        const result = await response.json();
+
+        // Manejar la respuesta
+        if (result.success) {
+            // Transformar los datos de géneros en un array de nombres, si es necesario
+            allGenres = result.data.map(genre => genre.nombre_genero); 
+            console.log("Géneros cargados:", allGenres);
+        } else {
+            console.error("Error al cargar géneros:", result.message);
+        }
+    } catch (error) {
+        // Manejar errores en la solicitud o el procesamiento
+        console.error("Error en la solicitud de géneros:", error);
+    }
+}
+
+// Mostrar lista de géneros
+function toggleSuggestions(show) {
+    const suggestions = document.getElementById("generoSuggestions");
+    if (show) {
+        suggestions.classList.remove("hidden");
+    } else {
+        suggestions.classList.add("hidden");
+    }
+}
+
+// Ocultar sugerencias
+function hideSuggestions() {
+    setTimeout(() => toggleSuggestions(false), 200); // Espera para permitir clics en sugerencias
+}
+
+// Filtrar generos basados en el texto del buscador
 function filterGenres() {
     const search = document.getElementById("generoSearch").value.toLowerCase();
     const filteredGenres = allGenres.filter(genre => 
@@ -356,42 +445,105 @@ function updateSelectedGenres() {
         container.appendChild(tag);
     });
 }
-  
-
-
-
-
-
-// Guardar juego
-async function saveGame(event, gameId) {
-    event.preventDefault();
-    const game = {
-        id: gameId,
-        titulo: document.getElementById('editTitle').value,
-        desarrollador: document.getElementById('editDeveloper').value,
-    };
-
-    console.log("Guardando juego:", game);
+// ------------------- Funciones de JUEGOS-Sistemas -------------------
+// Función para cargar sistemas desde la base de datos
+async function loadSystems() {
     try {
         const response = await fetch("/Games-r-us/public/index.php", {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: new URLSearchParams({ accion: "editarJuego", ...game }),
+            body: new URLSearchParams({ accion: "listadoSistemas" }) // Asegúrate de que "listadoSistemas" coincide con tu backend
         });
 
+        if (!response.ok) {
+            throw new Error(`Error en la solicitud: ${response.statusText}`);
+        }
+
         const result = await response.json();
+
         if (result.success) {
-            alert("Juego guardado correctamente");
-            closePopout();
-            loadGames();
+            allSystems = result.data.map(system => system.nombre_sistema);
+            console.log("Sistemas cargados:", allSystems);
         } else {
-            console.error("Error al guardar juego:", result.message);
+            console.error("Error al cargar sistemas:", result.message);
         }
     } catch (error) {
-        console.error("Error al guardar juego:", error);
+        console.error("Error en la solicitud de sistemas:", error);
     }
 }
 
+// Actualizar la lista de sistemas seleccionados
+function updateSelectedSystems() {
+    const container = document.getElementById("sistemaContainer");
+    container.innerHTML = "";
+
+    selectedSystems.forEach((system, index) => {
+        const tag = document.createElement("div");
+        tag.className = "tag";
+        tag.innerHTML = `
+            ${system}
+            <span class="tag-remove" onclick="removeSystem(${index})">X</span>
+        `;
+        container.appendChild(tag);
+    });
+
+    // Sincronizar los sistemas seleccionados con el campo oculto
+    const selectedSystemsField = document.getElementById("selectedSystemsField");
+    selectedSystemsField.value = JSON.stringify(selectedSystems);
+}
+
+// Filtrar sistemas basados en el texto del buscador
+function filterSystems() {
+    const search = document.getElementById("sistemaSearch").value.toLowerCase();
+    const filteredSystems = allSystems.filter(system => 
+        system.toLowerCase().includes(search) && !selectedSystems.includes(system)
+    );
+
+    const suggestionsContainer = document.getElementById("sistemaSuggestions");
+    suggestionsContainer.innerHTML = ""; // Limpiar sugerencias
+
+    filteredSystems.forEach(system => {
+        const suggestion = document.createElement("div");
+        suggestion.className = "suggestion-item";
+        suggestion.textContent = system;
+        suggestion.onclick = () => addSystem(system);
+        suggestionsContainer.appendChild(suggestion);
+    });
+}
+
+function toggleSystemSuggestions(show) {
+    const suggestionsContainer = document.getElementById("sistemaSuggestions");
+    if (show) {
+        suggestionsContainer.classList.remove("hidden");
+    } else {
+        setTimeout(() => suggestionsContainer.classList.add("hidden"), 200); // Retraso para permitir clics
+    }
+}
+
+function hideSystemSuggestions() {
+    setTimeout(() => {
+        const suggestionsContainer = document.getElementById("sistemaSuggestions");
+        suggestionsContainer.classList.add("hidden");
+    }, 200); // Permitir tiempo para clics en sugerencias
+}
+
+// Añadir un sistema a la lista seleccionada
+function addSystem(system) {
+    if (!selectedSystems.includes(system)) {
+        selectedSystems.push(system);
+        updateSelectedSystems();
+        filterSystems();
+    }
+}
+
+// Eliminar un sistema de la lista seleccionada
+function removeSystem(index) {
+    selectedSystems.splice(index, 1);
+    updateSelectedSystems();
+    filterSystems();
+}
+
+// ------------------- Funciones de UI -------------------
 // Abrir popout
 function openPopout(content) {
     console.log("Abriendo popout");
@@ -407,3 +559,8 @@ function closePopout() {
     document.getElementById("popoutContent").innerHTML = "";
     popout.classList.add("hidden");
 }
+
+document.addEventListener("DOMContentLoaded", async () => {
+    await loadGenres(); // Cargar géneros desde la base de datos
+    await loadSystems(); // Cargar sistemas desde la base de datos
+});

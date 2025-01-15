@@ -46,6 +46,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             case 'cargarUsuario':
                 $controlador->procesarUsuario();
                 break;
+            case 'listadoGeneros':
+                $controlador->listadoGeneros();
+                break;
+            case 'listadoSistemas':
+                $controlador->listadoSistemas();
+                break;
             case 'submitProfileForm':
                 print_r($_REQUEST);
                 //$controlador->cambiarAvatar();

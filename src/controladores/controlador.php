@@ -488,6 +488,38 @@ class Controlador
         }
     }
 
+    public function listadoGeneros() {
+        try {
+            $result= $this->modelo->obtenerGeneros();
+    
+            echo json_encode([
+                'success' => true,
+                'data' => $result
+            ]);
+        } catch (PDOException $e) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Error al obtener los géneros: ' . $e->getMessage()
+            ]);
+        }
+    }
+
+    public function listadoSistemas() {
+        try {
+            $result = $this->modelo->obtenerSistemas();
+    
+            echo json_encode([
+                'success' => true,
+                'data' => $result
+            ]);
+        } catch (PDOException $e) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Error al obtener los sistemas: ' . $e->getMessage()
+            ]);
+        }
+    }
+    
     public function eliminarJuego()
     {
         if (isset($_POST['id'])) {
