@@ -48,7 +48,7 @@ if (!isset($_SESSION['user_nick'])) {
           <input type="submit" id="nav_TiendaButton" name="nav_TiendaButton" hidden>
         </form>
       </div>
-      <div>
+      <div class="active">
         <p onclick="document.getElementById('nav_bibliotecaButton').click();">Biblioteca</p>
         <form method="POST">
           <input type="submit" id="nav_bibliotecaButton" name="nav_bibliotecaButton" hidden>

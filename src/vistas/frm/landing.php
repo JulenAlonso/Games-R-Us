@@ -27,7 +27,7 @@
       </div>
     </div>
     <div>
-      <div>
+      <div class="active">
         <p onclick="document.getElementById('nav_iniciobutton').click();">Home</p>
         <form method="POST">
           <input type="submit" id="nav_iniciobutton" name="nav_iniciobutton" hidden>
