@@ -259,42 +259,39 @@ class Modelo
         }
     }
     
-    public function actualizarUsuario($nick, $nombre, $ape1, $ape2, $tlf) {
+    public function actualizarUsuario($nick, $nombre, $ape1, $ape2, $tlf, $direccion_tipo, $direccion_via, $direccion_numero, $direccion_otros, $rol) {
         try {
-            // Crear la consulta SQL para actualizar el usuario
             $sql = "UPDATE USUARIO 
                     SET nombre = :nombre, 
                         ape1 = :ape1, 
-                        ape2 = :ape2, 
-                        tlf = :tlf
+                        ape2 = :ape2,
+                        tlf = :tlf, 
+                        direccion_tipo = :direccion_tipo,
+                        direccion_via = :direccion_via,
+                        direccion_numero = :direccion_numero,
+                        direccion_otros = :direccion_otros
                     WHERE nick = :nick";
     
-            // Preparar la consulta
             $stmt = $this->pdo->prepare($sql);
     
-            // Enlazar los parámetros
             $stmt->bindParam(':nick', $nick);
             $stmt->bindParam(':nombre', $nombre);
             $stmt->bindParam(':ape1', $ape1);
             $stmt->bindParam(':ape2', $ape2);
             $stmt->bindParam(':tlf', $tlf);
+            $stmt->bindParam(':direccion_tipo', $direccion_tipo);
+            $stmt->bindParam(':direccion_via', $direccion_via);
+            $stmt->bindParam(':direccion_numero', $direccion_numero);
+            $stmt->bindParam(':direccion_otros', $direccion_otros);
     
-            // Ejecutar la consulta
             $stmt->execute();
     
-            // Verificar si se realizó la actualización correctamente
-            if ($stmt->rowCount() > 0) {
-                return json_encode(['success' => true, 'message' => 'User updated successfully']);
-            } else {
-                return json_encode(['success' => false, 'message' => 'No changes made']);
-            }
+            return ['success' => true, 'message' => 'User updated successfully'];
         } catch (PDOException $e) {
-            // Manejar errores (es importante para el registro de errores)
-            error_log("Error updating user: " . $e->getMessage());
-            // Devolver un mensaje de error en formato JSON
-            return json_encode(['success' => false, 'message' => 'Error updating user: ' . $e->getMessage()]);
+            return ['success' => false, 'message' => 'Error updating user: ' . $e->getMessage()];
         }
-    }    
+    }
+       
     
     public function actualizarJuego($id, $titulo, $desarrollador, $distribuidor, $anio, $genero, $sistema) {
         try {

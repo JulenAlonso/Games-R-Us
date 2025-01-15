@@ -338,3 +338,85 @@ body {
 .modal-content::-webkit-scrollbar-thumb:hover {
     background: #00bcd4;
 }
+
+/* Buscador de género */
+#generoSearch {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #272727;
+    border-radius: 5px;
+    background-color: #121212;
+    color: #ffffff;
+    outline: none;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 1000;
+}
+
+#generoSuggestions {
+    position: absolute;
+    top: calc(100% + 5px); /* Justo debajo del input */
+    left: 0;
+    width: 100%; /* Igual ancho que el input */
+    background-color: #1f1f1f;
+    border: 1px solid #272727;
+    border-radius: 5px;
+    max-height: 150px; /* Con scroll */
+    overflow-y: auto;
+    z-index: 2000; /* Asegura que está por encima del resto */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5); /* Sombra */
+}
+
+.suggestion-item {
+    padding: 8px 12px;
+    font-size: 14px;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.suggestion-item:hover {
+    background-color: #333333;
+    color: #ecad29;
+}
+
+.search-container {
+    position: relative; /* Asegura que las sugerencias están alineadas al input */
+    width: 100%;
+}
+
+/* Contenedor de los tags */
+.tag-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* Estilo de cada tag */
+.tag {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #272727;
+    color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: default;
+}
+
+/* Botón de eliminación de cada tag */
+.tag-remove {
+    color: #e53935;
+    margin-left: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.tag-remove:hover {
+    color: #ff6b6b;
+}

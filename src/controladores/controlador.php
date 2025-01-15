@@ -193,9 +193,7 @@ class Controlador
         }
     }
 
-    public function listadoJuegos()
-    {
-
+    public function listadoJuegos(){
         try {
             // Obtener los juegos desde el modelo
             $juegos = $this->modelo->obtenerJuegos();
@@ -419,45 +417,32 @@ class Controlador
             echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
         }
     }
-    public function editarUsuario()
-    {
-        // Verificar que los campos necesarios estén presentes en el POST
-        if (isset($_POST['nick'], $_POST['nombre'], $_POST['ape1'], $_POST['ape2'], $_POST['tlf'], $_POST['email'])) {
-            // Filtrar y validar los datos (seguridad)
+
+    public function editarUsuario() {
+        if (isset($_POST['nick'], $_POST['nombre'], $_POST['ape1'], $_POST['ape2'], $_POST['tlf'])) {
             $nick = htmlspecialchars($_POST['nick']);
-            $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);  // Validar el email
             $nombre = htmlspecialchars($_POST['nombre']);
             $ape1 = htmlspecialchars($_POST['ape1']);
             $ape2 = htmlspecialchars($_POST['ape2']);
             $tlf = htmlspecialchars($_POST['tlf']);
-
-            // Validar que el email sea correcto
-            if (!$email) {
-                echo json_encode(['success' => false, 'message' => 'Invalid email format']);
-                return;
-            }
-
-            // Validar que los otros campos no estén vacíos
-            if (empty($nick) || empty($nombre) || empty($ape1) || empty($ape2) || empty($tlf)) {
-                echo json_encode(['success' => false, 'message' => 'All fields must be filled']);
-                return;
-            }
-
-            // Llamar al modelo para actualizar el usuario
-            $result = $this->modelo->actualizarUsuario($nick, $nombre, $ape1, $ape2, $tlf);
-
-            // Verificar el resultado y responder
-            if ($result) {
-                //echo json_encode(['success' => true, 'message' => 'User updated successfully']);
-                echo json_encode(['success' => false, 'message' => $result]);
+            $direccion_tipo = htmlspecialchars($_POST['direccion_tipo']);
+            $direccion_via = htmlspecialchars($_POST['direccion_via']);
+            $direccion_numero = htmlspecialchars($_POST['direccion_numero']);
+            $direccion_otros = htmlspecialchars($_POST['direccion_otros']);
+            $rol = htmlspecialchars($_POST['rol']);
+    
+            $result = $this->modelo->actualizarUsuario($nick, $nombre, $ape1, $ape2, $tlf, $direccion_tipo, $direccion_via, $direccion_numero, $direccion_otros, $rol);
+    
+            if ($result['success']) {
+                echo json_encode($result); // Devolver respuesta como JSON
             } else {
                 echo json_encode(['success' => false, 'message' => 'Error updating user']);
             }
         } else {
-            // Si faltan datos en el POST
             echo json_encode(['success' => false, 'message' => 'Missing required fields']);
         }
-    }
+    }    
+
     public function editarJuego()
     {
         if (isset($_POST['id'], $_POST['titulo'], $_POST['desarrollador'], $_POST['distribuidor'], $_POST['anio'], $_POST['genero'], $_POST['sistema'])) {

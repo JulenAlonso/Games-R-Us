@@ -87,7 +87,7 @@ function showUserDetails(userNick) {
             </div>
             <div>
                 <p>Email:</p>
-                <input type="email" id="editEmail" placeholder="Email" value="${user.email}" required>
+                <input type="email" id="editEmail" placeholder="Email" value="${user.email}" readonly>
             </div>
             <div>
                 <p>Nombre:</p>
@@ -160,6 +160,7 @@ async function saveUser(event, userNick) {
             console.error("Error al guardar usuario:", result.message);
         }
     } catch (error) {
+
         console.error("Error al guardar usuario:", error);
     }
 }
@@ -184,6 +185,210 @@ async function deleteUser(userNick) {
         }
     } catch (error) {
         console.error("Error al eliminar usuario:", error);
+    }
+}
+
+// Cargar lista de juegos
+async function loadGames() {
+    console.log("Cargando juegos...");
+    try {
+        const response = await fetch("/Games-r-us/public/index.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams({ accion: "listadoJuegos" }),
+        });
+
+        if (!response.ok) throw new Error("Error al obtener los datos");
+
+        const result = await response.json();
+        if (result.success) {
+            games = result.data;
+            const gameList = document.getElementById("gameList");
+            gameList.innerHTML = games.map(game => `
+                <div class="card" onclick="showGameDetails(${game.id})">
+                    <img src="${game.ruta_imagen || 'https://cdn-icons-png.flaticon.com/512/5260/5260498.png'}" alt="Game Cover">
+                    <h3>${game.titulo}</h3>
+                </div>
+            `).join('');
+        } else {
+            console.error("Error en el servidor:", result.message);
+        }
+    } catch (error) {
+        console.error("Error al cargar juegos:", error);
+    }
+}
+
+let allGenres = [
+    "Acción", "Aventura", "RPG", "Estrategia", "Deportes", "Simulación", 
+    "Shooter", "Carreras", "Terror", "Música", "Puzzle", "Plataformas"
+  ];
+  let selectedGenres = [];
+  
+function showGameDetails(gameId) {
+    console.log("Games array:", games); // Verifica los datos del array
+    const game = games.find(g => g.id == gameId);
+    if (!game) return console.error("Juego no encontrado:", gameId);
+
+    selectedGenres = [...game.genero]; // Inicializar los géneros seleccionados del juego
+
+    const modalHTML = `
+        <h2>Editar Juego</h2>
+        <img src="${game.ruta_imagen}" alt="Game Cover">
+
+        <!-- Formulario de edición -->
+        <form onsubmit="saveGame(event, ${game.id})">
+            <p>Título:</p>
+            <input type="text" id="editTitle" placeholder="Título" value="${game.titulo}" required>
+            <p>Desarrollador:</p>
+            <input type="text" id="editDeveloper" placeholder="Desarrollador" value="${game.desarrollador}">
+            <p>Distribuidor:</p>
+            <input type="text" id="editDistribuidor" placeholder="Distribuidor" value="${game.distribuidor}">
+            <p>Año:</p>
+            <input type="text" id="editAnio" placeholder="Año" value="${game.anio}">
+            
+            <!-- Campo oculto para los géneros seleccionados -->
+            <input type="hidden" id="selectedGenresField" name="generos" value="">
+        </form>
+
+        <!-- Buscador de género fuera del formulario -->
+        <div style="margin-bottom: 20px;">
+            <p style="text-align: left;">Género:</p>
+            <div style="position: relative;">
+                <input type="text" id="generoSearch" 
+                        placeholder="Buscar género" 
+                        oninput="filterGenres()" 
+                        onclick="toggleSuggestions(true)" 
+                        onfocus="toggleSuggestions(true)" 
+                        onblur="hideSuggestions()">
+                <div id="generoSuggestions" class="suggestions hidden"></div>
+            </div>
+            <div id="generoContainer" class="tag-container">
+                <!-- Géneros seleccionados -->
+            </div>
+        </div>
+
+        <!-- Botones al final -->
+        <div class="button-container">
+            <button type="button" onclick="submitGameForm(${game.id})">Guardar</button>
+            <button type="button" onclick="deleteGame(${game.id})" class="delete-btn">Eliminar</button>
+        </div>
+    `;
+    openPopout(modalHTML);
+
+    // Actualiza los géneros seleccionados y las sugerencias al abrir el modal
+    updateSelectedGenres();
+    filterGenres();
+}
+
+function toggleSuggestions(show) {
+    const suggestions = document.getElementById("generoSuggestions");
+    if (show) {
+        suggestions.classList.remove("hidden");
+    } else {
+        suggestions.classList.add("hidden");
+    }
+}
+
+function hideSuggestions() {
+    setTimeout(() => toggleSuggestions(false), 200); // Espera para permitir clics en sugerencias
+}
+
+function submitGameForm(gameId) {
+    // Sincroniza los géneros seleccionados con el campo oculto
+    const selectedGenresField = document.getElementById("selectedGenresField");
+    selectedGenresField.value = JSON.stringify(selectedGenres); // Convierte los géneros a formato JSON
+
+    // Encuentra el formulario y envíalo manualmente
+    const form = document.querySelector("form");
+    const formData = new FormData(form);
+
+    // Agrega el campo de géneros al FormData
+    formData.append("generos", JSON.stringify(selectedGenres));
+
+    // Simula el envío del formulario
+    saveGame({ preventDefault: () => {} }, gameId, formData);
+}
+
+  
+function filterGenres() {
+    const search = document.getElementById("generoSearch").value.toLowerCase();
+    const filteredGenres = allGenres.filter(genre => 
+        genre.toLowerCase().includes(search) && !selectedGenres.includes(genre)
+    );
+    const suggestionsContainer = document.getElementById("generoSuggestions");
+
+    suggestionsContainer.innerHTML = ""; // Limpiar sugerencias
+
+    filteredGenres.forEach(genre => {
+        const suggestion = document.createElement("div");
+        suggestion.className = "suggestion-item";
+        suggestion.textContent = genre;
+        suggestion.onclick = () => toggleGenre(genre);
+        suggestionsContainer.appendChild(suggestion);
+    });
+}
+
+function toggleGenre(genre) {
+    if (selectedGenres.includes(genre)) {
+        selectedGenres = selectedGenres.filter(g => g !== genre);
+    } else {
+        selectedGenres.push(genre);
+    }
+    updateSelectedGenres();
+    filterGenres(); // Actualizar sugerencias
+}
+
+function updateSelectedGenres() {
+    const container = document.getElementById("generoContainer");
+    container.innerHTML = ""; // Limpiar el contenedor
+
+    selectedGenres.forEach(genre => {
+        const tag = document.createElement("div");
+        tag.className = "tag";
+        tag.textContent = genre;
+
+        const removeButton = document.createElement("span");
+        removeButton.className = "tag-remove";
+        removeButton.textContent = "X";
+        removeButton.onclick = () => toggleGenre(genre);
+
+        tag.appendChild(removeButton);
+        container.appendChild(tag);
+    });
+}
+  
+
+
+
+
+
+// Guardar juego
+async function saveGame(event, gameId) {
+    event.preventDefault();
+    const game = {
+        id: gameId,
+        titulo: document.getElementById('editTitle').value,
+        desarrollador: document.getElementById('editDeveloper').value,
+    };
+
+    console.log("Guardando juego:", game);
+    try {
+        const response = await fetch("/Games-r-us/public/index.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams({ accion: "editarJuego", ...game }),
+        });
+
+        const result = await response.json();
+        if (result.success) {
+            alert("Juego guardado correctamente");
+            closePopout();
+            loadGames();
+        } else {
+            console.error("Error al guardar juego:", result.message);
+        }
+    } catch (error) {
+        console.error("Error al guardar juego:", error);
     }
 }
 
