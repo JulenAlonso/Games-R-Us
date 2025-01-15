@@ -46,8 +46,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             case 'cargarUsuario':
                 $controlador->procesarUsuario();
                 break;
-                
-            
+            case 'submitProfileForm':
+                print_r($_REQUEST);
+                //$controlador->cambiarAvatar();
+                $archivo = $_FILES['cambiarImagen'];
+                print_r($archivo);
+                break;
+
+
+
             // Puedes agregar otros casos aquí si es necesario
             default:
                 header('Content-Type: application/json');

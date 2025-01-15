@@ -69,23 +69,23 @@ class Controlador
             // Obtén los datos del formulario
             $input = $_POST['nick'] ?? ''; // Puede ser el nick o el correo
             $password = $_POST['password'] ?? '';
-    
+
             // Verifica que la contraseña no esté vacía
             if (empty($password)) {
                 echo "La contraseña no puede estar vacía.";
                 return;
             }
-    
+
             // Busca al usuario por nick o correo
             $user = $this->modelo->buscaUsuarioPorNick($input) ?: $this->modelo->buscaUsuarioPorMail($input);
-    
+
             if ($user) {
                 // Verifica la contraseña
                 if (password_verify($password, $user['password'])) {
                     // Autenticación exitosa, guarda los datos en la sesión
                     $_SESSION['user_nick'] = $user['nick'];
                     $_SESSION['user_role'] = $user['id_rol']; // Asumiendo que el rol está incluido en el usuario
-    
+
                     // Redirige a la biblioteca
                     Vista::MuestraBiblioteca();
                     exit;
@@ -193,7 +193,8 @@ class Controlador
         }
     }
 
-    public function listadoJuegos(){
+    public function listadoJuegos()
+    {
         try {
             // Obtener los juegos desde el modelo
             $juegos = $this->modelo->obtenerJuegos();
@@ -290,7 +291,7 @@ class Controlador
                     'rol' => htmlspecialchars($RolesPorId[$user['id_rol']] ?? 'Desconocido'),
                 ];
             }, $usuarios);
-            
+
             // Devolver los datos como JSON
             header('Content-Type: application/json');
             echo json_encode([
@@ -418,7 +419,8 @@ class Controlador
         }
     }
 
-    public function editarUsuario() {
+    public function editarUsuario()
+    {
         if (isset($_POST['nick'], $_POST['nombre'], $_POST['ape1'], $_POST['ape2'], $_POST['tlf'])) {
             $nick = htmlspecialchars($_POST['nick']);
             $nombre = htmlspecialchars($_POST['nombre']);
@@ -430,9 +432,9 @@ class Controlador
             $direccion_numero = htmlspecialchars($_POST['direccion_numero']);
             $direccion_otros = htmlspecialchars($_POST['direccion_otros']);
             $rol = htmlspecialchars($_POST['rol']);
-    
+
             $result = $this->modelo->actualizarUsuario($nick, $nombre, $ape1, $ape2, $tlf, $direccion_tipo, $direccion_via, $direccion_numero, $direccion_otros, $rol);
-    
+
             if ($result['success']) {
                 echo json_encode($result); // Devolver respuesta como JSON
             } else {
@@ -441,7 +443,7 @@ class Controlador
         } else {
             echo json_encode(['success' => false, 'message' => 'Missing required fields']);
         }
-    }    
+    }
 
     public function editarJuego()
     {
@@ -534,8 +536,8 @@ class Controlador
 
             // Roles disponibles (ejemplo, ajustar según tu contexto)
             $RolesPorId = [
-                1 => 'Administrador',
-                2 => 'Usuario',
+                1 => 'Usuario',
+                2 => 'Administrador',
                 3 => 'Invitado',
             ];
 
@@ -562,6 +564,66 @@ class Controlador
         // Respuesta para solicitudes inválidas
         echo json_encode(['success' => false, 'message' => 'Solicitud inválida o falta de parámetros.']);
     }
+
+    function cambiarAvatar()
+    {
+        
+            // if (isset($_POST['accion']) && $_POST['accion'] === 'submitProfileForm') {
+        echo "LUIS";
+        print_r($_FILES);
+        /*
+            //Recogemos el archivo enviado por el formulario
+            $archivo = $_FILES['archivo']['name'];
+            //Si el archivo contiene algo y es diferente de vacio
+            if (isset($archivo) && $archivo != "") {
+                //Obtenemos algunos datos necesarios sobre el archivo
+                $tipo = $_FILES['archivo']['type'];
+                $tamano = $_FILES['archivo']['size'];
+                $temp = $_FILES['archivo']['tmp_name'];
+                
+
+    
+
+                print_r($_FILES);
+                //Se comprueba si el archivo a cargar es correcto observando su extensión y tamaño
+                if (!((strpos($tipo, "gif") || strpos($tipo, "jpeg") || strpos($tipo, "jpg") || strpos($tipo, "png")) && ($tamano < 2000000))) {
+                    echo '<div><b>Error. La extensión o el tamaño de los archivos no es correcta.<br/>
+        - Se permiten archivos .gif, .jpg, .png. y de 200 kb como máximo.</b></div>';
+                } else {
+                    //Si la imagen es correcta en tamaño y tipo
+                    //Se intenta subir al servidor
+                    if (move_uploaded_file($temp, 'avatar/' . $archivo)) {
+                        //Cambiamos los permisos del archivo a 777 para poder modificarlo posteriormente
+                        chmod('images/' . $archivo, 0777);
+                        //Mostramos el mensaje de que se ha subido co éxito
+                        echo '<div><b>Se ha subido correctamente la imagen.</b></div>';
+                        //Mostramos la imagen subida
+                        echo '<p><img src="images/' . $archivo . '"></p>';
+                    } else {
+                        //Si no se ha podido subir la imagen, mostramos un mensaje de error
+                        echo '<div><b>Ocurrió algún error al subir el fichero. No pudo guardarse.</b></div>';
+                    }
+                }
+            }
+
+
+print_r($_FILES);
+*/
+            
+        }
+
+
+
+
+
+
+
+
+
+
+
+    
+
     private function usuarioEsAdmin()
     {
         // Verifica si el usuario tiene rol de administrador

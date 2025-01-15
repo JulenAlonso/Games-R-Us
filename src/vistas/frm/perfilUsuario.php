@@ -1,6 +1,9 @@
 <?php // AL ENTRAR AKI YA TENEMOS LA SESIÓN INICIADA -->
 if (!isset($_SESSION['user_nick'])) {
     exit;
+
+
+    print_r($_FILES);
 }
 
 ?>
@@ -104,54 +107,57 @@ if (!isset($_SESSION['user_nick'])) {
                                     alt="Avatar de usuario">
                             </div>
                             <form method="POST" enctype="multipart/form-data" id="profileForm">
-                                <input type="file" id="profileImageInput" name="profile_image" accept="image/*" hidden>
-                                <input type="file" onclick="cambiarAvatar()"></input>
-                                <button type="submit" id="submitProfileForm" hidden>Enviar</button>
+                                <input type="file" id="cambiarImagen" name="cambiarImagen" accept="image/*" required>
+                                <input type="submit" id="submitProfileForm" name="submitProfileForm">Actualizar
+                                Foto</input>
+                                <input type="text" name="accion" value="submitProfileForm" hidden>
                             </form>
                         </div>
                     </div>
                 </div>
-                <hr>
-                <div class="datosPersonales">
-                    <center>
-                        <h1>DATOS PERSONALES</h1>
-                    </center>
-                    <div class="direcciones">
-                        <div class="dir1">
-                            <div class="profile-details">
-                                <strong>Nick: </strong>
-                                <p id="user_nick"> </p> <!-- Campo no editable -->
-                                <strong>Email: </strong>
-                                <p id="user_email"> </p> <!-- Campo no editable -->
-                                <strong>Rol: </strong>
-                                <p id="user_role"> </p> <!-- Campo no editable -->
-                            </div>
-                        </div>
-                        <div class="dir2">
-                            <p><strong>DATOS DE USUARIO</strong></p>
-                            <strong>Nombre de usuario: </strong><br>
-                            <input type="text" id="user_nombre" name="user_nombre"><br>
-                            <strong>Primer apellido: </strong><br>
-                            <input type="text" id="user_ape1" name="user_ape1"><br>
-                            <strong>Segundo apellido: </strong><br>
-                            <input type="text" id="user_ape2" name="user_ape2"><br>
-                            <strong>Teléfono: </strong><br>
-                            <input type="tel" id="user_tlf" name="user_tlf"><br>
-                        </div>
-                        <div class="dir3">
-                            <p><strong>DIRECCIÓN</strong></p>
-                            <strong>Tipo de vía: </strong><br>
-                            <input type="text" id="user_direccion_tipo" name="user_direccion_tipo"><br>
-                            <strong>Nombre de la vía: </strong><br>
-                            <input type="text" id="user_direccion_via" name="user_direccion_via"><br>
-                            <strong>Número: </strong><br>
-                            <input type="text" id="user_direccion_numero" name="user_direccion_numero"><br>
-                            <strong>Otros datos de dirección: </strong><br>
-                            <input type="text" id="user_direccion_otros" name="user_direccion_otros"><br>
-                        </div>
+    </form>
+    <hr>
+    <form id="userForm" method="POST">
+        <div class="datosPersonales">
+            <center>
+                <h1>DATOS PERSONALES</h1>
+            </center>
+            <div class="direcciones">
+                <div class="dir1">
+                    <div class="profile-details">
+                        <strong>Nick: </strong>
+                        <p id="user_nick"> </p> <!-- Campo no editable -->
+                        <strong>Email: </strong>
+                        <p id="user_email"> </p> <!-- Campo no editable -->
+                        <strong>Rol: </strong>
+                        <p id="user_role"> </p> <!-- Campo no editable -->
                     </div>
-                    <center><button type="submit">Guardar</button></center>
                 </div>
+                <div class="dir2">
+                    <p><strong>DATOS DE USUARIO</strong></p>
+                    <strong>Nombre de usuario: </strong><br>
+                    <input type="text" id="user_nombre" name="user_nombre"><br>
+                    <strong>Primer apellido: </strong><br>
+                    <input type="text" id="user_ape1" name="user_ape1"><br>
+                    <strong>Segundo apellido: </strong><br>
+                    <input type="text" id="user_ape2" name="user_ape2"><br>
+                    <strong>Teléfono: </strong><br>
+                    <input type="tel" id="user_tlf" name="user_tlf"><br>
+                </div>
+                <div class="dir3">
+                    <p><strong>DIRECCIÓN</strong></p>
+                    <strong>Tipo de vía: </strong><br>
+                    <input type="text" id="user_direccion_tipo" name="user_direccion_tipo"><br>
+                    <strong>Nombre de la vía: </strong><br>
+                    <input type="text" id="user_direccion_via" name="user_direccion_via"><br>
+                    <strong>Número: </strong><br>
+                    <input type="text" id="user_direccion_numero" name="user_direccion_numero"><br>
+                    <strong>Otros datos de dirección: </strong><br>
+                    <input type="text" id="user_direccion_otros" name="user_direccion_otros"><br>
+                </div>
+            </div>
+            <center><button type="submit">Guardar</button></center>
+        </div>
         </div>
         <hr>
         <div class="grow3">
