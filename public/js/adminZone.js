@@ -94,6 +94,7 @@ function showUserDetails(userNick) {
 
     const formHTML = `
         <h2>Editar Usuario</h2>
+        <img src="${ '../avatar/' +user.avatar }" alt="Profile" class="profile-avatar">
         <form onsubmit="saveUser(event, '${user.nick}')">
             <div>
                 <p>Rol:</p>

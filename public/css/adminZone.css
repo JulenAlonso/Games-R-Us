@@ -193,7 +193,7 @@ body {
 
 .modal-content form {
     display: grid;
-    grid-template-columns: 150px 1fr;
+    grid-template-columns: 85px 1fr;
     gap: 10px 15px;
     align-items: center;
 }
@@ -469,3 +469,16 @@ body {
     color: #ff6b6b;
 }
 
+.modal-content .profile-avatar {
+    display: block;
+    margin: 0 auto 20px auto; /* Centra la imagen horizontalmente y agrega espacio inferior */
+    width: 120px; /* Ancho fijo para las fotos de perfil */
+    height: 120px; /* Altura fija para mantener el cuadro */
+    object-fit: cover; /* Ajusta la imagen para llenar el cuadro sin deformarla */
+    border-radius: 50%; /* Hace que el cuadro sea completamente redondo */
+    border: 3px solid #272727; /* Borde oscuro para contrastar */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5); /* Sombra para resaltar la foto */
+    background-color: #121212; /* Fondo oscuro en caso de imágenes con transparencia */
+    transition: transform 0.3s ease; /* Suave transición al hacer hover */
+    align-items: start;
+}
