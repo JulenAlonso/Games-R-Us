@@ -445,31 +445,48 @@ class Controlador
         }
     }
 
-    public function editarJuego()
-    {
-        if (isset($_POST['id'], $_POST['titulo'], $_POST['desarrollador'], $_POST['distribuidor'], $_POST['anio'], $_POST['genero'], $_POST['sistema'])) {
-            // Filtrar y validar los datos
+    public function editarJuego() {
+        error_log("Datos recibidos: " . print_r($_POST, true)); // Depuración
+    
+        // Validar que se reciban los campos necesarios y que la acción sea "editarJuego"
+        if (isset($_POST['accion'], $_POST['id'], $_POST['titulo'], $_POST['desarrollador'], 
+                  $_POST['distribuidor'], $_POST['anio'], $_POST['generos'], $_POST['sistemas']) 
+            && $_POST['accion'] === "editarJuego") {
+            
+            // Filtrar y procesar los datos recibidos
             $id = intval($_POST['id']);
             $titulo = htmlspecialchars($_POST['titulo']);
             $desarrollador = htmlspecialchars($_POST['desarrollador']);
             $distribuidor = htmlspecialchars($_POST['distribuidor']);
             $anio = htmlspecialchars($_POST['anio']);
-            $genero = explode(',', $_POST['genero']); // Convertir a array
-            $sistema = explode(',', $_POST['sistema']); // Convertir a array
-
-            // Llamar al modelo para actualizar el juego
-            $result = $this->modelo->actualizarJuego($id, $titulo, $desarrollador, $distribuidor, $anio, $genero, $sistema);
-
-            if ($result) {
-                //echo json_encode(['success' => true, 'message' => 'User updated successfully']);
-                echo json_encode(['success' => true, 'message' => $result]);
+    
+            // Los géneros y sistemas se envían como cadenas JSON, así que hay que decodificarlos
+            $generos = json_decode($_POST['generos'], true); // Convertir JSON a array
+            $sistemas = json_decode($_POST['sistemas'], true); // Convertir JSON a array
+    
+            // Validar que los arrays decodificados sean válidos
+            if (!is_array($generos) || !is_array($sistemas)) {
+                echo json_encode(['success' => false, 'message' => 'Datos de géneros o sistemas inválidos']);
+                return;
+            }
+    
+            // Actualizar el juego en el modelo
+            $result = $this->modelo->actualizarJuego($id, $titulo, $desarrollador, $distribuidor, $anio, $generos, $sistemas);
+    
+            // Responder según el resultado
+            if ($result === true) {
+                echo json_encode(['success' => true, 'message' => 'Juego actualizado correctamente']);
             } else {
-                echo json_encode(['success' => false, 'message' => $result]);
+                echo json_encode(['success' => false, 'message' => 'Error al actualizar el juego', 'error' => $result]);
             }
         } else {
-            echo json_encode(['success' => false, 'message' => 'Missing required fields']);
+            // Responder si faltan campos obligatorios o si la acción no es válida
+            error_log("Campos faltantes o acción inválida: " . print_r($_POST, true)); // Depuración
+            echo json_encode(['success' => false, 'message' => 'Faltan campos obligatorios o acción inválida']);
         }
     }
+    
+
     public function eliminarUsuario()
     {
         if (isset($_POST['nick'])) {
@@ -520,30 +537,23 @@ class Controlador
         }
     }
     
-    public function eliminarJuego()
-    {
+    public function eliminarJuego() {
         if (isset($_POST['id'])) {
-            $id = intval($_POST['id']); // Asegúrate de convertir el ID a entero
-
-            // // Verificar que el juego exista antes de eliminarlo
-            // $gameExists = $this->modelo->buscarJuegoPorId($id);
-            // if (!$gameExists) {
-            //     echo json_encode(['success' => false, 'message' => 'Game not found']);
-            //     return;
-            // }
-
-            // Llamar al modelo para eliminar el juego
-            $result = $this->modelo->deleteJuego($id);
-
+            $id = intval($_POST['id']);
+    
+            // Llamar al método del modelo para eliminar el juego
+            $result = $this->modelo->eliminarJuego($id);
+    
             if ($result) {
-                echo json_encode(['success' => true, 'message' => 'Game deleted successfully']);
+                echo json_encode(['success' => true, 'message' => 'Juego eliminado correctamente']);
             } else {
-                echo json_encode(['success' => false, 'message' => 'Error deleting game']);
+                echo json_encode(['success' => false, 'message' => 'Error al eliminar el juego']);
             }
         } else {
-            echo json_encode(['success' => false, 'message' => 'Missing required fields']);
+            echo json_encode(['success' => false, 'message' => 'ID de juego no proporcionado']);
         }
     }
+    
 
     function procesarUsuario()
     {

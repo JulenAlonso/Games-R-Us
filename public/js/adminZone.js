@@ -26,11 +26,27 @@ function showSection(sectionId) {
         // Cargar los datos necesarios para cada sección
         if (sectionId === 'users') loadUsers();
         if (sectionId === 'games') loadGames();
-        if (sectionId === 'genres') loadGenres();
-        if (sectionId === 'systems') loadSystems();
+        if (sectionId === 'genres') loadGenresSection();
+        if (sectionId === 'systems') loadSystemsSection();
     } else {
         console.error(`No se encontró la sección con ID: ${sectionId}`);
     }
+}
+
+// Abrir popout
+function openPopout(content) {
+    console.log("Abriendo popout");
+    const popout = document.getElementById("popout");
+    document.getElementById("popoutContent").innerHTML = content;
+    popout.classList.remove("hidden");
+}
+
+// Cerrar popout
+function closePopout() {
+    console.log("Cerrando popout");
+    const popout = document.getElementById("popout");
+    document.getElementById("popoutContent").innerHTML = "";
+    popout.classList.add("hidden");
 }
 
 // ------------------- Funciones de USUARIO -------------------
@@ -241,13 +257,13 @@ function showGameDetails(gameId) {
         <!-- Formulario de edición -->
         <form onsubmit="saveGame(event, ${game.id})">
             <p>Título:</p>
-            <input type="text" id="editTitle" placeholder="Título" value="${game.titulo}" required>
+            <input type="text" id="editTitle" name="titulo" placeholder="Título" value="${game.titulo}" required>
             <p>Desarrollador:</p>
-            <input type="text" id="editDeveloper" placeholder="Desarrollador" value="${game.desarrollador}">
+            <input type="text" id="editDeveloper" name="desarrollador" placeholder="Desarrollador" value="${game.desarrollador}">
             <p>Distribuidor:</p>
-            <input type="text" id="editDistribuidor" placeholder="Distribuidor" value="${game.distribuidor}">
+            <input type="text" id="editDistribuidor" name="distribuidor" placeholder="Distribuidor" value="${game.distribuidor}">
             <p>Año:</p>
-            <input type="text" id="editAnio" placeholder="Año" value="${game.anio}">
+            <input type="text" id="editAnio" name="anio" placeholder="Año" value="${game.anio}">
             
             <!-- Campo oculto para los géneros seleccionados -->
             <input type="hidden" id="selectedGenresField" name="generos" value="">
@@ -305,49 +321,91 @@ function showGameDetails(gameId) {
 }
 
 function submitGameForm(gameId) {
-    // Sincroniza los géneros seleccionados con el campo oculto
-    const selectedGenresField = document.getElementById("selectedGenresField");
-    selectedGenresField.value = JSON.stringify(selectedGenres); // Convierte los géneros a formato JSON
+    // Crear un objeto de juego basado en los valores del formulario
+    const game = {
+        accion: "editarJuego", // Especificar la acción
+        id: gameId,
+        titulo: document.getElementById("editTitle").value.trim(),
+        desarrollador: document.getElementById("editDeveloper").value.trim(),
+        distribuidor: document.getElementById("editDistribuidor").value.trim(),
+        anio: document.getElementById("editAnio").value.trim(),
+        generos: JSON.stringify(selectedGenres), // Convertir a JSON los géneros seleccionados
+        sistemas: JSON.stringify(selectedSystems), // Convertir a JSON los sistemas seleccionados
+    };
 
-    // Encuentra el formulario y envíalo manualmente
-    const form = document.querySelector("form");
-    const formData = new FormData(form);
+    // Validar que los campos obligatorios no estén vacíos
+    if (!game.titulo || !game.anio) {
+        alert("Por favor, completa todos los campos obligatorios.");
+        return;
+    }
 
-    // Agrega el campo de géneros al FormData
-    formData.append("generos", JSON.stringify(selectedGenres));
+    console.log("Guardando juego:", game); // Mostrar en consola el objeto del juego
 
-    // Simula el envío del formulario
-    saveGame({ preventDefault: () => {} }, gameId, formData);
+    // Llamar a saveGame
+    saveGame(game);
 }
 
 // Guardar juego
-async function saveGame(event, gameId) {
-    event.preventDefault();
-    const game = {
-        id: gameId,
-        titulo: document.getElementById('editTitle').value,
-        desarrollador: document.getElementById('editDeveloper').value,
-    };
-
-    console.log("Guardando juego:", game);
+async function saveGame(game) {
     try {
+        // Construir los parámetros para enviar al backend
         const response = await fetch("/Games-r-us/public/index.php", {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: new URLSearchParams({ accion: "editarJuego", ...game }),
+            body: new URLSearchParams(game), // Convertir el objeto a URL-encoded
         });
 
         const result = await response.json();
+
         if (result.success) {
             alert("Juego guardado correctamente");
             closePopout();
-            loadGames();
+            loadGames(); // Recargar la lista de juegos
         } else {
             console.error("Error al guardar juego:", result.message);
+            if (result.error) {
+                console.error("Detalles del error:", result.error);
+                alert("Error SQL: " + result.error); // Mostrar error específico del backend
+            }
         }
     } catch (error) {
         console.error("Error al guardar juego:", error);
     }
+}
+
+//Eliminar Juego
+function deleteGame(gameId) {
+    // Confirmación antes de eliminar
+    if (!confirm("¿Estás seguro de que deseas eliminar este juego?")) {
+        return; // Cancelar si el usuario no confirma
+    }
+
+    // Enviar la solicitud al backend
+    fetch("/Games-r-us/public/index.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: new URLSearchParams({
+            accion: "eliminarJuego", // Acción que el backend procesará
+            id: gameId // ID del juego a eliminar
+        })
+    })
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                alert("Juego eliminado correctamente.");
+                closePopout(); // Cerrar el modal
+                loadGames(); // Recargar la lista de juegos
+            } else {
+                console.error("Error al eliminar el juego:", result.message);
+                alert("Error al eliminar el juego: " + result.message);
+            }
+        })
+        .catch(error => {
+            console.error("Error al enviar la solicitud:", error);
+            alert("Error al enviar la solicitud.");
+        });
 }
 
 // ------------------- Funciones de JUEGOS-Generos -------------------
@@ -543,24 +601,70 @@ function removeSystem(index) {
     filterSystems();
 }
 
-// ------------------- Funciones de UI -------------------
-// Abrir popout
-function openPopout(content) {
-    console.log("Abriendo popout");
-    const popout = document.getElementById("popout");
-    document.getElementById("popoutContent").innerHTML = content;
-    popout.classList.remove("hidden");
-}
-
-// Cerrar popout
-function closePopout() {
-    console.log("Cerrando popout");
-    const popout = document.getElementById("popout");
-    document.getElementById("popoutContent").innerHTML = "";
-    popout.classList.add("hidden");
-}
-
 document.addEventListener("DOMContentLoaded", async () => {
     await loadGenres(); // Cargar géneros desde la base de datos
     await loadSystems(); // Cargar sistemas desde la base de datos
 });
+
+// ------------------- Funciones de GENEROS --------------------
+async function loadGenresSection() {
+    console.log("Cargando géneros...");
+    try {
+        const response = await fetch("/Games-r-us/public/index.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams({ accion: "listadoGeneros" }), // Acción para obtener los géneros
+        });
+
+        if (!response.ok) throw new Error("Error al obtener los datos");
+
+        const result = await response.json();
+        if (result.success) {
+            genres = result.data; // Guardar los géneros en la variable global
+            const genreList = document.getElementById("genreList"); // Contenedor donde se mostrarán los géneros
+
+            // Mapear y generar las tarjetas de los géneros
+            genreList.innerHTML = genres.map(genre => `
+                <div class="card" onclick="showGenreDetails(${genre.id})">
+                    <h3>${genre.nombre_genero}</h3>
+                </div>
+            `).join('');
+        } else {
+            console.error("Error en el servidor:", result.message);
+        }
+    } catch (error) {
+        console.error("Error al cargar géneros:", error);
+    }
+}
+
+// ------------------- Funciones de SISTEMAS -------------------
+async function loadSystemsSection() {
+    console.log("Cargando sistemas...");
+    try {
+        const response = await fetch("/Games-r-us/public/index.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams({ accion: "listadoSistemas" }), // Acción para obtener los sistemas
+        });
+
+        if (!response.ok) throw new Error("Error al obtener los datos");
+
+        const result = await response.json();
+        if (result.success) {
+            systems = result.data; // Guardar los sistemas en la variable global
+            const systemList = document.getElementById("systemList"); // Contenedor donde se mostrarán los sistemas
+
+            // Mapear y generar las tarjetas de los sistemas
+            systemList.innerHTML = systems.map(system => `
+                <div class="card" onclick="showSystemDetails(${system.id})">
+                    <h3>${system.nombre_sistema}</h3>
+                </div>
+            `).join('');
+        } else {
+            console.error("Error en el servidor:", result.message);
+        }
+    } catch (error) {
+        console.error("Error al cargar sistemas:", error);
+    }
+}
+

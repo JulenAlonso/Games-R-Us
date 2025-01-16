@@ -298,39 +298,116 @@ class Modelo
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function actualizarJuego($id, $titulo, $desarrollador, $distribuidor, $anio, $genero, $sistema) {
+    public function actualizarJuego($id, $titulo, $desarrollador, $distribuidor, $anio, $generos, $sistemas) {
         try {
-            // Crear la consulta SQL para actualizar el juego
-            $sql = "UPDATE JUEGO SET 
-                        titulo = :titulo, 
-                        desarrollador = :desarrollador, 
-                        distribuidor = :distribuidor, 
-                        anio = :anio
-                    WHERE id_juego = :id";
+            $this->pdo->beginTransaction();
     
-            // Preparar la consulta
-            $stmt = $this->pdo->prepare($sql);
+            // Actualizar los datos principales del juego
+            $sqlJuego = "UPDATE JUEGO SET 
+                            titulo = :titulo, 
+                            desarrollador = :desarrollador, 
+                            distribuidor = :distribuidor, 
+                            anio = :anio
+                         WHERE id_juego = :id";
+            $stmtJuego = $this->pdo->prepare($sqlJuego);
+            $stmtJuego->bindParam(':titulo', $titulo);
+            $stmtJuego->bindParam(':desarrollador', $desarrollador);
+            $stmtJuego->bindParam(':distribuidor', $distribuidor);
+            $stmtJuego->bindParam(':anio', $anio);
+            $stmtJuego->bindParam(':id', $id, PDO::PARAM_INT);
     
-            // Convertir los arrays a cadenas separadas por comas
-            $generoStr = implode(',', $genero);
-            $sistemaStr = implode(',', $sistema);
+            if (!$stmtJuego->execute()) {
+                $errorInfo = $stmtJuego->errorInfo();
+                throw new PDOException("Error al actualizar el juego: " . $errorInfo[2]);
+            }
     
-            // Enlazar los parámetros
-            $stmt->bindParam(':titulo', $titulo);
-            $stmt->bindParam(':desarrollador', $desarrollador);
-            $stmt->bindParam(':distribuidor', $distribuidor);
-            $stmt->bindParam(':anio', $anio);
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            // Eliminar relaciones actuales en JUEGO_GENERO
+            $sqlDeleteGeneros = "DELETE FROM JUEGO_GENERO WHERE id_juego = :id";
+            $stmtDeleteGeneros = $this->pdo->prepare($sqlDeleteGeneros);
+            $stmtDeleteGeneros->bindParam(':id', $id, PDO::PARAM_INT);
     
-            // Ejecutar la consulta
-            return $stmt->execute();
+            if (!$stmtDeleteGeneros->execute()) {
+                $errorInfo = $stmtDeleteGeneros->errorInfo();
+                throw new PDOException("Error al eliminar géneros: " . $errorInfo[2]);
+            }
+    
+            // Buscar IDs de géneros
+            $sqlBuscarGeneros = "SELECT id FROM GENERO WHERE nombre_genero = :nombre_genero";
+            $stmtBuscarGeneros = $this->pdo->prepare($sqlBuscarGeneros);
+            $idsGeneros = [];
+            foreach ($generos as $genero) {
+                $stmtBuscarGeneros->bindParam(':nombre_genero', $genero);
+                $stmtBuscarGeneros->execute();
+                $result = $stmtBuscarGeneros->fetch(PDO::FETCH_ASSOC);
+                if ($result) {
+                    $idsGeneros[] = $result['id'];
+                } else {
+                    throw new PDOException("El género '{$genero}' no existe en la tabla GENERO.");
+                }
+            }
+    
+            // Insertar nuevas relaciones en JUEGO_GENERO
+            $sqlInsertGeneros = "INSERT INTO JUEGO_GENERO (id_juego, id_genero) VALUES (:id_juego, :id_genero)";
+            $stmtInsertGeneros = $this->pdo->prepare($sqlInsertGeneros);
+    
+            foreach ($idsGeneros as $idGenero) {
+                $stmtInsertGeneros->bindParam(':id_juego', $id, PDO::PARAM_INT);
+                $stmtInsertGeneros->bindParam(':id_genero', $idGenero, PDO::PARAM_INT);
+    
+                if (!$stmtInsertGeneros->execute()) {
+                    $errorInfo = $stmtInsertGeneros->errorInfo();
+                    throw new PDOException("Error al insertar género con ID {$idGenero}: " . $errorInfo[2]);
+                }
+            }
+    
+            // Eliminar relaciones actuales en JUEGO_SISTEMA
+            $sqlDeleteSistemas = "DELETE FROM JUEGO_SISTEMA WHERE id_juego = :id";
+            $stmtDeleteSistemas = $this->pdo->prepare($sqlDeleteSistemas);
+            $stmtDeleteSistemas->bindParam(':id', $id, PDO::PARAM_INT);
+    
+            if (!$stmtDeleteSistemas->execute()) {
+                $errorInfo = $stmtDeleteSistemas->errorInfo();
+                throw new PDOException("Error al eliminar sistemas: " . $errorInfo[2]);
+            }
+    
+            // Buscar IDs de sistemas
+            $sqlBuscarSistemas = "SELECT id_sistema FROM SISTEMA WHERE nombre_sistema = :nombre_sistema";
+            $stmtBuscarSistemas = $this->pdo->prepare($sqlBuscarSistemas);
+            $idsSistemas = [];
+            foreach ($sistemas as $sistema) {
+                $stmtBuscarSistemas->bindParam(':nombre_sistema', $sistema);
+                $stmtBuscarSistemas->execute();
+                $result = $stmtBuscarSistemas->fetch(PDO::FETCH_ASSOC);
+                if ($result) {
+                    $idsSistemas[] = $result['id_sistema'];
+                } else {
+                    throw new PDOException("El sistema '{$sistema}' no existe en la tabla SISTEMA.");
+                }
+            }
+    
+            // Insertar nuevas relaciones en JUEGO_SISTEMA
+            $sqlInsertSistemas = "INSERT INTO JUEGO_SISTEMA (id_juego, id_sistema) VALUES (:id_juego, :id_sistema)";
+            $stmtInsertSistemas = $this->pdo->prepare($sqlInsertSistemas);
+    
+            foreach ($idsSistemas as $idSistema) {
+                $stmtInsertSistemas->bindParam(':id_juego', $id, PDO::PARAM_INT);
+                $stmtInsertSistemas->bindParam(':id_sistema', $idSistema, PDO::PARAM_INT);
+    
+                if (!$stmtInsertSistemas->execute()) {
+                    $errorInfo = $stmtInsertSistemas->errorInfo();
+                    throw new PDOException("Error al insertar sistema con ID {$idSistema}: " . $errorInfo[2]);
+                }
+            }
+    
+            $this->pdo->commit();
+            return true;
         } catch (PDOException $e) {
-            // Manejar errores (es importante para el registro de errores)
-            error_log("Error updating game: " . $e->getMessage());
-            return $e->getMessage();
+            $this->pdo->rollBack();
+            error_log("Error al actualizar el juego: " . $e->getMessage());
+            return $e->getMessage(); // Devolver el mensaje de error
         }
     }
-
+    
     public function deleteUsuario($nick) {
         try {
             // Crear la consulta SQL para eliminar el usuario
@@ -350,31 +427,38 @@ class Modelo
         }
     }
 
-    public function deleteJuego($id) {
+    public function eliminarJuego($id) {
         try {
-            // Eliminar las relaciones en la tabla JUEGO_GENERO
-            $sql1 = "DELETE FROM JUEGO_GENERO WHERE id_juego = :id_juego";
-            $stmt1 = $this->pdo->prepare($sql1);
-            $stmt1->bindParam(':id_juego', $id);
-            $stmt1->execute();
+            $this->pdo->beginTransaction();
     
-            // Eliminar las relaciones en la tabla JUEGO_SISTEMA
-            $sql2 = "DELETE FROM JUEGO_SISTEMA WHERE id_juego = :id_juego";
-            $stmt2 = $this->pdo->prepare($sql2);
-            $stmt2->bindParam(':id_juego', $id);
-            $stmt2->execute();
-            
-            // Eliminar el juego en la tabla principal JUEGO
-            $sql = "DELETE FROM JUEGO WHERE id_juego = :id";
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            // Eliminar relaciones en JUEGO_GENERO
+            $sqlDeleteGeneros = "DELETE FROM JUEGO_GENERO WHERE id_juego = :id";
+            $stmtDeleteGeneros = $this->pdo->prepare($sqlDeleteGeneros);
+            $stmtDeleteGeneros->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmtDeleteGeneros->execute();
     
-            return $stmt->execute(); // Ejecuta la eliminación y devuelve el resultado
+            // Eliminar relaciones en JUEGO_SISTEMA
+            $sqlDeleteSistemas = "DELETE FROM JUEGO_SISTEMA WHERE id_juego = :id";
+            $stmtDeleteSistemas = $this->pdo->prepare($sqlDeleteSistemas);
+            $stmtDeleteSistemas->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmtDeleteSistemas->execute();
+    
+            // Eliminar el juego de la tabla JUEGO
+            $sqlDeleteJuego = "DELETE FROM JUEGO WHERE id_juego = :id";
+            $stmtDeleteJuego = $this->pdo->prepare($sqlDeleteJuego);
+            $stmtDeleteJuego->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmtDeleteJuego->execute();
+    
+            // Confirmar la transacción
+            $this->pdo->commit();
+            return true; // Retorna éxito
         } catch (PDOException $e) {
-            error_log("Error deleting game: " . $e->getMessage());
-            return false;
+            $this->pdo->rollBack();
+            error_log("Error al eliminar el juego: " . $e->getMessage());
+            return false; // Retorna error
         }
     }
+    
     
 }
 ?>
