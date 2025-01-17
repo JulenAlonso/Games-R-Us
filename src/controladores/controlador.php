@@ -310,117 +310,69 @@ class Controlador
         }
     }
 
-    public function agregarUsuario()
-    {
-        try {
-            // Verificar si los campos necesarios están presentes en el POST
-            if (isset($_POST['nick'], $_POST['nombre'], $_POST['pass'], $_POST['ape1'], $_POST['ape2'], $_POST['tlf'], $_POST['email'], $_POST['rol'])) {
+    // public function agregarJuego()
+    // {
+    //     try {
+    //         if (isset($_POST['titulo'], $_POST['desarrollador'], $_POST['distribuidor'], $_POST['anio'], $_POST['genero'], $_POST['sistema'])) {
+    //             // Filtrar y validar los datos
+    //             $titulo = htmlspecialchars($_POST['titulo']);
+    //             $desarrollador = htmlspecialchars($_POST['desarrollador']);
+    //             $distribuidor = htmlspecialchars($_POST['distribuidor']);
+    //             $anio = htmlspecialchars($_POST['anio']);
+    //             $genero = explode(',', $_POST['genero']); // Convertir a array
+    //             $sistema = explode(',', $_POST['sistema']); // Convertir a array
 
-                // Filtrar y validar los datos (seguridad)
-                $nick = htmlspecialchars($_POST['nick']);
-                $nombre = htmlspecialchars($_POST['nombre']);
-                $pass = $_POST['pass']; // El password debe ser manejado con precaución
-                $ape1 = htmlspecialchars($_POST['ape1']);
-                $ape2 = htmlspecialchars($_POST['ape2']);
-                $tlf = htmlspecialchars($_POST['tlf']);
-                $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
-                $rol = intval($_POST['rol']); // Aseguramos que el rol sea un número entero
+    //             // Verificar y mover los archivos subidos
+    //             if (isset($_FILES['coverImage']) && $_FILES['coverImage']['error'] === UPLOAD_ERR_OK) {
+    //                 $coverImage = $_FILES['coverImage'];
+    //                 $coverImageName = $coverImage['name'];
+    //                 $coverImageTmpName = $coverImage['tmp_name'];
+    //                 $coverImageType = $coverImage['type'];
 
-                // Validar que el email sea correcto
-                if (!$email) {
-                    echo json_encode(['success' => false, 'message' => 'Invalid email format']);
-                    return;
-                }
+    //                 // Asegúrate de que el archivo sea una imagen
+    //                 if (in_array($coverImageType, ['image/jpeg', 'image/png', 'image/gif'])) {
+    //                     $coverImagePath = BASE_PATH . '/src/uploads/image/' . $coverImageName;
+    //                     move_uploaded_file($coverImageTmpName, $coverImagePath); // Mover la imagen al servidor
+    //                 } else {
+    //                     echo json_encode(['success' => false, 'message' => 'Invalid cover image format']);
+    //                     return;
+    //                 }
+    //             } else {
+    //                 echo json_encode(['success' => false, 'message' => 'Cover image is required']);
+    //                 return;
+    //             }
 
-                // Verificar si el usuario ya existe en la base de datos
-                $usuarioExistente = $this->modelo->buscaUsuarioPorNick($nick);
-                if ($usuarioExistente) {
-                    echo json_encode(['success' => false, 'message' => 'Username already exists']);
-                    return;
-                }
+    //             if (isset($_FILES['gameZip']) && $_FILES['gameZip']['error'] === UPLOAD_ERR_OK) {
+    //                 $gameZip = $_FILES['gameZip'];
+    //                 $gameZipName = $gameZip['name'];
+    //                 $gameZipTmpName = $gameZip['tmp_name'];
 
-                // Si el usuario no existe, proceder a insertar
-                $result = $this->modelo->insertarUsuario($nick, $nombre, $pass, $ape1, $ape2, $tlf, $email, $rol);
+    //                 // Asegúrate de que el archivo sea un zip
+    //                 $gameZipPath = BASE_PATH . '/src/uploads/files/' . $gameZipName;
+    //                 move_uploaded_file($gameZipTmpName, $gameZipPath); // Mover el archivo zip al servidor
 
-                if ($result) {
-                    echo json_encode(['success' => true, 'message' => 'User added successfully']);
-                } else {
-                    echo json_encode(['success' => false, 'message' => 'Error adding user']);
-                }
+    //             } else {
+    //                 echo json_encode(['success' => false, 'message' => 'Game ZIP is required']);
+    //                 return;
+    //             }
 
-            } else {
-                echo json_encode(['success' => false, 'message' => 'Missing required fields']);
-            }
-        } catch (PDOException $e) {
-            // Log error and return response
-            error_log("Error inserting user: " . $e->getMessage());
-            echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
-        }
-    }
-    public function agregarJuego()
-    {
-        try {
-            if (isset($_POST['titulo'], $_POST['desarrollador'], $_POST['distribuidor'], $_POST['anio'], $_POST['genero'], $_POST['sistema'])) {
-                // Filtrar y validar los datos
-                $titulo = htmlspecialchars($_POST['titulo']);
-                $desarrollador = htmlspecialchars($_POST['desarrollador']);
-                $distribuidor = htmlspecialchars($_POST['distribuidor']);
-                $anio = htmlspecialchars($_POST['anio']);
-                $genero = explode(',', $_POST['genero']); // Convertir a array
-                $sistema = explode(',', $_POST['sistema']); // Convertir a array
+    //             // Llamar al modelo para agregar el juego
+    //             $result = $this->modelo->insertarJuego($titulo, $desarrollador, $distribuidor, $anio, $genero, $sistema, $coverImagePath, $gameZipPath);
 
-                // Verificar y mover los archivos subidos
-                if (isset($_FILES['coverImage']) && $_FILES['coverImage']['error'] === UPLOAD_ERR_OK) {
-                    $coverImage = $_FILES['coverImage'];
-                    $coverImageName = $coverImage['name'];
-                    $coverImageTmpName = $coverImage['tmp_name'];
-                    $coverImageType = $coverImage['type'];
+    //             if ($result) {
+    //                 echo json_encode(['success' => true, 'message' => $result]);
+    //             } else {
+    //                 echo json_encode(['success' => false, 'message' => 'Error adding game']);
+    //             }
+    //         } else {
+    //             echo json_encode(['success' => false, 'message' => 'Missing required fields']);
+    //         }
+    //     } catch (Exception $e) {
+    //         echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
+    //     }
+    // }
 
-                    // Asegúrate de que el archivo sea una imagen
-                    if (in_array($coverImageType, ['image/jpeg', 'image/png', 'image/gif'])) {
-                        $coverImagePath = BASE_PATH . '/src/uploads/image/' . $coverImageName;
-                        move_uploaded_file($coverImageTmpName, $coverImagePath); // Mover la imagen al servidor
-                    } else {
-                        echo json_encode(['success' => false, 'message' => 'Invalid cover image format']);
-                        return;
-                    }
-                } else {
-                    echo json_encode(['success' => false, 'message' => 'Cover image is required']);
-                    return;
-                }
-
-                if (isset($_FILES['gameZip']) && $_FILES['gameZip']['error'] === UPLOAD_ERR_OK) {
-                    $gameZip = $_FILES['gameZip'];
-                    $gameZipName = $gameZip['name'];
-                    $gameZipTmpName = $gameZip['tmp_name'];
-
-                    // Asegúrate de que el archivo sea un zip
-                    $gameZipPath = BASE_PATH . '/src/uploads/files/' . $gameZipName;
-                    move_uploaded_file($gameZipTmpName, $gameZipPath); // Mover el archivo zip al servidor
-
-                } else {
-                    echo json_encode(['success' => false, 'message' => 'Game ZIP is required']);
-                    return;
-                }
-
-                // Llamar al modelo para agregar el juego
-                $result = $this->modelo->insertarJuego($titulo, $desarrollador, $distribuidor, $anio, $genero, $sistema, $coverImagePath, $gameZipPath);
-
-                if ($result) {
-                    echo json_encode(['success' => true, 'message' => $result]);
-                } else {
-                    echo json_encode(['success' => false, 'message' => 'Error adding game']);
-                }
-            } else {
-                echo json_encode(['success' => false, 'message' => 'Missing required fields']);
-            }
-        } catch (Exception $e) {
-            echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
-        }
-    }
-
-    public function editarUsuario()
-    {
+    public function editarUsuario() {
         if (isset($_POST['nick'], $_POST['nombre'], $_POST['ape1'], $_POST['ape2'], $_POST['tlf'])) {
             $nick = htmlspecialchars($_POST['nick']);
             $nombre = htmlspecialchars($_POST['nombre']);
@@ -438,7 +390,7 @@ class Controlador
             if ($result['success']) {
                 echo json_encode($result); // Devolver respuesta como JSON
             } else {
-                echo json_encode(['success' => false, 'message' => 'Error updating user']);
+                echo json_encode(['success' => false, 'message' => $result]);
             }
         } else {
             echo json_encode(['success' => false, 'message' => 'Missing required fields']);
@@ -486,9 +438,7 @@ class Controlador
         }
     }
     
-
-    public function eliminarUsuario()
-    {
+    public function eliminarUsuario() {
         if (isset($_POST['nick'])) {
             $nick = htmlspecialchars($_POST['nick']);
 
@@ -554,7 +504,160 @@ class Controlador
         }
     }
     
+    public function editarGenero() {
+        if (isset($_POST['id'], $_POST['nombre_genero'])) {
+            $id = intval($_POST['id']);
+            $nombre_genero = htmlspecialchars($_POST['nombre_genero']);
 
+            $result = $this->modelo->actualizarGenero($id, $nombre_genero);
+
+            if ($result) {
+                echo json_encode(['success' => true, 'message' => 'Género actualizado correctamente.']);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Error al actualizar el género.']);
+            }
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Faltan campos obligatorios.']);
+        }
+    }
+
+    public function eliminarGenero() {
+        if (isset($_POST['id'])) {
+            $id = intval($_POST['id']);
+
+            $result = $this->modelo->eliminarGenero($id);
+
+            if ($result) {
+                echo json_encode(['success' => true, 'message' => 'Género eliminado correctamente.']);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Error al eliminar el género.']);
+            }
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Faltan campos obligatorios.']);
+        }
+    }
+
+    public function editarSistema() {
+        if (isset($_POST['id'], $_POST['nombre_sistema'])) {
+            $id = intval($_POST['id']);
+            $nombre_sistema = htmlspecialchars($_POST['nombre_sistema']);
+
+            $result = $this->modelo->actualizarSistema($id, $nombre_sistema);
+
+            if ($result) {
+                echo json_encode(['success' => true, 'message' => 'Sistema actualizado correctamente.']);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Error al actualizar el sistema.']);
+            }
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Faltan campos obligatorios.']);
+        }
+    }
+
+    public function eliminarSistema() {
+        if (isset($_POST['id'])) {
+            $id = intval($_POST['id']);
+
+            $result = $this->modelo->eliminarSistema($id);
+
+            if ($result) {
+                echo json_encode(['success' => true, 'message' => 'Sistema eliminado correctamente.']);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Error al eliminar el sistema.']);
+            }
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Faltan campos obligatorios.']);
+        }
+    }
+
+    public function crearSistema() {
+        if (isset($_POST['nombre_sistema']) && !empty($_POST['nombre_sistema'])) {
+            $nombreSistema = htmlspecialchars($_POST['nombre_sistema']);
+    
+            $result = $this->modelo->guardarSistema($nombreSistema);
+    
+            if ($result) {
+                echo json_encode(['success' => true, 'message' => 'Sistema creado correctamente']);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Error al crear el sistema']);
+            }
+        } else {
+            echo json_encode(['success' => false, 'message' => 'El nombre del sistema es obligatorio']);
+        }
+    }
+    
+    public function crearGenero() {
+        if (isset($_POST['nombre_genero']) && !empty($_POST['nombre_genero'])) {
+            $nombreGenero = htmlspecialchars($_POST['nombre_genero']);
+    
+            $result = $this->modelo->guardarGenero($nombreGenero);
+    
+            if ($result) {
+                echo json_encode(['success' => true, 'message' => 'Género creado correctamente']);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Error al crear el género']);
+            }
+        } else {
+            echo json_encode(['success' => false, 'message' => 'El nombre del género es obligatorio']);
+        }
+    }
+    
+    public function listadoRoles() {
+        try {
+            $roles = $this->modelo->obtenerRoles();
+            echo json_encode(['success' => true, 'data' => $roles]);
+        } catch (Exception $e) {
+            error_log("Error al listar roles: " . $e->getMessage());
+            echo json_encode(['success' => false, 'message' => 'Error al listar roles']);
+        }
+    }
+    
+    public function agregarUsuario() {
+        try {
+            // Verificar que los campos obligatorios estén presentes
+            if (isset($_POST['nick'], $_POST['email'], $_POST['rol'])) {
+                $nick = htmlspecialchars($_POST['nick']);
+                $email = htmlspecialchars($_POST['email']);
+                $rol = intval($_POST['rol']);
+    
+                // Manejar campos opcionales
+                $nombre = htmlspecialchars($_POST['nombre'] ?? '');
+                $ape1 = htmlspecialchars($_POST['ape1'] ?? '');
+                $ape2 = htmlspecialchars($_POST['ape2'] ?? '');
+                $tlf = htmlspecialchars($_POST['tlf'] ?? '');
+                $direccion_tipo = htmlspecialchars($_POST['direccion_tipo'] ?? '');
+                $direccion_via = htmlspecialchars($_POST['direccion_via'] ?? '');
+                $direccion_numero = htmlspecialchars($_POST['direccion_numero'] ?? '');
+                $direccion_otros = htmlspecialchars($_POST['direccion_otros'] ?? '');
+    
+                // Verificar si el nick ya existe
+                if ($this->modelo->usuarioExiste($nick)) {
+                    echo json_encode(['success' => false, 'message' => 'El nick ya está en uso']);
+                    return;
+                }
+    
+                // Intentar agregar el usuario
+                $result = $this->modelo->crearUsuario(
+                    $nick, $email, $nombre, $ape1, $ape2, $tlf, $direccion_tipo, $direccion_via, $direccion_numero, $direccion_otros, $rol
+                );
+    
+                if ($result) {
+                    echo json_encode(['success' => true, 'message' => 'Usuario creado correctamente']);
+                } else {
+                    echo json_encode(['success' => false, 'message' => 'Error al crear el usuario']);
+                }
+            } else {
+                // Retornar error si faltan campos obligatorios
+                echo json_encode(['success' => false, 'message' => 'Faltan campos obligatorios']);
+            }
+        } catch (Exception $e) {
+            // Registrar el error y devolver un mensaje de error genérico
+            echo json_encode(['success' => false, 'message' => 'Error interno del servidor']);
+        }
+    }
+    
+    
+    
     function procesarUsuario()
     {
         if (isset($_POST['accion']) && $_POST['accion'] === 'cargarUsuario') {

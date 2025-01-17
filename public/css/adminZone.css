@@ -223,6 +223,19 @@ body {
     box-sizing: border-box;
 }
 
+.modal-content select {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #272727;
+    border-radius: 5px;
+    background-color: #121212;
+    color: #ffffff;
+    outline: none;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
+}
+
 .modal-content input:focus {
     border-color: #ecad29;
 }
@@ -481,4 +494,31 @@ body {
     background-color: #121212; /* Fondo oscuro en caso de imágenes con transparencia */
     transition: transform 0.3s ease; /* Suave transición al hacer hover */
     align-items: start;
+}
+
+/* Botón flotante para añadir */
+.floating-add {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background-color: #ecad29;
+    color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    font-size: 24px;
+    font-weight: bold;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    z-index: 1000;
+}
+
+.floating-add:hover {
+    background-color: #96742b;
+}
+
+.floating-add.hidden {
+    display: none;
 }

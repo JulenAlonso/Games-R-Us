@@ -25,11 +25,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             case 'listadoUsers':
                 $controlador->admn_listarUsers();
                 break;
-            case 'agregarUsuario':
-                $controlador->agregarUsuario();
-                break;
             case 'agregarJuego':
-                $controlador->agregarJuego();
+                //$controlador->agregarJuego();
                 break;
             case 'editarUsuario':
                 $controlador->editarUsuario();
@@ -57,6 +54,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 //$controlador->cambiarAvatar();
                 $archivo = $_FILES['cambiarImagen'];
                 print_r($archivo);
+                break;
+            case 'editarGenero':
+                $controlador->editarGenero();
+                break;
+            case 'eliminarGenero':
+                $controlador->eliminarGenero();
+                break;
+            case 'editarSistema':
+                $controlador->editarSistema();
+                break;
+            case 'eliminarSistema': 
+                $controlador->eliminarSistema();
+                break;
+            case 'crearSistema':
+                $controlador->crearSistema();
+                break;
+            case 'crearGenero':
+                $controlador->crearGenero();
+                break;
+            case 'listadoRoles':
+                $controlador->listadoRoles();
+                break;
+            case 'agregarUsuario':
+                $controlador->agregarUsuario();
                 break;
 
 

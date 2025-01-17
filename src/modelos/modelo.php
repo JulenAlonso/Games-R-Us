@@ -269,7 +269,8 @@ class Modelo
                         direccion_tipo = :direccion_tipo,
                         direccion_via = :direccion_via,
                         direccion_numero = :direccion_numero,
-                        direccion_otros = :direccion_otros
+                        direccion_otros = :direccion_otros,
+                        id_rol = :rol
                     WHERE nick = :nick";
     
             $stmt = $this->pdo->prepare($sql);
@@ -283,6 +284,7 @@ class Modelo
             $stmt->bindParam(':direccion_via', $direccion_via);
             $stmt->bindParam(':direccion_numero', $direccion_numero);
             $stmt->bindParam(':direccion_otros', $direccion_otros);
+            $stmt->bindParam(':rol', $rol);
     
             $stmt->execute();
     
@@ -459,6 +461,169 @@ class Modelo
         }
     }
     
+    public function actualizarGenero($id, $nombre_genero) {
+        try {
+            $sql = "UPDATE GENERO SET nombre_genero = :nombre_genero WHERE id = :id";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(':nombre_genero', $nombre_genero);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+            if ($stmt->execute()) {
+                return true;
+            } else {
+                $errorInfo = $stmt->errorInfo();
+                throw new PDOException("Error al actualizar género: " . $errorInfo[2]);
+            }
+        } catch (PDOException $e) {
+            error_log("Error al actualizar género: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function eliminarGenero($id) {
+        try {
+            $sql = "DELETE FROM GENERO WHERE id = :id";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+            if ($stmt->execute()) {
+                return true;
+            } else {
+                $errorInfo = $stmt->errorInfo();
+                throw new PDOException("Error al eliminar género: " . $errorInfo[2]);
+            }
+        } catch (PDOException $e) {
+            error_log("Error al eliminar género: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function actualizarSistema($id, $nombre_sistema) {
+        try {
+            $sql = "UPDATE SISTEMA SET nombre_sistema = :nombre_sistema WHERE id_sistema = :id";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(':nombre_sistema', $nombre_sistema);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+            if ($stmt->execute()) {
+                return true;
+            } else {
+                $errorInfo = $stmt->errorInfo();
+                throw new PDOException("Error al actualizar sistema: " . $errorInfo[2]);
+            }
+        } catch (PDOException $e) {
+            error_log("Error al actualizar sistema: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function eliminarSistema($id) {
+        try {
+            $sql = "DELETE FROM SISTEMA WHERE id_sistema = :id";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+            if ($stmt->execute()) {
+                return true;
+            } else {
+                $errorInfo = $stmt->errorInfo();
+                throw new PDOException("Error al eliminar sistema: " . $errorInfo[2]);
+            }
+        } catch (PDOException $e) {
+            error_log("Error al eliminar sistema: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function guardarSistema($nombreSistema) {
+        try {
+            $sql = "INSERT INTO SISTEMA (nombre_sistema) VALUES (:nombre_sistema)";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(':nombre_sistema', $nombreSistema, PDO::PARAM_STR);
     
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            error_log("Error al guardar sistema: " . $e->getMessage());
+            return false;
+        }
+    }
+    
+    public function guardarGenero($nombreGenero) {
+        try {
+            $sql = "INSERT INTO GENERO (nombre_genero) VALUES (:nombre_genero)";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(':nombre_genero', $nombreGenero, PDO::PARAM_STR);
+    
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            error_log("Error al guardar género: " . $e->getMessage());
+            return false;
+        }
+    }
+    
+    public function usuarioExiste($nick) {
+        try {
+            $sql = "SELECT COUNT(*) FROM USUARIO WHERE nick = :nick";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(':nick', $nick, PDO::PARAM_STR);
+            $stmt->execute();
+    
+            return $stmt->fetchColumn() > 0; // Devuelve true si el usuario existe
+        } catch (PDOException $e) {
+            error_log("Error al verificar si el usuario existe: " . $e->getMessage());
+            return false;
+        }
+    }
+    
+    public function crearUsuario($nick, $email, $nombre, $ape1, $ape2, $tlf, $direccion_tipo, $direccion_via, $direccion_numero, $direccion_otros, $rol) {
+        try {
+            // Consulta SQL para insertar un usuario
+            $sql = "INSERT INTO USUARIO (nick, email, nombre, ape1, ape2, tlf, direccion_tipo, direccion_via, direccion_numero, direccion_otros, id_rol, password) 
+                    VALUES (:nick, :email, :nombre, :ape1, :ape2, :tlf, :direccion_tipo, :direccion_via, :direccion_numero, :direccion_otros, :rol, :password)";
+            
+            $stmt = $this->pdo->prepare($sql);
+    
+            // Preparar valores para los parámetros opcionales
+            $nombre = $nombre ?: null;
+            $ape1 = $ape1 ?: null;
+            $ape2 = $ape2 ?: null;
+            $tlf = $tlf ?: null;
+            $direccion_tipo = $direccion_tipo ?: null;
+            $direccion_via = $direccion_via ?: null;
+            $direccion_numero = $direccion_numero ?: null;
+            $direccion_otros = $direccion_otros ?: null;
+    
+            // Cifrar la contraseña basada en el nick
+            $passwordHash = password_hash($nick, PASSWORD_BCRYPT);
+    
+            // Asociar parámetros
+            $stmt->bindParam(':nick', $nick, PDO::PARAM_STR);
+            $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+            $stmt->bindParam(':nombre', $nombre, PDO::PARAM_STR);
+            $stmt->bindParam(':ape1', $ape1, PDO::PARAM_STR);
+            $stmt->bindParam(':ape2', $ape2, PDO::PARAM_STR);
+            $stmt->bindParam(':tlf', $tlf, PDO::PARAM_STR);
+            $stmt->bindParam(':direccion_tipo', $direccion_tipo, PDO::PARAM_STR);
+            $stmt->bindParam(':direccion_via', $direccion_via, PDO::PARAM_STR);
+            $stmt->bindParam(':direccion_numero', $direccion_numero, PDO::PARAM_STR);
+            $stmt->bindParam(':direccion_otros', $direccion_otros, PDO::PARAM_STR);
+            $stmt->bindParam(':rol', $rol, PDO::PARAM_INT);
+            $stmt->bindParam(':password', $passwordHash, PDO::PARAM_STR);
+    
+            // Ejecutar la consulta y retornar el resultado
+            if ($stmt->execute()) {
+                return true;
+            } else {
+                // Registrar errores específicos de PDO
+                error_log("Error al ejecutar la consulta: " . print_r($stmt->errorInfo(), true));
+                return false;
+            }
+        } catch (PDOException $e) {
+            // Registrar errores de la base de datos
+            error_log("Error al crear usuario: " . $e->getMessage());
+            return false;
+        }
+    }  
+
 }
 ?>

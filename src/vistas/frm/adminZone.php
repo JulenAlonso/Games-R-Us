@@ -104,34 +104,19 @@
     <div class="main-content">
         <!-- Usuarios -->
         <div id="users" class="section hidden">
-            <div class="header">
-                <h2>Usuarios</h2>
-                <button onclick="showUserForm()">Añadir Usuario</button>
-            </div>
         </div>
         <div id="userList" class="section hidden"></div>
         <!-- Juegos -->
         <div id="games" class="section hidden">
-            <div class="header">
-                <h2>Juegos</h2>
-                <button onclick="showGameForm()">Añadir Juego</button>
-            </div>
         </div>
         <div id="gameList" class="section hidden"></div>
         <!-- Géneros -->
         <div id="genres" class="section hidden">
-            <div class="header">
-                <h2>Géneros</h2>
-                <button onclick="showGenreForm()">Añadir Género</button>
-            </div>
         </div>
-        <div id="genreList" class="section hidden"></div>
+        <div id="genreList" class="section hidden">
+        </div>
         <!-- Sistemas -->
         <div id="systems" class="section hidden">
-            <div class="header">
-                <h2>Sistemas</h2>
-                <button onclick="showSystemForm()">Añadir Sistema</button>
-            </div>
         </div>
         <div id="systemList" class="section hidden"></div>
     </div>
