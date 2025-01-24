@@ -1,14 +1,19 @@
+<?php // AL ENTRAR AKI YA TENEMOS LA SESIÓN INICIADA -->
+if (!isset($_SESSION['user_nick'])) {
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../public/css/nav.css">
-    <link rel="stylesheet" href="../public/css/tienda.css">
-    <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <title>Tienda</title>
+    <title>Document</title>
+    <link rel="stylesheet" href="../public/css/carrito.css">
+    <link rel="stylesheet" href="../public/css/landing.css">
+    <link rel="stylesheet" href="../public/css/nav_landing.css">
+
 </head>
 
 <body>
@@ -95,28 +100,11 @@
         </div>
         </div>
     </nav>
-
-    <div style="display: flex;">
-        <!-- Barra lateral para las categorías -->
-        <aside id="sidebar"
-            style="width: 20%; background-color: #2b2b2b; padding: 20px; height: 100vh; overflow-y: auto;">
-            <h2 class="section-title" style="text-align: left; font-size: 1.4em;">Categorías</h2>
-            <ul id="category-list" style="list-style: none; padding: 0; color: white; font-size: 1em; cursor: pointer;">
-                <!-- Categorías dinámicas -->
-            </ul>
-        </aside>
-
-        <!-- Contenedor de productos -->
-        <main id="store-container" style="width: 80%; padding: 20px;">
-            <!-- Los productos se cargarán aquí -->
-        </main>
-    </div>
-
-    <!-- Contenedor para el modal -->
-    <div id="modal-container"></div>
-
-    <script src="../public/js/nav.js"></script>
-    <script src="../public/js/tienda.js"></script>
+    <section class="layout">
+        <div class="box">1</div>
+        
+        <div class="box">2</div>
+    </section>
 </body>
 
 </html>

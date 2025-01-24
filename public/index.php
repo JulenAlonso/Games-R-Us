@@ -80,8 +80,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $controlador->agregarUsuario();
                 break;
 
-
-
             // Puedes agregar otros casos aquí si es necesario
             default:
                 header('Content-Type: application/json');

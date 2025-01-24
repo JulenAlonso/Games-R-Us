@@ -53,7 +53,16 @@
           <input type="submit" id="nav_bibliotecaButton" name="nav_bibliotecaButton" hidden>
         </form>
       </div>
-      <p class="bi bi-bag"></p>
+      <!-- CARRITO  -->
+      <?php if (isset($_SESSION['user_nick'])): ?>
+        <!-- Mostrar botón solo para usuarios autenticados -->
+        <p class="bi bi-bag" onclick="document.getElementById('nav_carritoButton').click();"></p>
+        <form method="POST">
+          <input type="submit" id="nav_carritoButton" name="nav_carritoButton" hidden>
+        </form>
+      <?php endif; ?>
+      <!-- -------------------------------- -->
+
       <div class="svg-container profile-container" onclick="toggleProfileMenu()">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
           <path fill-rule="evenodd"

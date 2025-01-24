@@ -49,4 +49,10 @@ class Vista
     {
         require_once BASE_PATH . '/src/vistas/frm/perfilUsuario.php';
     }
+
+    public static function MuestraCarrito()
+    {
+        require_once BASE_PATH . '/src/vistas/frm/carrito.php';
+    }
+
 }

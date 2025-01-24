@@ -1,0 +1,16 @@
+.layout {
+  margin-top: 10%;
+  width: 100%;
+  display: grid;
+  grid-template-rows: repeat(2, 1fr);
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.box{
+  width: 90%;
+  height: 200px;
+  border: solid 5px;
+  border-color: yellow;
+  display: flex;
+}
