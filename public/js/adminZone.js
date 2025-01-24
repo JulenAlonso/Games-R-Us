@@ -73,7 +73,7 @@ async function loadUsers() {
         .map(
           (user) => `
                 <div class="card" onclick="showUserDetails('${user.nick}')">
-                    <img src="${"../avatar/" + user.avatar}" alt="Profile">
+                    <img src="${"../src/uploads/image/avatar/" + user.avatar}" alt="Profile">
                     <h3>${user.nick}</h3>
                     <p>${user.email}</p>
                 </div>
@@ -324,7 +324,7 @@ async function NewUserForm() {
     }
 }
 
-async function saveNewUser(event) {
+async function saveNewUser(event) { 
     event.preventDefault();
 
     // Crear el objeto con los datos del usuario
@@ -429,7 +429,7 @@ async function loadGames() {
         )
         .join("");
 
-      gameList.innerHTML += `<button id="floatingAddButton" class="floating-add" onclick="handleAddAction()"> + </button>`;
+      gameList.innerHTML += `<button id="floatingAddButton" class="floating-add" onclick="newGameForm()"> + </button>`;
     } else {
       console.error("Error en el servidor:", result.message);
     }
@@ -602,6 +602,136 @@ function deleteGame(gameId) {
       console.error("Error al enviar la solicitud:", error);
       alert("Error al enviar la solicitud.");
     });
+}
+
+function newGameForm() {
+  const modalHTML = `
+    <h2>Añadir Nuevo Juego</h2>
+    <form onsubmit="saveNewGame(event)" enctype="multipart/form-data">
+        <p>Título:</p>
+        <input type="text" id="newGameTitle" name="titulo" placeholder="Introduce el título del juego" required>
+
+        <p>Desarrollador:</p>
+        <input type="text" id="newGameDeveloper" name="desarrollador" placeholder="Introduce el desarrollador del juego">
+
+        <p>Distribuidor:</p>
+        <input type="text" id="newGameDistributor" name="distribuidor" placeholder="Introduce el distribuidor del juego">
+
+        <p>Año:</p>
+        <input type="text" id="newGameYear" name="anio" placeholder="Introduce el año de lanzamiento">
+
+        <p>Portada:</p>
+        <input type="file" id="newGameCover" name="portada" accept="image/*" required>
+
+        <p>Archivo ZIP del Juego:</p>
+        <input type="file" id="newGameZip" name="archivo" accept=".zip" required>
+
+        <!-- Campos ocultos para sincronizar géneros y sistemas seleccionados -->
+        <input type="hidden" id="selectedGenresField" name="generos" value="">
+        <input type="hidden" id="selectedSystemsField" name="sistemas" value="">
+    </form>
+
+    <!-- Buscador de género fuera del formulario -->
+    <div style="margin-bottom: 20px;">
+        <p style="text-align: left;">Género:</p>
+        <div style="position: relative;">
+            <input type="text" id="generoSearch" 
+                    placeholder="Buscar género" 
+                    oninput="filterGenres()" 
+                    onclick="toggleSuggestions(true)" 
+                    onfocus="toggleSuggestions(true)" 
+                    onblur="hideSuggestions()">
+            <div id="generoSuggestions" class="suggestions hidden"></div>
+        </div>
+        <div id="generoContainer" class="tag-container">
+            <!-- Géneros seleccionados -->
+        </div>
+    </div>
+
+    <!-- Buscador de sistemas fuera del formulario -->
+    <div style="margin-bottom: 20px;">
+        <p style="text-align: left;">Sistema:</p>
+        <div style="position: relative;">
+            <input type="text" id="sistemaSearch" 
+                    placeholder="Buscar sistema" 
+                    oninput="filterSystems()" 
+                    onclick="toggleSystemSuggestions(true)" 
+                    onfocus="toggleSystemSuggestions(true)" 
+                    onblur="hideSystemSuggestions()">
+            <div id="sistemaSuggestions" class="suggestions hidden"></div>
+        </div>
+        <div id="sistemaContainer" class="tag-container">
+            <!-- Sistemas seleccionados -->
+        </div>
+    </div>
+
+    <!-- Botones al final -->
+    <div class="button-container">
+        <button type="button" onclick="saveNewGame()">Guardar</button>
+        <button type="button" onclick="closePopout()" class="delete-btn">Cancelar</button>
+    </div>
+  `;
+
+  openPopout(modalHTML);
+}
+
+
+async function saveNewGame() {
+  // Crear el objeto con los datos del juego
+  const newGame = {
+      titulo: document.getElementById("newGameTitle").value.trim(),
+      desarrollador: document.getElementById("newGameDeveloper").value.trim(),
+      distribuidor: document.getElementById("newGameDistributor").value.trim(),
+      anio: document.getElementById("newGameYear").value.trim(),
+      generos: JSON.stringify(selectedGenres), // Géneros seleccionados
+      sistemas: JSON.stringify(selectedSystems), // Sistemas seleccionados
+      accion: "agregarJuego", // Acción para identificar en el servidor
+  };
+
+  // Validar los campos obligatorios
+  if (!newGame.titulo || !document.getElementById("newGameCover").files[0] || !document.getElementById("newGameZip").files[0]) {
+      alert("Los campos 'Título', 'Portada' y 'Archivo ZIP' son obligatorios.");
+      return;
+  }
+
+  // Crear un objeto FormData para manejar los datos y los archivos
+  const formData = new FormData();
+
+  // Añadir los datos al FormData
+  for (const [key, value] of Object.entries(newGame)) {
+      formData.append(key, value);
+  }
+
+  // Añadir los archivos al FormData
+  formData.append("portada", document.getElementById("newGameCover").files[0]); // Archivo de portada
+  formData.append("archivo", document.getElementById("newGameZip").files[0]);   // Archivo ZIP del juego
+
+  console.log("Guardando nuevo juego con FormData:", formData);
+
+  try {
+      const response = await fetch("/Games-r-us/public/index.php", {
+          method: "POST",
+          body: formData, // Incluye FormData con datos y archivos
+      });
+
+      // Capturar y mostrar la respuesta como texto
+      const textResponse = await response.text();
+      console.log("Respuesta completa del servidor:", textResponse);
+
+      // Procesar como JSON
+      const result = JSON.parse(textResponse);
+      if (!result.success) {
+          alert("Error al crear el juego: " + result.message);
+          return;
+      }
+
+      alert("Juego creado correctamente.");
+      closePopout();
+      loadGames(); // Recargar la lista de juegos
+  } catch (error) {
+      console.error("Error procesando la respuesta:", error);
+      alert("Error al guardar el juego. Inténtalo de nuevo.");
+  }
 }
 
 // ------------------- Funciones de JUEGOS-Generos -------------------

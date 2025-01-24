@@ -159,105 +159,105 @@ class Modelo
         }
     }
 
-    public function insertarJuego($titulo, $desarrollador, $distribuidor, $anio, $genero, $sistema, $coverImagePath, $gameZipPath){
-        try {
-            // Extraer el nombre del archivo de la ruta
-            $coverImageName = basename($coverImagePath); // Extraer solo el nombre del archivo de la ruta completa
-            $gameZipName = basename($gameZipPath); // Extraer solo el nombre del archivo de la ruta completa
+    // public function insertarJuego($titulo, $desarrollador, $distribuidor, $anio, $genero, $sistema, $coverImagePath, $gameZipPath){
+    //     try {
+    //         // Extraer el nombre del archivo de la ruta
+    //         $coverImageName = basename($coverImagePath); // Extraer solo el nombre del archivo de la ruta completa
+    //         $gameZipName = basename($gameZipPath); // Extraer solo el nombre del archivo de la ruta completa
     
-            // Crear la consulta SQL para insertar el juego
-            $sql = "INSERT INTO JUEGO (titulo, desarrollador, distribuidor, anio, ruta_imagen, ruta) 
-                    VALUES (:titulo, :desarrollador, :distribuidor, :anio, :portada, :archivo_zip)";
+    //         // Crear la consulta SQL para insertar el juego
+    //         $sql = "INSERT INTO JUEGO (titulo, desarrollador, distribuidor, anio, ruta_imagen, ruta) 
+    //                 VALUES (:titulo, :desarrollador, :distribuidor, :anio, :portada, :archivo_zip)";
             
-            // Preparar la consulta
-            $stmt = $this->pdo->prepare($sql);
+    //         // Preparar la consulta
+    //         $stmt = $this->pdo->prepare($sql);
     
-            // Enlazar los parámetros
-            $stmt->bindParam(':titulo', $titulo);
-            $stmt->bindParam(':desarrollador', $desarrollador);
-            $stmt->bindParam(':distribuidor', $distribuidor);
-            $stmt->bindParam(':anio', $anio);
-            $stmt->bindParam(':portada', $coverImageName); // Guardar solo el nombre de la imagen
-            $stmt->bindParam(':archivo_zip', $gameZipName); // Guardar solo el nombre del archivo ZIP
+    //         // Enlazar los parámetros
+    //         $stmt->bindParam(':titulo', $titulo);
+    //         $stmt->bindParam(':desarrollador', $desarrollador);
+    //         $stmt->bindParam(':distribuidor', $distribuidor);
+    //         $stmt->bindParam(':anio', $anio);
+    //         $stmt->bindParam(':portada', $coverImageName); // Guardar solo el nombre de la imagen
+    //         $stmt->bindParam(':archivo_zip', $gameZipName); // Guardar solo el nombre del archivo ZIP
     
-            // Ejecutar la consulta
-            $stmt->execute();
-            $stmt = null;
+    //         // Ejecutar la consulta
+    //         $stmt->execute();
+    //         $stmt = null;
     
-            // Obtener el id del juego recién insertado
-            $sql = "SELECT id_juego FROM JUEGO WHERE titulo = :titulo";
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->bindParam(':titulo', $titulo);
-            $stmt->execute();
-            $id_juego = $stmt->fetch(PDO::FETCH_ASSOC)['id_juego']; // Obtener el id del juego recién insertado
-            $stmt = null;
+    //         // Obtener el id del juego recién insertado
+    //         $sql = "SELECT id_juego FROM JUEGO WHERE titulo = :titulo";
+    //         $stmt = $this->pdo->prepare($sql);
+    //         $stmt->bindParam(':titulo', $titulo);
+    //         $stmt->execute();
+    //         $id_juego = $stmt->fetch(PDO::FETCH_ASSOC)['id_juego']; // Obtener el id del juego recién insertado
+    //         $stmt = null;
     
-            // Insertar los géneros en la tabla JUEGO_GENEREO
-            foreach ($genero as $gen) {
-                // Verificar si el género ya existe
-                $sql = "SELECT id FROM GENERO WHERE nombre_genero = :nombre";
-                $stmt = $this->pdo->prepare($sql);
-                $stmt->bindParam(':nombre', $gen);
-                $stmt->execute();
-                $id_genero = $stmt->fetch(PDO::FETCH_ASSOC)['id'];
-                $stmt = null;
+    //         // Insertar los géneros en la tabla JUEGO_GENEREO
+    //         foreach ($genero as $gen) {
+    //             // Verificar si el género ya existe
+    //             $sql = "SELECT id FROM GENERO WHERE nombre_genero = :nombre";
+    //             $stmt = $this->pdo->prepare($sql);
+    //             $stmt->bindParam(':nombre', $gen);
+    //             $stmt->execute();
+    //             $id_genero = $stmt->fetch(PDO::FETCH_ASSOC)['id'];
+    //             $stmt = null;
     
-                // Si el género no existe, insertarlo
-                if (!$id_genero) {
-                    $sql = "INSERT INTO GENERO (nombre_genero) VALUES (:nombre)";
-                    $stmt = $this->pdo->prepare($sql);
-                    $stmt->bindParam(':nombre', $gen);
-                    $stmt->execute();
-                    $id_genero = $this->pdo->lastInsertId(); // Obtener el ID del nuevo género
-                    $stmt = null;
-                }
+    //             // Si el género no existe, insertarlo
+    //             if (!$id_genero) {
+    //                 $sql = "INSERT INTO GENERO (nombre_genero) VALUES (:nombre)";
+    //                 $stmt = $this->pdo->prepare($sql);
+    //                 $stmt->bindParam(':nombre', $gen);
+    //                 $stmt->execute();
+    //                 $id_genero = $this->pdo->lastInsertId(); // Obtener el ID del nuevo género
+    //                 $stmt = null;
+    //             }
     
-                // Insertar la relación en la tabla intermedia JUEGO_GENEREO
-                $sql = "INSERT INTO JUEGO_GENERO (id_juego, id_genero) VALUES (:id_juego, :id_genero)";
-                $stmt = $this->pdo->prepare($sql);
-                $stmt->bindParam(':id_juego', $id_juego);
-                $stmt->bindParam(':id_genero', $id_genero);
-                $stmt->execute();
-                $stmt = null;
-            }
+    //             // Insertar la relación en la tabla intermedia JUEGO_GENEREO
+    //             $sql = "INSERT INTO JUEGO_GENERO (id_juego, id_genero) VALUES (:id_juego, :id_genero)";
+    //             $stmt = $this->pdo->prepare($sql);
+    //             $stmt->bindParam(':id_juego', $id_juego);
+    //             $stmt->bindParam(':id_genero', $id_genero);
+    //             $stmt->execute();
+    //             $stmt = null;
+    //         }
     
-            // Insertar los sistemas en la tabla JUEGO_SISTEMA
-            foreach ($sistema as $sys) {
-                // Verificar si el sistema ya existe
-                $sql = "SELECT id_sistema FROM SISTEMA WHERE nombre_sistema = :nombre";
-                $stmt = $this->pdo->prepare($sql);
-                $stmt->bindParam(':nombre', $sys);
-                $stmt->execute();
-                $id_sistema = $stmt->fetch(PDO::FETCH_ASSOC)['id_sistema'];
-                $stmt = null;
+    //         // Insertar los sistemas en la tabla JUEGO_SISTEMA
+    //         foreach ($sistema as $sys) {
+    //             // Verificar si el sistema ya existe
+    //             $sql = "SELECT id_sistema FROM SISTEMA WHERE nombre_sistema = :nombre";
+    //             $stmt = $this->pdo->prepare($sql);
+    //             $stmt->bindParam(':nombre', $sys);
+    //             $stmt->execute();
+    //             $id_sistema = $stmt->fetch(PDO::FETCH_ASSOC)['id_sistema'];
+    //             $stmt = null;
     
-                // Si el sistema no existe, insertarlo
-                if (!$id_sistema) {
-                    $sql = "INSERT INTO SISTEMA (nombre_sistema) VALUES (:nombre)";
-                    $stmt = $this->pdo->prepare($sql);
-                    $stmt->bindParam(':nombre', $sys);
-                    $stmt->execute();
-                    $id_sistema = $this->pdo->lastInsertId(); // Obtener el ID del nuevo sistema
-                    $stmt = null;
-                }
+    //             // Si el sistema no existe, insertarlo
+    //             if (!$id_sistema) {
+    //                 $sql = "INSERT INTO SISTEMA (nombre_sistema) VALUES (:nombre)";
+    //                 $stmt = $this->pdo->prepare($sql);
+    //                 $stmt->bindParam(':nombre', $sys);
+    //                 $stmt->execute();
+    //                 $id_sistema = $this->pdo->lastInsertId(); // Obtener el ID del nuevo sistema
+    //                 $stmt = null;
+    //             }
     
-                // Insertar la relación en la tabla intermedia JUEGO_SISTEMA
-                $sql = "INSERT INTO JUEGO_SISTEMA (id_juego, id_sistema) VALUES (:id_juego, :id_sistema)";
-                $stmt = $this->pdo->prepare($sql);
-                $stmt->bindParam(':id_juego', $id_juego);
-                $stmt->bindParam(':id_sistema', $id_sistema);
-                $stmt->execute();
-                $stmt = null;
-            }
+    //             // Insertar la relación en la tabla intermedia JUEGO_SISTEMA
+    //             $sql = "INSERT INTO JUEGO_SISTEMA (id_juego, id_sistema) VALUES (:id_juego, :id_sistema)";
+    //             $stmt = $this->pdo->prepare($sql);
+    //             $stmt->bindParam(':id_juego', $id_juego);
+    //             $stmt->bindParam(':id_sistema', $id_sistema);
+    //             $stmt->execute();
+    //             $stmt = null;
+    //         }
     
-            // Si todo salió bien, devolver éxito
-            return true;
-        } catch (PDOException $e) {
-            // Manejar errores (es importante para el registro de errores)
-            error_log("Error inserting game: " . $e->getMessage());
-            return $e->getMessage();
-        }
-    }
+    //         // Si todo salió bien, devolver éxito
+    //         return true;
+    //     } catch (PDOException $e) {
+    //         // Manejar errores (es importante para el registro de errores)
+    //         error_log("Error inserting game: " . $e->getMessage());
+    //         return $e->getMessage();
+    //     }
+    // }
     
     public function actualizarUsuario($nick, $nombre, $ape1, $ape2, $tlf, $direccion_tipo, $direccion_via, $direccion_numero, $direccion_otros, $rol) {
         try {
@@ -625,5 +625,72 @@ class Modelo
         }
     }  
 
+    public function crearJuego($titulo, $desarrollador, $distribuidor, $anio, $rutaImagen, $rutaArchivo, $generos, $sistemas) {
+        try {
+            $this->pdo->beginTransaction();
+    
+            // Insertar el juego en la tabla `juego`
+            $sqlJuego = "INSERT INTO JUEGO (titulo, ruta, ruta_imagen, desarrollador, distribuidor, anio) 
+                         VALUES (:titulo, :ruta, :ruta_imagen, :desarrollador, :distribuidor, :anio)";
+            $stmtJuego = $this->pdo->prepare($sqlJuego);
+    
+            // Vincular parámetros, asignando null si están vacíos
+            $stmtJuego->bindValue(':titulo', $titulo ?: null, PDO::PARAM_STR);
+            $stmtJuego->bindValue(':ruta', $rutaArchivo ?: null, PDO::PARAM_STR);
+            $stmtJuego->bindValue(':ruta_imagen', $rutaImagen ?: null, PDO::PARAM_STR);
+            $stmtJuego->bindValue(':desarrollador', $desarrollador ?: null, PDO::PARAM_STR);
+            $stmtJuego->bindValue(':distribuidor', $distribuidor ?: null, PDO::PARAM_STR);
+            $stmtJuego->bindValue(':anio', $anio ?: null, PDO::PARAM_INT);
+    
+            $stmtJuego->execute();
+    
+            // Obtener el ID del juego recién insertado
+            $juegoId = $this->pdo->lastInsertId();
+    
+            // Insertar géneros en la tabla `juego_genero`
+            if (!empty($generos)) {
+                $sqlGenero = "INSERT INTO JUEGO_GENERO (id_juego, id_genero) 
+                              SELECT :id_juego, id 
+                              FROM GENERO 
+                              WHERE id = :id_genero";
+                $stmtGenero = $this->pdo->prepare($sqlGenero);
+    
+                foreach ($generos as $generoId) {
+                    $stmtGenero->bindValue(':id_juego', $juegoId, PDO::PARAM_INT);
+                    $stmtGenero->bindValue(':id_genero', $generoId, PDO::PARAM_INT);
+                    $stmtGenero->execute();
+                }
+            }
+    
+            // Insertar sistemas en la tabla `juego_sistema`
+            if (!empty($sistemas)) {
+                $sqlSistema = "INSERT INTO JUEGO_SISTEMA (id_juego, id_sistema) 
+                               SELECT :id_juego, id_sistema 
+                               FROM SISTEMA 
+                               WHERE id_sistema = :id_sistema";
+                $stmtSistema = $this->pdo->prepare($sqlSistema);
+    
+                foreach ($sistemas as $sistemaId) {
+                    $stmtSistema->bindValue(':id_juego', $juegoId, PDO::PARAM_INT);
+                    $stmtSistema->bindValue(':id_sistema', $sistemaId, PDO::PARAM_INT);
+                    $stmtSistema->execute();
+                }
+            }
+    
+            // Confirmar la transacción
+            $this->pdo->commit();
+            return true;
+    
+        } catch (PDOException $e) {
+            // Revertir la transacción en caso de error
+            $this->pdo->rollBack();
+            error_log("Error al crear juego: " . $e->getMessage());
+            return $e->getMessage();
+        }
+    }
+    
+    
+    
+    
 }
 ?>

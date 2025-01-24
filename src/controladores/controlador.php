@@ -13,15 +13,13 @@ class Controlador
 {
     private $modelo;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->modelo = new Modelo();
         session_start(); // Asegura que las sesiones estén habilitadas en cada solicitud
     }
 
     //FUNCIONALIDAD DE TIENDA
-    public function Inicia()
-    {
+    public function Inicia() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') { //Primer filtrado que hacemos
             if (isset($_POST['accion']) && $_POST['accion'] === 'listadoJuegos') {
                 $this->listadoJuegos();
@@ -36,8 +34,7 @@ class Controlador
         }
     }
 
-    private function procesaNav()
-    {
+    private function procesaNav() {
         // Verifica qué botón fue presionado
         if (isset($_POST['nav_loginButton'])) {
             Vista::MuestraLogin();
@@ -65,8 +62,7 @@ class Controlador
     }
 
     // Esto ejecuta TODO el login.php
-    private function procesaLogin()
-    {
+    private function procesaLogin() {
         if (isset($_POST['loginButtonBut'])) {
             // Obtén los datos del formulario
             $input = $_POST['nick'] ?? ''; // Puede ser el nick o el correo
@@ -87,6 +83,7 @@ class Controlador
                     // Autenticación exitosa, guarda los datos en la sesión
                     $_SESSION['user_nick'] = $user['nick'];
                     $_SESSION['user_role'] = $user['id_rol']; // Asumiendo que el rol está incluido en el usuario
+                    $_SESSION['DEBUG'] = print_r($_REQUEST);
 
                     // Redirige a la biblioteca
                     Vista::MuestraBiblioteca();
@@ -104,8 +101,7 @@ class Controlador
     }
 
     //Gestiona la pagina de  registro
-    private function procesaRegister()
-    {
+    private function procesaRegister() {
         if (isset($_POST['reg_registerButton'])) {
             $username = $_POST['reg_username'] ?? '';
             $email = $_POST['reg_email'] ?? '';
@@ -140,14 +136,12 @@ class Controlador
         }
     }
 
-    private function usuarioAutenticado()
-    {
+    private function usuarioAutenticado() {
         // Devuelve verdadero si hay una sesión activa
         return isset($_SESSION['user_nick']);
     }
 
-    public function listadoLanding()
-    {
+    public function listadoLanding() {
 
         try {
             // Obtener los juegos desde el modelo
@@ -165,7 +159,7 @@ class Controlador
 
             // Procesar los datos de los juegos
             $juegosProcesados = array_map(function ($juego) {
-                $baseUrl = 'https://localhost/Games-r-us/src/uploads/image/';
+                $baseUrl = 'https://localhost/Games-r-us/src/uploads/image/portadas/';
 
                 return [
                     'titulo' => htmlspecialchars($juego['titulo']), // Sanitiza para HTML
@@ -195,8 +189,7 @@ class Controlador
         }
     }
 
-    public function listadoJuegos()
-    {
+    public function listadoJuegos() {
         try {
             // Obtener los juegos desde el modelo
             $juegos = $this->modelo->obtenerJuegos();
@@ -213,7 +206,7 @@ class Controlador
 
             // Procesar los datos de los juegos
             $juegosProcesados = array_map(function ($juego) {
-                $baseUrl = 'https://localhost/Games-r-us/src/uploads/image/';
+                $baseUrl = 'https://localhost/Games-r-us/src/uploads/image/portadas/';
                 return [
                     'id' => htmlspecialchars($juego['id_juego']),
                     'titulo' => htmlspecialchars($juego['titulo']), // Sanitiza para HTML
@@ -246,8 +239,7 @@ class Controlador
     }
 
     //Esto direccionaria las peticiones de "COMPRAR" y "REGALAR"
-    public function procesarTienda()
-    {
+    public function procesarTienda() {
         if (isset($_POST['tienda_comprar'])) { //POST
             //echo $_POST['compra_gameid'];
             Vista::MuestraFormularioCompra(); //Aqui habria que poner la logica de "COMPRA"
@@ -256,8 +248,7 @@ class Controlador
         }
     }
 
-    public function admn_listarUsers()
-    {
+    public function admn_listarUsers() {
         try {
             // Obtener los usuarios del modelo
             $usuarios = $this->modelo->obtenerUsuarios();
@@ -311,68 +302,6 @@ class Controlador
             exit;
         }
     }
-
-    // public function agregarJuego()
-    // {
-    //     try {
-    //         if (isset($_POST['titulo'], $_POST['desarrollador'], $_POST['distribuidor'], $_POST['anio'], $_POST['genero'], $_POST['sistema'])) {
-    //             // Filtrar y validar los datos
-    //             $titulo = htmlspecialchars($_POST['titulo']);
-    //             $desarrollador = htmlspecialchars($_POST['desarrollador']);
-    //             $distribuidor = htmlspecialchars($_POST['distribuidor']);
-    //             $anio = htmlspecialchars($_POST['anio']);
-    //             $genero = explode(',', $_POST['genero']); // Convertir a array
-    //             $sistema = explode(',', $_POST['sistema']); // Convertir a array
-
-    //             // Verificar y mover los archivos subidos
-    //             if (isset($_FILES['coverImage']) && $_FILES['coverImage']['error'] === UPLOAD_ERR_OK) {
-    //                 $coverImage = $_FILES['coverImage'];
-    //                 $coverImageName = $coverImage['name'];
-    //                 $coverImageTmpName = $coverImage['tmp_name'];
-    //                 $coverImageType = $coverImage['type'];
-
-    //                 // Asegúrate de que el archivo sea una imagen
-    //                 if (in_array($coverImageType, ['image/jpeg', 'image/png', 'image/gif'])) {
-    //                     $coverImagePath = BASE_PATH . '/src/uploads/image/' . $coverImageName;
-    //                     move_uploaded_file($coverImageTmpName, $coverImagePath); // Mover la imagen al servidor
-    //                 } else {
-    //                     echo json_encode(['success' => false, 'message' => 'Invalid cover image format']);
-    //                     return;
-    //                 }
-    //             } else {
-    //                 echo json_encode(['success' => false, 'message' => 'Cover image is required']);
-    //                 return;
-    //             }
-
-    //             if (isset($_FILES['gameZip']) && $_FILES['gameZip']['error'] === UPLOAD_ERR_OK) {
-    //                 $gameZip = $_FILES['gameZip'];
-    //                 $gameZipName = $gameZip['name'];
-    //                 $gameZipTmpName = $gameZip['tmp_name'];
-
-    //                 // Asegúrate de que el archivo sea un zip
-    //                 $gameZipPath = BASE_PATH . '/src/uploads/files/' . $gameZipName;
-    //                 move_uploaded_file($gameZipTmpName, $gameZipPath); // Mover el archivo zip al servidor
-
-    //             } else {
-    //                 echo json_encode(['success' => false, 'message' => 'Game ZIP is required']);
-    //                 return;
-    //             }
-
-    //             // Llamar al modelo para agregar el juego
-    //             $result = $this->modelo->insertarJuego($titulo, $desarrollador, $distribuidor, $anio, $genero, $sistema, $coverImagePath, $gameZipPath);
-
-    //             if ($result) {
-    //                 echo json_encode(['success' => true, 'message' => $result]);
-    //             } else {
-    //                 echo json_encode(['success' => false, 'message' => 'Error adding game']);
-    //             }
-    //         } else {
-    //             echo json_encode(['success' => false, 'message' => 'Missing required fields']);
-    //         }
-    //     } catch (Exception $e) {
-    //         echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
-    //     }
-    // }
 
     public function editarUsuario() {
         if (isset($_POST['nick'], $_POST['nombre'], $_POST['ape1'], $_POST['ape2'], $_POST['tlf'])) {
@@ -658,6 +587,56 @@ class Controlador
         }
     }
     
+    public function agregarJuego() {
+        if (isset($_POST['titulo'], $_FILES['portada'], $_FILES['archivo'])) {
+            $titulo = htmlspecialchars($_POST['titulo']);
+            $desarrollador = htmlspecialchars($_POST['desarrollador'] ?? '');
+            $distribuidor = htmlspecialchars($_POST['distribuidor'] ?? '');
+            $anio = intval($_POST['anio'] ?? 0);
+            $generos = json_decode($_POST['generos'] ?? '[]', true);
+            $sistemas = json_decode($_POST['sistemas'] ?? '[]', true);
+    
+            // Verificar y mover los archivos subidos
+            if ($_FILES['portada']['error'] === UPLOAD_ERR_OK) {
+                $portadaTmp = $_FILES['portada']['tmp_name'];
+                $portadaNombre = $titulo;
+                $portadaDestino = BASE_PATH ."/src/uploads/image/portadas/" . $portadaNombre .'.PNG';
+    
+                if (!move_uploaded_file($portadaTmp, $portadaDestino)) {
+                    echo json_encode(['success' => false, 'message' => 'Error al guardar la portada']);
+                    return;
+                }
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Error con el archivo de portada']);
+                return;
+            }
+    
+            if ($_FILES['archivo']['error'] === UPLOAD_ERR_OK) {
+                $archivoTmp = $_FILES['archivo']['tmp_name'];
+                $archivoNombre = basename($_FILES['archivo']['name']);
+                $archivoDestino = BASE_PATH ."/src/uploads/files/juegos/" . $archivoNombre;
+    
+                if (!move_uploaded_file($archivoTmp, $archivoDestino)) {
+                    echo json_encode(['success' => false, 'message' => 'Error al guardar el archivo ZIP']);
+                    return;
+                }
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Error con el archivo ZIP']);
+                return;
+            }
+    
+            // Intentar agregar el juego en la base de datos
+            $result = $this->modelo->crearJuego($titulo, $desarrollador, $distribuidor, $anio, basename($portadaDestino), basename($archivoDestino), $generos, $sistemas);
+    
+            if ($result) {
+                echo json_encode(['success' => true, 'message' => $result]);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Error al crear el juego en la base de datos']);
+            }
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Campos obligatorios faltantes']);
+        }
+    }   
     
     
     function procesarUsuario()

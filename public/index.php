@@ -10,11 +10,14 @@ $controlador = new Controlador();
 
 // Procesar la solicitud dependiendo del método HTTP
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['accion'])) {
-        // Pasa la acción al controlador
-        $accion = $_POST['accion'];
+    // Depurar los datos que llegan al servidor
+    error_log("POST: " . print_r($_POST, true));
+    error_log("FILES: " . print_r($_FILES, true));
 
-        // Llama al método correspondiente basado en la acción
+    // Capturar el parámetro 'accion'
+    $accion = $_POST['accion'] ?? ($_SERVER['HTTP_X_ACCION'] ?? null);
+    
+    if ($accion) {
         switch ($accion) {
             case 'listadoLanding':
                 $controlador->listadoLanding();
@@ -24,9 +27,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 break;
             case 'listadoUsers':
                 $controlador->admn_listarUsers();
-                break;
-            case 'agregarJuego':
-                //$controlador->agregarJuego();
                 break;
             case 'editarUsuario':
                 $controlador->editarUsuario();
@@ -79,8 +79,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             case 'agregarUsuario':
                 $controlador->agregarUsuario();
                 break;
+            case 'agregarJuego':
+                $controlador->agregarJuego();
+                break;
 
-            // Puedes agregar otros casos aquí si es necesario
             default:
                 header('Content-Type: application/json');
                 echo json_encode([
