@@ -2,7 +2,7 @@
 require_once BASE_PATH . '/src/vistas/vista.php';
 
 // AL ENTRAR AKI YA TENEMOS LA SESIÓN INICIADA
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['user_nick'])) {
   Vista::MuestraLogin();
   exit;
 }
@@ -52,13 +52,23 @@ if (!isset($_SESSION['user_id'])) {
           <input type="submit" id="nav_TiendaButton" name="nav_TiendaButton" hidden>
         </form>
       </div>
-      <div>
+      <div class="active">
         <p onclick="document.getElementById('nav_bibliotecaButton').click();">Biblioteca</p>
         <form method="POST">
           <input type="submit" id="nav_bibliotecaButton" name="nav_bibliotecaButton" hidden>
         </form>
       </div>
-      <p class="bi bi-bag"></p>
+      <!-- CARRITO  -->
+      <div>
+        <?php if (isset($_SESSION['user_nick'])): ?>
+          <!-- Mostrar botón solo para usuarios autenticados -->
+          <p onclick="document.getElementById('nav_carritoButton').click();">Carrito</p>
+          <form method="POST">
+            <input type="submit" id="nav_carritoButton" name="nav_carritoButton" hidden>
+          </form>
+        <?php endif; ?>
+      </div>
+      <!-- -------------------------------- -->
       <div class="svg-container profile-container" onclick="toggleProfileMenu()">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
           <path fill-rule="evenodd"

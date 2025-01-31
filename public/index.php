@@ -82,6 +82,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             case 'agregarJuego':
                 $controlador->agregarJuego();
                 break;
+            case 'listarcesta':
+                $controlador->listarcesta();
+                break;
+            case 'eliminarJuegoCesta':
+                $controlador->eliminarjuegocesta();
+                break;
 
             default:
                 header('Content-Type: application/json');

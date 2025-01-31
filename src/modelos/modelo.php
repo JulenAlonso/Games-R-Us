@@ -8,11 +8,13 @@ class Modelo
 {
     private $pdo;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->iniciaConexionBD();//inicia una conexion
     }
 
-    private function iniciaConexionBD(){
+    private function iniciaConexionBD()
+    {
         // Cargar las variables de entorno
         $dotenv = Dotenv::createImmutable(__DIR__ . '/');//Esto carga el archivo .env
         $dotenv->load();//lo hace funcionar
@@ -33,28 +35,32 @@ class Modelo
         }
     }
 
-    public function buscaUsuarioPorNick($nick){
+    public function buscaUsuarioPorNick($nick)
+    {
         $stmt = $this->pdo->prepare("SELECT * FROM USUARIO WHERE nick = :nick");//Coge el pdo, le hace una query de sql donde el email sea igual al email que le paso por parametro.
         $stmt->bindParam(':nick', $nick);//El email introducido por parametro es la variable que le damos $email: puede ser julen@hotmail.com
         $stmt->execute();//ejecuta
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function buscaUsuarioPorMail($mail){
+    public function buscaUsuarioPorMail($mail)
+    {
         $stmt = $this->pdo->prepare("SELECT * FROM USUARIO WHERE email = :email");//Coge el pdo, le hace una query de sql donde el email sea igual al email que le paso por parametro.
         $stmt->bindParam(':email', $mail);//El email introducido por parametro es la variable que le damos $email: puede ser julen@hotmail.com
         $stmt->execute();//ejecuta
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function buscarRolePorNick($nick){
+    public function buscarRolePorNick($nick)
+    {
         $stmt = $this->pdo->prepare("SELECT id_rol FROM USUARIO WHERE nick = :nick");
         $stmt->bindParam(':nick', $nick);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function creaUsuario($nick, $email, $password){
+    public function creaUsuario($nick, $email, $password)
+    {
         $passwordHash = password_hash($password, PASSWORD_BCRYPT);//Cifra la passwd
         //Plantilla
         $stmt = $this->pdo->prepare("INSERT INTO USUARIO (nick, email, password, id_rol) VALUES (:nick, :email, :password, :id_rol)");//En los usuarios meter el email y la passwd en su columna correspondiente.
@@ -65,25 +71,29 @@ class Modelo
         $stmt->execute();//ejecuta: reemplaza en la plantilla el email y la passwd que hemos introducido.
     }
 
-    public function obtenerLanding() {
+    public function obtenerLanding()
+    {
         $stmt = $this->pdo->prepare("SELECT titulo, ruta_imagen, desarrollador, distribuidor, anio FROM JUEGO LIMIT 6");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    } 
+    }
 
-    public function obtenerJuegos() {
-        $stmt = $this->pdo->prepare("SELECT id_juego, titulo, ruta, ruta_imagen, desarrollador, distribuidor, anio FROM JUEGO");
+    public function obtenerJuegos()
+    {
+        $stmt = $this->pdo->prepare("SELECT id_juego, titulo, ruta, ruta_imagen, desarrollador, distribuidor, anio, precio FROM JUEGO");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }   
+    }
 
-    public function obtenerCategorias() {
+    public function obtenerCategorias()
+    {
         $stmt = $this->pdo->prepare("SELECT id, nombre_genero FROM GENERO");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }   
+    }
 
-    public function obtenerCategoriasJuego($id_juego) {
+    public function obtenerCategoriasJuego($id_juego)
+    {
         $categorias = $this->obtenerCategorias();
         $categoriasPorId = array_column($categorias, 'nombre_genero', 'id');
 
@@ -92,20 +102,22 @@ class Modelo
         $stmt->execute();
         $categoriasJuego = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        $categoriasJuegoNombre = array_map(function($categoria) use ($categoriasPorId) {
+        $categoriasJuegoNombre = array_map(function ($categoria) use ($categoriasPorId) {
             return $categoriasPorId[$categoria['id_genero']];
         }, $categoriasJuego);
 
         return $categoriasJuegoNombre;
-    }  
+    }
 
-    public function obtenerSistemas() {
+    public function obtenerSistemas()
+    {
         $stmt = $this->pdo->prepare("SELECT id_sistema, nombre_sistema FROM SISTEMA");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }   
+    }
 
-    public function obtenerSistemasJuego($id_juego) {
+    public function obtenerSistemasJuego($id_juego)
+    {
         $categorias = $this->obtenerSistemas();
         $categoriasPorId = array_column($categorias, 'nombre_sistema', 'id_sistema');
 
@@ -114,34 +126,37 @@ class Modelo
         $stmt->execute();
         $categoriasJuego = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        $categoriasJuegoNombre = array_map(function($categoria) use ($categoriasPorId) {
+        $categoriasJuegoNombre = array_map(function ($categoria) use ($categoriasPorId) {
             return $categoriasPorId[$categoria['id_sistema']];
         }, $categoriasJuego);
 
         return $categoriasJuegoNombre;
-    } 
+    }
 
-    public function obtenerUsuarios() {
+    public function obtenerUsuarios()
+    {
         $stmt = $this->pdo->prepare("SELECT nick, email, nombre, ape1, ape2, tlf, direccion_tipo, direccion_via, direccion_numero, direccion_otros, id_rol, avatar FROM USUARIO");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    } 
+    }
 
-    public function obtenerRoles() {
+    public function obtenerRoles()
+    {
         $stmt = $this->pdo->prepare("SELECT nombre_rol, id_rol  FROM ROL");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    } 
-    
-    public function insertarUsuario($nick, $nombre, $pass, $ape1, $ape2, $tlf, $email, $rol) {
+    }
+
+    public function insertarUsuario($nick, $nombre, $pass, $ape1, $ape2, $tlf, $email, $rol)
+    {
         try {
             // Crear la consulta SQL para insertar el usuario
             $sql = "INSERT INTO USUARIO (nick, nombre, password, ape1, ape2, tlf, email, id_rol)
                     VALUES (:nick, :nombre, :pass, :ape1, :ape2, :tlf, :email, :id_rol)";
-            
+
             // Preparar la consulta
             $stmt = $this->pdo->prepare($sql);
-        
+
             $haspass = password_hash($pass, PASSWORD_BCRYPT);
             // Enlazar los parámetros
             $stmt->bindParam(':nick', $nick);
@@ -159,107 +174,8 @@ class Modelo
         }
     }
 
-    // public function insertarJuego($titulo, $desarrollador, $distribuidor, $anio, $genero, $sistema, $coverImagePath, $gameZipPath){
-    //     try {
-    //         // Extraer el nombre del archivo de la ruta
-    //         $coverImageName = basename($coverImagePath); // Extraer solo el nombre del archivo de la ruta completa
-    //         $gameZipName = basename($gameZipPath); // Extraer solo el nombre del archivo de la ruta completa
-    
-    //         // Crear la consulta SQL para insertar el juego
-    //         $sql = "INSERT INTO JUEGO (titulo, desarrollador, distribuidor, anio, ruta_imagen, ruta) 
-    //                 VALUES (:titulo, :desarrollador, :distribuidor, :anio, :portada, :archivo_zip)";
-            
-    //         // Preparar la consulta
-    //         $stmt = $this->pdo->prepare($sql);
-    
-    //         // Enlazar los parámetros
-    //         $stmt->bindParam(':titulo', $titulo);
-    //         $stmt->bindParam(':desarrollador', $desarrollador);
-    //         $stmt->bindParam(':distribuidor', $distribuidor);
-    //         $stmt->bindParam(':anio', $anio);
-    //         $stmt->bindParam(':portada', $coverImageName); // Guardar solo el nombre de la imagen
-    //         $stmt->bindParam(':archivo_zip', $gameZipName); // Guardar solo el nombre del archivo ZIP
-    
-    //         // Ejecutar la consulta
-    //         $stmt->execute();
-    //         $stmt = null;
-    
-    //         // Obtener el id del juego recién insertado
-    //         $sql = "SELECT id_juego FROM JUEGO WHERE titulo = :titulo";
-    //         $stmt = $this->pdo->prepare($sql);
-    //         $stmt->bindParam(':titulo', $titulo);
-    //         $stmt->execute();
-    //         $id_juego = $stmt->fetch(PDO::FETCH_ASSOC)['id_juego']; // Obtener el id del juego recién insertado
-    //         $stmt = null;
-    
-    //         // Insertar los géneros en la tabla JUEGO_GENEREO
-    //         foreach ($genero as $gen) {
-    //             // Verificar si el género ya existe
-    //             $sql = "SELECT id FROM GENERO WHERE nombre_genero = :nombre";
-    //             $stmt = $this->pdo->prepare($sql);
-    //             $stmt->bindParam(':nombre', $gen);
-    //             $stmt->execute();
-    //             $id_genero = $stmt->fetch(PDO::FETCH_ASSOC)['id'];
-    //             $stmt = null;
-    
-    //             // Si el género no existe, insertarlo
-    //             if (!$id_genero) {
-    //                 $sql = "INSERT INTO GENERO (nombre_genero) VALUES (:nombre)";
-    //                 $stmt = $this->pdo->prepare($sql);
-    //                 $stmt->bindParam(':nombre', $gen);
-    //                 $stmt->execute();
-    //                 $id_genero = $this->pdo->lastInsertId(); // Obtener el ID del nuevo género
-    //                 $stmt = null;
-    //             }
-    
-    //             // Insertar la relación en la tabla intermedia JUEGO_GENEREO
-    //             $sql = "INSERT INTO JUEGO_GENERO (id_juego, id_genero) VALUES (:id_juego, :id_genero)";
-    //             $stmt = $this->pdo->prepare($sql);
-    //             $stmt->bindParam(':id_juego', $id_juego);
-    //             $stmt->bindParam(':id_genero', $id_genero);
-    //             $stmt->execute();
-    //             $stmt = null;
-    //         }
-    
-    //         // Insertar los sistemas en la tabla JUEGO_SISTEMA
-    //         foreach ($sistema as $sys) {
-    //             // Verificar si el sistema ya existe
-    //             $sql = "SELECT id_sistema FROM SISTEMA WHERE nombre_sistema = :nombre";
-    //             $stmt = $this->pdo->prepare($sql);
-    //             $stmt->bindParam(':nombre', $sys);
-    //             $stmt->execute();
-    //             $id_sistema = $stmt->fetch(PDO::FETCH_ASSOC)['id_sistema'];
-    //             $stmt = null;
-    
-    //             // Si el sistema no existe, insertarlo
-    //             if (!$id_sistema) {
-    //                 $sql = "INSERT INTO SISTEMA (nombre_sistema) VALUES (:nombre)";
-    //                 $stmt = $this->pdo->prepare($sql);
-    //                 $stmt->bindParam(':nombre', $sys);
-    //                 $stmt->execute();
-    //                 $id_sistema = $this->pdo->lastInsertId(); // Obtener el ID del nuevo sistema
-    //                 $stmt = null;
-    //             }
-    
-    //             // Insertar la relación en la tabla intermedia JUEGO_SISTEMA
-    //             $sql = "INSERT INTO JUEGO_SISTEMA (id_juego, id_sistema) VALUES (:id_juego, :id_sistema)";
-    //             $stmt = $this->pdo->prepare($sql);
-    //             $stmt->bindParam(':id_juego', $id_juego);
-    //             $stmt->bindParam(':id_sistema', $id_sistema);
-    //             $stmt->execute();
-    //             $stmt = null;
-    //         }
-    
-    //         // Si todo salió bien, devolver éxito
-    //         return true;
-    //     } catch (PDOException $e) {
-    //         // Manejar errores (es importante para el registro de errores)
-    //         error_log("Error inserting game: " . $e->getMessage());
-    //         return $e->getMessage();
-    //     }
-    // }
-    
-    public function actualizarUsuario($nick, $nombre, $ape1, $ape2, $tlf, $direccion_tipo, $direccion_via, $direccion_numero, $direccion_otros, $rol) {
+    public function actualizarUsuario($nick, $nombre, $ape1, $ape2, $tlf, $direccion_tipo, $direccion_via, $direccion_numero, $direccion_otros, $rol)
+    {
         try {
             $sql = "UPDATE USUARIO 
                     SET nombre = :nombre, 
@@ -272,9 +188,9 @@ class Modelo
                         direccion_otros = :direccion_otros,
                         id_rol = :rol
                     WHERE nick = :nick";
-    
+
             $stmt = $this->pdo->prepare($sql);
-    
+
             $stmt->bindParam(':nick', $nick);
             $stmt->bindParam(':nombre', $nombre);
             $stmt->bindParam(':ape1', $ape1);
@@ -285,25 +201,27 @@ class Modelo
             $stmt->bindParam(':direccion_numero', $direccion_numero);
             $stmt->bindParam(':direccion_otros', $direccion_otros);
             $stmt->bindParam(':rol', $rol);
-    
+
             $stmt->execute();
-    
+
             return ['success' => true, 'message' => 'User updated successfully'];
         } catch (PDOException $e) {
             return ['success' => false, 'message' => 'Error updating user: ' . $e->getMessage()];
         }
     }
-       
-    public function obtenerGeneros() {
+
+    public function obtenerGeneros()
+    {
         $stmt = $this->pdo->prepare("SELECT id, nombre_genero FROM GENERO");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function actualizarJuego($id, $titulo, $desarrollador, $distribuidor, $anio, $generos, $sistemas) {
+    public function actualizarJuego($id, $titulo, $desarrollador, $distribuidor, $anio, $generos, $sistemas)
+    {
         try {
             $this->pdo->beginTransaction();
-    
+
             // Actualizar los datos principales del juego
             $sqlJuego = "UPDATE JUEGO SET 
                             titulo = :titulo, 
@@ -317,22 +235,22 @@ class Modelo
             $stmtJuego->bindParam(':distribuidor', $distribuidor);
             $stmtJuego->bindParam(':anio', $anio);
             $stmtJuego->bindParam(':id', $id, PDO::PARAM_INT);
-    
+
             if (!$stmtJuego->execute()) {
                 $errorInfo = $stmtJuego->errorInfo();
                 throw new PDOException("Error al actualizar el juego: " . $errorInfo[2]);
             }
-    
+
             // Eliminar relaciones actuales en JUEGO_GENERO
             $sqlDeleteGeneros = "DELETE FROM JUEGO_GENERO WHERE id_juego = :id";
             $stmtDeleteGeneros = $this->pdo->prepare($sqlDeleteGeneros);
             $stmtDeleteGeneros->bindParam(':id', $id, PDO::PARAM_INT);
-    
+
             if (!$stmtDeleteGeneros->execute()) {
                 $errorInfo = $stmtDeleteGeneros->errorInfo();
                 throw new PDOException("Error al eliminar géneros: " . $errorInfo[2]);
             }
-    
+
             // Buscar IDs de géneros
             $sqlBuscarGeneros = "SELECT id FROM GENERO WHERE nombre_genero = :nombre_genero";
             $stmtBuscarGeneros = $this->pdo->prepare($sqlBuscarGeneros);
@@ -347,31 +265,31 @@ class Modelo
                     throw new PDOException("El género '{$genero}' no existe en la tabla GENERO.");
                 }
             }
-    
+
             // Insertar nuevas relaciones en JUEGO_GENERO
             $sqlInsertGeneros = "INSERT INTO JUEGO_GENERO (id_juego, id_genero) VALUES (:id_juego, :id_genero)";
             $stmtInsertGeneros = $this->pdo->prepare($sqlInsertGeneros);
-    
+
             foreach ($idsGeneros as $idGenero) {
                 $stmtInsertGeneros->bindParam(':id_juego', $id, PDO::PARAM_INT);
                 $stmtInsertGeneros->bindParam(':id_genero', $idGenero, PDO::PARAM_INT);
-    
+
                 if (!$stmtInsertGeneros->execute()) {
                     $errorInfo = $stmtInsertGeneros->errorInfo();
                     throw new PDOException("Error al insertar género con ID {$idGenero}: " . $errorInfo[2]);
                 }
             }
-    
+
             // Eliminar relaciones actuales en JUEGO_SISTEMA
             $sqlDeleteSistemas = "DELETE FROM JUEGO_SISTEMA WHERE id_juego = :id";
             $stmtDeleteSistemas = $this->pdo->prepare($sqlDeleteSistemas);
             $stmtDeleteSistemas->bindParam(':id', $id, PDO::PARAM_INT);
-    
+
             if (!$stmtDeleteSistemas->execute()) {
                 $errorInfo = $stmtDeleteSistemas->errorInfo();
                 throw new PDOException("Error al eliminar sistemas: " . $errorInfo[2]);
             }
-    
+
             // Buscar IDs de sistemas
             $sqlBuscarSistemas = "SELECT id_sistema FROM SISTEMA WHERE nombre_sistema = :nombre_sistema";
             $stmtBuscarSistemas = $this->pdo->prepare($sqlBuscarSistemas);
@@ -386,21 +304,21 @@ class Modelo
                     throw new PDOException("El sistema '{$sistema}' no existe en la tabla SISTEMA.");
                 }
             }
-    
+
             // Insertar nuevas relaciones en JUEGO_SISTEMA
             $sqlInsertSistemas = "INSERT INTO JUEGO_SISTEMA (id_juego, id_sistema) VALUES (:id_juego, :id_sistema)";
             $stmtInsertSistemas = $this->pdo->prepare($sqlInsertSistemas);
-    
+
             foreach ($idsSistemas as $idSistema) {
                 $stmtInsertSistemas->bindParam(':id_juego', $id, PDO::PARAM_INT);
                 $stmtInsertSistemas->bindParam(':id_sistema', $idSistema, PDO::PARAM_INT);
-    
+
                 if (!$stmtInsertSistemas->execute()) {
                     $errorInfo = $stmtInsertSistemas->errorInfo();
                     throw new PDOException("Error al insertar sistema con ID {$idSistema}: " . $errorInfo[2]);
                 }
             }
-    
+
             $this->pdo->commit();
             return true;
         } catch (PDOException $e) {
@@ -409,18 +327,19 @@ class Modelo
             return $e->getMessage(); // Devolver el mensaje de error
         }
     }
-    
-    public function deleteUsuario($nick) {
+
+    public function deleteUsuario($nick)
+    {
         try {
             // Crear la consulta SQL para eliminar el usuario
             $sql = "DELETE FROM USUARIO WHERE nick = :nick";
-            
+
             // Preparar la consulta
             $stmt = $this->pdo->prepare($sql);
-        
+
             // Enlazar los parámetros
             $stmt->bindParam(':nick', $nick);
-        
+
             // Ejecutar la consulta
             return $stmt->execute();
         } catch (PDOException $e) {
@@ -429,28 +348,29 @@ class Modelo
         }
     }
 
-    public function eliminarJuego($id) {
+    public function eliminarJuego($id)
+    {
         try {
             $this->pdo->beginTransaction();
-    
+
             // Eliminar relaciones en JUEGO_GENERO
             $sqlDeleteGeneros = "DELETE FROM JUEGO_GENERO WHERE id_juego = :id";
             $stmtDeleteGeneros = $this->pdo->prepare($sqlDeleteGeneros);
             $stmtDeleteGeneros->bindParam(':id', $id, PDO::PARAM_INT);
             $stmtDeleteGeneros->execute();
-    
+
             // Eliminar relaciones en JUEGO_SISTEMA
             $sqlDeleteSistemas = "DELETE FROM JUEGO_SISTEMA WHERE id_juego = :id";
             $stmtDeleteSistemas = $this->pdo->prepare($sqlDeleteSistemas);
             $stmtDeleteSistemas->bindParam(':id', $id, PDO::PARAM_INT);
             $stmtDeleteSistemas->execute();
-    
+
             // Eliminar el juego de la tabla JUEGO
             $sqlDeleteJuego = "DELETE FROM JUEGO WHERE id_juego = :id";
             $stmtDeleteJuego = $this->pdo->prepare($sqlDeleteJuego);
             $stmtDeleteJuego->bindParam(':id', $id, PDO::PARAM_INT);
             $stmtDeleteJuego->execute();
-    
+
             // Confirmar la transacción
             $this->pdo->commit();
             return true; // Retorna éxito
@@ -460,8 +380,9 @@ class Modelo
             return false; // Retorna error
         }
     }
-    
-    public function actualizarGenero($id, $nombre_genero) {
+
+    public function actualizarGenero($id, $nombre_genero)
+    {
         try {
             $sql = "UPDATE GENERO SET nombre_genero = :nombre_genero WHERE id = :id";
             $stmt = $this->pdo->prepare($sql);
@@ -480,7 +401,8 @@ class Modelo
         }
     }
 
-    public function eliminarGenero($id) {
+    public function eliminarGenero($id)
+    {
         try {
             $sql = "DELETE FROM GENERO WHERE id = :id";
             $stmt = $this->pdo->prepare($sql);
@@ -498,7 +420,8 @@ class Modelo
         }
     }
 
-    public function actualizarSistema($id, $nombre_sistema) {
+    public function actualizarSistema($id, $nombre_sistema)
+    {
         try {
             $sql = "UPDATE SISTEMA SET nombre_sistema = :nombre_sistema WHERE id_sistema = :id";
             $stmt = $this->pdo->prepare($sql);
@@ -517,7 +440,8 @@ class Modelo
         }
     }
 
-    public function eliminarSistema($id) {
+    public function eliminarSistema($id)
+    {
         try {
             $sql = "DELETE FROM SISTEMA WHERE id_sistema = :id";
             $stmt = $this->pdo->prepare($sql);
@@ -535,54 +459,58 @@ class Modelo
         }
     }
 
-    public function guardarSistema($nombreSistema) {
+    public function guardarSistema($nombreSistema)
+    {
         try {
             $sql = "INSERT INTO SISTEMA (nombre_sistema) VALUES (:nombre_sistema)";
             $stmt = $this->pdo->prepare($sql);
             $stmt->bindParam(':nombre_sistema', $nombreSistema, PDO::PARAM_STR);
-    
+
             return $stmt->execute();
         } catch (PDOException $e) {
             error_log("Error al guardar sistema: " . $e->getMessage());
             return false;
         }
     }
-    
-    public function guardarGenero($nombreGenero) {
+
+    public function guardarGenero($nombreGenero)
+    {
         try {
             $sql = "INSERT INTO GENERO (nombre_genero) VALUES (:nombre_genero)";
             $stmt = $this->pdo->prepare($sql);
             $stmt->bindParam(':nombre_genero', $nombreGenero, PDO::PARAM_STR);
-    
+
             return $stmt->execute();
         } catch (PDOException $e) {
             error_log("Error al guardar género: " . $e->getMessage());
             return false;
         }
     }
-    
-    public function usuarioExiste($nick) {
+
+    public function usuarioExiste($nick)
+    {
         try {
             $sql = "SELECT COUNT(*) FROM USUARIO WHERE nick = :nick";
             $stmt = $this->pdo->prepare($sql);
             $stmt->bindParam(':nick', $nick, PDO::PARAM_STR);
             $stmt->execute();
-    
+
             return $stmt->fetchColumn() > 0; // Devuelve true si el usuario existe
         } catch (PDOException $e) {
             error_log("Error al verificar si el usuario existe: " . $e->getMessage());
             return false;
         }
     }
-    
-    public function crearUsuario($nick, $email, $nombre, $ape1, $ape2, $tlf, $direccion_tipo, $direccion_via, $direccion_numero, $direccion_otros, $rol) {
+
+    public function crearUsuario($nick, $email, $nombre, $ape1, $ape2, $tlf, $direccion_tipo, $direccion_via, $direccion_numero, $direccion_otros, $rol)
+    {
         try {
             // Consulta SQL para insertar un usuario
             $sql = "INSERT INTO USUARIO (nick, email, nombre, ape1, ape2, tlf, direccion_tipo, direccion_via, direccion_numero, direccion_otros, id_rol, password) 
                     VALUES (:nick, :email, :nombre, :ape1, :ape2, :tlf, :direccion_tipo, :direccion_via, :direccion_numero, :direccion_otros, :rol, :password)";
-            
+
             $stmt = $this->pdo->prepare($sql);
-    
+
             // Preparar valores para los parámetros opcionales
             $nombre = $nombre ?: null;
             $ape1 = $ape1 ?: null;
@@ -592,10 +520,10 @@ class Modelo
             $direccion_via = $direccion_via ?: null;
             $direccion_numero = $direccion_numero ?: null;
             $direccion_otros = $direccion_otros ?: null;
-    
+
             // Cifrar la contraseña basada en el nick
             $passwordHash = password_hash($nick, PASSWORD_BCRYPT);
-    
+
             // Asociar parámetros
             $stmt->bindParam(':nick', $nick, PDO::PARAM_STR);
             $stmt->bindParam(':email', $email, PDO::PARAM_STR);
@@ -609,7 +537,7 @@ class Modelo
             $stmt->bindParam(':direccion_otros', $direccion_otros, PDO::PARAM_STR);
             $stmt->bindParam(':rol', $rol, PDO::PARAM_INT);
             $stmt->bindParam(':password', $passwordHash, PDO::PARAM_STR);
-    
+
             // Ejecutar la consulta y retornar el resultado
             if ($stmt->execute()) {
                 return true;
@@ -623,17 +551,18 @@ class Modelo
             error_log("Error al crear usuario: " . $e->getMessage());
             return false;
         }
-    }  
+    }
 
-    public function crearJuego($titulo, $desarrollador, $distribuidor, $anio, $rutaImagen, $rutaArchivo, $generos, $sistemas) {
+    public function crearJuego($titulo, $desarrollador, $distribuidor, $anio, $rutaImagen, $rutaArchivo, $generos, $sistemas)
+    {
         try {
             $this->pdo->beginTransaction();
-    
+
             // Insertar el juego en la tabla `juego`
             $sqlJuego = "INSERT INTO JUEGO (titulo, ruta, ruta_imagen, desarrollador, distribuidor, anio) 
                          VALUES (:titulo, :ruta, :ruta_imagen, :desarrollador, :distribuidor, :anio)";
             $stmtJuego = $this->pdo->prepare($sqlJuego);
-    
+
             // Vincular parámetros, asignando null si están vacíos
             $stmtJuego->bindValue(':titulo', $titulo ?: null, PDO::PARAM_STR);
             $stmtJuego->bindValue(':ruta', $rutaArchivo ?: null, PDO::PARAM_STR);
@@ -641,12 +570,12 @@ class Modelo
             $stmtJuego->bindValue(':desarrollador', $desarrollador ?: null, PDO::PARAM_STR);
             $stmtJuego->bindValue(':distribuidor', $distribuidor ?: null, PDO::PARAM_STR);
             $stmtJuego->bindValue(':anio', $anio ?: null, PDO::PARAM_INT);
-    
+
             $stmtJuego->execute();
-    
+
             // Obtener el ID del juego recién insertado
             $juegoId = $this->pdo->lastInsertId();
-    
+
             // Insertar géneros en la tabla `juego_genero`
             if (!empty($generos)) {
                 $sqlGenero = "INSERT INTO JUEGO_GENERO (id_juego, id_genero) 
@@ -654,14 +583,14 @@ class Modelo
                               FROM GENERO 
                               WHERE id = :id_genero";
                 $stmtGenero = $this->pdo->prepare($sqlGenero);
-    
+
                 foreach ($generos as $generoId) {
                     $stmtGenero->bindValue(':id_juego', $juegoId, PDO::PARAM_INT);
                     $stmtGenero->bindValue(':id_genero', $generoId, PDO::PARAM_INT);
                     $stmtGenero->execute();
                 }
             }
-    
+
             // Insertar sistemas en la tabla `juego_sistema`
             if (!empty($sistemas)) {
                 $sqlSistema = "INSERT INTO JUEGO_SISTEMA (id_juego, id_sistema) 
@@ -669,18 +598,18 @@ class Modelo
                                FROM SISTEMA 
                                WHERE id_sistema = :id_sistema";
                 $stmtSistema = $this->pdo->prepare($sqlSistema);
-    
+
                 foreach ($sistemas as $sistemaId) {
                     $stmtSistema->bindValue(':id_juego', $juegoId, PDO::PARAM_INT);
                     $stmtSistema->bindValue(':id_sistema', $sistemaId, PDO::PARAM_INT);
                     $stmtSistema->execute();
                 }
             }
-    
+
             // Confirmar la transacción
             $this->pdo->commit();
             return true;
-    
+
         } catch (PDOException $e) {
             // Revertir la transacción en caso de error
             $this->pdo->rollBack();
@@ -688,9 +617,105 @@ class Modelo
             return $e->getMessage();
         }
     }
-    
-    
-    
-    
+
+    public function aniadirCarro($id_juego, $nick)
+    {
+        // echo "hola";
+        try {
+            // Preparar y ejecutar la consulta
+            $query = "INSERT INTO CARRO (ID_juego, nick) 
+                     VALUES (:id_juego, :nick_usuario)";
+            $stmt = $this->pdo->prepare($query);
+            $stmt->bindValue(':id_juego', $id_juego, PDO::PARAM_INT);
+            $stmt->bindValue(':nick_usuario', $nick, PDO::PARAM_STR);
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            error_log("Error al añadir al carro: " . $e->getMessage());
+            return false;
+        }
+    }
+
+
+    public function listarCesta($nick)
+    {
+        try {
+            $query = "SELECT id_juego
+                      FROM CARRO
+                      WHERE nick = :nick";
+            $stmt = $this->pdo->prepare($query);
+            $stmt->bindValue(':nick', $nick, PDO::PARAM_STR);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error al listar la cesta: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function cargarJuegosCestaUser($nick)
+    {
+        // Obtener los IDs de los juegos en la cesta del usuario
+        $ids = $this->listarCesta($nick);
+
+        // Si no hay IDs, retornar un array vacío
+        if (empty($ids)) {
+            return [];
+        }
+
+        // Extraer solo los valores de los IDs del array asociativo
+        $idJuegos = array_column($ids, 'id_juego');
+
+        try {
+            // Crear una cadena de placeholders para la consulta IN
+            $placeholders = implode(',', array_fill(0, count($idJuegos), '?'));
+
+            // Consulta para obtener los juegos que coinciden con los IDs
+            $query = "SELECT * 
+                      FROM JUEGO
+                      WHERE id_juego IN ($placeholders)";
+            $stmt = $this->pdo->prepare($query);
+
+            // Ejecutar la consulta con los IDs como parámetros
+            $stmt->execute($idJuegos);
+
+            // Retornar los resultados como un array asociativo
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            // Registrar el error en caso de excepción
+            error_log("Error al cargar los juegos de la cesta: " . $e->getMessage());
+            return $e->getMessage();
+        }
+    }
+
+    public function eliminarJuegoCesta($id_juego, $nick)
+    {
+        try {
+            $query = "DELETE FROM CARRO WHERE id_juego = :id_juego AND nick = :nick";
+            $stmt = $this->pdo->prepare($query);
+            $stmt->bindValue(':id_juego', $id_juego, PDO::PARAM_INT);
+            $stmt->bindValue(':nick', $nick, PDO::PARAM_STR);
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            error_log("Error al eliminar juego de la cesta: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function vaciarCarrito($nick)
+    {
+        try {
+            $query = "DELETE FROM CARRO WHERE nick = :nick";
+            $stmt = $this->pdo->prepare($query);
+            $stmt->bindValue(':nick', $nick, PDO::PARAM_STR);
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            error_log("Error al vaciar el carrito: " . $e->getMessage());
+            return false;
+        }
+    }
+
 }
 ?>

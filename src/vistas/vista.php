@@ -55,4 +55,9 @@ class Vista
         require_once BASE_PATH . '/src/vistas/frm/carrito.php';
     }
 
+    public static function pagarCarrito()
+    {
+        require_once BASE_PATH . '/src/vistas/frm/formularioCompra.php';
+    }
+
 }

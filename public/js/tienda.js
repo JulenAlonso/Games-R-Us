@@ -1,4 +1,4 @@
-async function fetchData() {
+async function fetchData(nick = null) {
     try {
         const response = await fetch('/Games-r-us/public/index.php', {
             method: 'POST',
@@ -14,7 +14,7 @@ async function fetchData() {
 
         const result = await response.json();
         if (result.success) {
-            renderStore(result.data);
+            renderStore(result.data, null, nick);
             renderSidebar(result.data);
         } else {
             console.error("Error en el servidor:", result.message);
@@ -24,7 +24,7 @@ async function fetchData() {
     }
 }
 
-function renderStore(data, filterCategory = null) {
+function renderStore(data, filterCategory = null, nick = null) {
     const storeContainer = document.getElementById('store-container');
     storeContainer.innerHTML = ''; // Limpiar contenido previo
 
@@ -40,19 +40,24 @@ function renderStore(data, filterCategory = null) {
     const categoryContainer = document.createElement('div');
     categoryContainer.classList.add('container');
 
+
     filteredData.forEach(product => {
+
+        console.log(product);
+
         const productElement = document.createElement('div');
         productElement.classList.add('product');
         productElement.innerHTML = `
-            <img src="${product.image}" alt="${product.title}">
+            <img src="${product.ruta_imagen}" alt="${product.titulo}">
             <div class="divider"></div>
             <div class="product-content">
-                <h3>${product.title}</h3>
-                <p>${product.description}</p>
+                <h3>${product.titulo}</h3>
+                <p>${product.desarrollador}</p>
                 <p><strong>Precio:</strong> ${product.precio}€</p>
                 <div class="buttons">
                     <form method="POST">
                         <input type="text" name="compra_gameid" value="${product.id}" hidden>
+                        <input type="text" name="compra_usuarionick" value="${nick}" hidden>
                         <input type="submit" class="play-input" name="tienda_comprar" value="Comprar">
                         <input type="submit" name="tienda_regalar" value="Regalar">
                     </form>
@@ -77,9 +82,9 @@ function openModal(product) {
     modalContainer.innerHTML = `
         <div class="modal-content">
             <span class="modal-close">&times;</span>
-            <h3>${product.title}</h3>
-            <img src="${product.image}" alt="${product.title}">
-            <p>${product.description}</p>
+            <h3>${product.titulo}</h3>
+            <img src="${product.ruta_imagen}" alt="${product.titulo}">
+            <p>${product.desarrollador}</p>
             <p><strong>Precio:</strong> ${product.precio}€</p>
             <div class="buttons">
                 <form method="POST">
@@ -88,7 +93,7 @@ function openModal(product) {
                     <input type="submit" name="tienda_regalar" value="Regalar">
                 </form>
             </div>
-        </div>
+        </div>*/
     `;
 
     document.body.appendChild(modalContainer);
@@ -132,4 +137,4 @@ function renderSidebar(data) {
 }
 
 // Llamar a la función al cargar la página
-document.addEventListener('DOMContentLoaded', fetchData);
+

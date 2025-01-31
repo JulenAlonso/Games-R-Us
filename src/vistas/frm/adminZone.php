@@ -44,6 +44,17 @@
                         <input type="submit" id="nav_bibliotecaButton" name="nav_bibliotecaButton" hidden>
                     </form>
                 </div>
+                <!-- CARRITO  -->
+                <div>
+                    <?php if (isset($_SESSION['user_nick'])): ?>
+                        <!-- Mostrar botón solo para usuarios autenticados -->
+                        <p onclick="document.getElementById('nav_carritoButton').click();">Carrito</p>
+                        <form method="POST">
+                            <input type="submit" id="nav_carritoButton" name="nav_carritoButton" hidden>
+                        </form>
+                    <?php endif; ?>
+                </div>
+                <!-- -------------------------------- -->
                 <div class="svg-container">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor">

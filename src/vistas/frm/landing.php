@@ -48,7 +48,7 @@
       <!-- CARRITO  -->
       <?php if (isset($_SESSION['user_nick'])): ?>
         <!-- Mostrar botón solo para usuarios autenticados -->
-        <p class="bi bi-bag" onclick="document.getElementById('nav_carritoButton').click();"></p>
+        <p onclick="document.getElementById('nav_carritoButton').click();">Carrito</p>
         <form method="POST">
           <input type="submit" id="nav_carritoButton" name="nav_carritoButton" hidden>
         </form>
