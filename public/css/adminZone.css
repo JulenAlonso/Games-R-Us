@@ -522,3 +522,70 @@ body {
 .floating-add.hidden {
     display: none;
 }
+
+#searchResults {
+    display: flex;
+    flex-direction: column; /* Cambiado a columna para que las sugerencias se apilen */
+    position: absolute;
+    right: 0;
+    width: 600px;
+    max-height: 250px; /* Limita la altura para un máximo de 4 elementos */
+    overflow-y: auto; /* Scroll si hay más de 4 elementos */
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    padding: 5px;
+}
+
+.suggestion-api {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out;
+    white-space: nowrap;
+    border-bottom: 1px solid #ddd; /* Separador entre elementos */
+}
+
+.suggestion-api:last-child {
+    border-bottom: none; /* Evita el borde en el último elemento */
+}
+
+.suggestion-api:hover {
+    background-color: #f0f0f0;
+}
+
+.suggestion-api img {
+    width: 60px; /* Ajustado para una mejor visibilidad */
+    height: 60px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.suggestion-api .game-info {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1; /* Ocupa todo el espacio restante */
+}
+
+.suggestion-api .game-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.suggestion-api .game-platforms {
+    font-size: 14px;
+    color: #666;
+}
+
+.suggestion-api .extra-info {
+    font-size: 12px;
+    color: #888;
+}
+

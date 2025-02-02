@@ -127,7 +127,7 @@ async function showUserDetails(userNick) {
         // Crear el HTML del formulario
         const formHTML = `
             <h2>Editar Usuario</h2>
-            <img src="${"../avatar/" + user.avatar}" alt="Profile" class="profile-avatar">
+            <img src="${"../src/uploads/image/avatar/" + user.avatar}" alt="Profile" class="profile-avatar">
             <form onsubmit="saveUser(event, '${user.nick}')">
                 <div>
                     <p>Rol:</p>
@@ -607,6 +607,26 @@ function deleteGame(gameId) {
 function newGameForm() {
   const modalHTML = `
     <h2>Añadir Nuevo Juego</h2>
+
+    <!-- Buscador para encontrar juegos en MovieGames -->
+    <div style="margin-bottom: 20px;">
+        <p style="text-align: left;">Buscar Juego:</p>
+        <div style="position: relative;">
+            <input type="text" id="gameSearch" 
+                  placeholder="Introduce el título del juego a buscar" 
+                  oninput="searchGame()" 
+                  onclick="toggleSearchResults(true)" 
+                  onfocus="toggleSearchResults(true)">
+            <div id="searchResults" class="suggestions hidden"></div>
+        </div>
+    </div>
+
+    <!-- Botón para importar JSON -->
+    <div style="margin-bottom: 20px;">
+        <p>Importar JSON:</p>
+        <input type="file" id="jsonImport" accept=".json" onchange="importJSON(event)">
+    </div>
+
     <form onsubmit="saveNewGame(event)" enctype="multipart/form-data">
         <p>Título:</p>
         <input type="text" id="newGameTitle" name="titulo" placeholder="Introduce el título del juego" required>
@@ -674,7 +694,6 @@ function newGameForm() {
 
   openPopout(modalHTML);
 }
-
 
 async function saveNewGame() {
   // Crear el objeto con los datos del juego
@@ -1288,4 +1307,114 @@ async function saveNewSistema(event) {
     console.error("Error al enviar la solicitud:", error);
     alert("Error al añadir el sistema.");
   }
+}
+
+// Función para buscar juegos en el API de MovieGames mediante POST
+async function searchGame() {
+  const query = document.getElementById("gameSearch").value.trim();
+  if (query.length < 3) return;
+
+  try {
+      // Crear los datos del cuerpo de la solicitud
+      const formData = new FormData();
+      formData.append("accion", "buscarJuego");
+      formData.append("title", query);
+
+      // Enviar solicitud POST al backend
+      const response = await fetch("/Games-r-us/public/index.php", {
+          method: "POST",
+          body: formData
+      });
+
+      const data = await response.json();
+      console.log("Resultados de la búsqueda:", data);
+
+      const resultsContainer = document.getElementById("searchResults");
+      resultsContainer.innerHTML = "";
+
+      if (!data.success || data.data.length === 0) {
+          resultsContainer.innerHTML = "<p>No se encontraron juegos.</p>";
+          return;
+      }
+
+      // Mostrar los juegos encontrados
+      data.data.forEach((game) => {
+          const gameItem = document.createElement("div");
+          gameItem.classList.add("suggestion-item");
+          gameItem.innerHTML = `
+              <img src="${game.portada}" alt="${game.titulo}" width="50">
+              <span>${game.titulo} (${game.plataformas.join(", ")})</span>
+          `;
+          gameItem.onclick = () => fillGameForm(game);
+          resultsContainer.appendChild(gameItem);
+      });
+
+      resultsContainer.classList.remove("hidden");
+  } catch (error) {
+      console.error("Error al buscar juegos:", error);
+  }
+}
+
+// Función para rellenar el formulario con los datos del juego seleccionado
+function fillGameForm(game) {
+  document.getElementById("newGameTitle").value = game.titulo;
+  document.getElementById("newGameDeveloper").value = game.desarrollador || "";
+  document.getElementById("newGameDistributor").value = game.distribuidor || "";
+  document.getElementById("newGameYear").value = game.anio || "";
+
+  // Ocultar los resultados de búsqueda
+  document.getElementById("searchResults").classList.add("hidden");
+}
+
+// Función para mostrar u ocultar la lista de sugerencias
+function toggleSearchResults(show) {
+  const resultsContainer = document.getElementById("searchResults");
+  if (show) {
+      resultsContainer.classList.remove("hidden");
+  } else {
+      setTimeout(() => resultsContainer.classList.add("hidden"), 200);
+  }
+}
+
+function importJSON(event) {
+  const file = event.target.files[0]; // Obtener el archivo seleccionado
+
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function (e) {
+      try {
+          const jsonData = e.target.result; // Obtener el contenido del JSON como string
+          console.log("Datos importados:", jsonData);
+
+          // Crear un objeto FormData para enviar al backend
+          const formData = new FormData();
+          formData.append("accion", "importarJuegoJSON"); // Acción para el backend
+          formData.append("jsonData", jsonData); // Enviar el JSON como string
+
+          // Enviar al backend con Fetch API
+          fetch("/Games-r-us/public/index.php", {
+              method: "POST",
+              body: formData,
+          })
+          .then(response => response.json())
+          .then(result => {
+              if (result.success) {
+                  closePopout();
+                  loadGames(); // Recargar la lista de juegos
+              } else {
+                  alert("Error al importar el juego: " + result.message);
+              }
+          })
+          .catch(error => {
+              console.error("Error en la importación:", error);
+          });
+
+      } catch (error) {
+          console.error("Error al leer el JSON:", error);
+          alert("Error al leer el archivo JSON.");
+      }
+  };
+
+  reader.readAsText(file); // Leer el archivo JSON como texto
 }

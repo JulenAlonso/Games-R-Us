@@ -1,7 +1,5 @@
 <?php
 
-use Dotenv\Parser\Value;
-
 if (!defined('BASE_PATH')) {
     define('BASE_PATH', realpath(__DIR__ . '/../..')); // Define BASE_PATH si no está definida
 }
@@ -88,8 +86,7 @@ class Controlador
                     // Autenticación exitosa, guarda los datos en la sesión
                     $_SESSION['user_nick'] = $user['nick'];
                     $_SESSION['user_role'] = $user['id_rol']; // Asumiendo que el rol está incluido en el usuario
-                    $_SESSION['DEBUG'] = print_r($_REQUEST);
-
+                    
                     // Redirige a la biblioteca
                     Vista::MuestraBiblioteca();
                     exit;
@@ -812,5 +809,51 @@ class Controlador
         }
     }
 
+    public function importarJuegoJSON() {
+        if (!isset($_POST['jsonData'])) {
+            echo json_encode(['success' => false, 'message' => 'No se ha recibido el JSON']);
+            return;
+        }
+    
+        // Convertir JSON a array
+        $jsonData = json_decode($_POST['jsonData'], true);
+    
+        if (!$jsonData || !is_array($jsonData)) {
+            echo json_encode(['success' => false, 'message' => 'Error al decodificar el JSON o formato incorrecto']);
+            return;
+        }
+    
+        $resultados = [
+            'importados' => 0,
+            'errores' => []
+        ];
+    
+        foreach ($jsonData as $juego) {
+            // Extraer datos del JSON
+            $titulo = $juego['titulo'] ?? null;
+            $desarrollador = $juego['desarrollador'] ?? null;
+            $distribuidor = $juego['distribuidor'] ?? null;
+            $anio = $juego['año'] ?? null;
+            $urlPortada = $juego['portada'] ?? null;
+            $urlJuego = $juego['ruta'] ?? null;
+            //$generos = $juego['generos'] ?? [];
+            //$sistemas = $juego['sistemas'] ?? [];
+    
+            // Llamar al modelo para guardar el juego en la base de datos
+            $resultado = $this->modelo->crearJuego($titulo, $desarrollador, $distribuidor, $anio, $urlPortada, $urlJuego, null, null);
+    
+            if ($resultado === true) {
+                $resultados['importados']++;
+            } else {
+                $resultados['errores'][] = "Error al guardar '$titulo': " . $resultado;
+            }
+        }
+    
+        echo json_encode([
+            'success' => true,
+            'message' => "Se importaron {$resultados['importados']} juegos.",
+            'errores' => $resultados['errores']
+        ]);
+    }   
 
 }

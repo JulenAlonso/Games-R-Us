@@ -4,9 +4,11 @@ define('BASE_PATH', realpath(__DIR__ . '/../'));
 
 // Autoload de clases (recomendado usar Composer)
 require_once BASE_PATH . '/src/controladores/Controlador.php';
+require_once BASE_PATH . '/src/controladores/api.php';
 
 // Crear instancia del controlador
 $controlador = new Controlador();
+$api = new Api();
 
 // Procesar la solicitud dependiendo del método HTTP
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -87,6 +89,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 break;
             case 'eliminarJuegoCesta':
                 $controlador->eliminarjuegocesta();
+                break;
+            case 'buscarJuego':
+                $api->buscarJuego();
+                break;
+            case 'importarJuegoJSON':
+                $controlador->importarJuegoJSON();
                 break;
 
             default:
