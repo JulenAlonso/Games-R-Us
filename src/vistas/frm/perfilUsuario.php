@@ -1,9 +1,6 @@
 <?php // AL ENTRAR AKI YA TENEMOS LA SESIÓN INICIADA -->
 if (!isset($_SESSION['user_nick'])) {
     exit;
-
-
-    print_r($_FILES);
 }
 
 ?>
@@ -99,82 +96,84 @@ if (!isset($_SESSION['user_nick'])) {
         </div>
         </div>
     </nav>
-    <form id="userForm" method="POST">
-        <div class="perfil-usuario">
-            <section class="layout">
-                <div class="grow1">
-                    <div class="profile-container">
-                        <h1>Perfil de Usuario</h1>
-                        <div class="profile-picture-section">
-                            <div class="picture-frame">
-                                <img class="profile-picture" id="user_avatar" src="/path/to/default-avatar.jpg"
-                                    alt="Avatar de usuario">
-                            </div>
-                            <form method="POST" enctype="multipart/form-data" id="profileForm">
-                                <input type="file" id="cambiarImagen" name="cambiarImagen" accept="image/*" required>
-                                <input type="submit" id="submitProfileForm" name="submitProfileForm">Actualizar
-                                Foto</input>
-                                <input type="text" name="accion" value="submitProfileForm" hidden>
-                            </form>
+    <div class="perfil-usuario">
+        <section class="layout">
+            <div class="grow1">
+                <div class="profile-container">
+                    <h1>Perfil de Usuario</h1>
+                    <div class="profile-picture-section">
+                        <div class="picture-frame">
+                            <img class="profile-picture" id="user_avatar" src="../../uploads/image/avatar/default.png"
+                                alt="Avatar de usuario">
                         </div>
+                        <form method="POST" enctype="multipart/form-data">
+                            <input type="file" id="user_avatar" name="user_avatar" accept="image/*" required>
+                            <input type="submit" id="submitProfileForm" name="submitProfileForm">Actualizar
+                            Foto</input>
+                            <input type="hidden" name="nick_user" id="nick_user" value="">
+                            <input type="hidden" name="id_A" id="id_A" value="userFormImg">
+                            <input type="text" name="accion" value="submitUserImg" hidden>
+                        </form>
                     </div>
-                </div>
-    </form>
-    <hr>
-    <form id="userForm" method="POST">
-        <div class="datosPersonales">
-            <center>
-                <h1>DATOS PERSONALES</h1>
-            </center>
-            <div class="direcciones">
-                <div class="dir1">
-                    <div class="profile-details">
-                        <strong>Nick: </strong>
-                        <p id="user_nick"> </p> <!-- Campo no editable -->
-                        <strong>Email: </strong>
-                        <p id="user_email"> </p> <!-- Campo no editable -->
-                        <strong>Rol: </strong>
-                        <p id="user_role"> </p> <!-- Campo no editable -->
-                    </div>
-                </div>
-                <div class="dir2">
-                    <p><strong>DATOS DE USUARIO</strong></p>
-                    <strong>Nombre de usuario: </strong><br>
-                    <input type="text" id="user_nombre" name="user_nombre"><br>
-                    <strong>Primer apellido: </strong><br>
-                    <input type="text" id="user_ape1" name="user_ape1"><br>
-                    <strong>Segundo apellido: </strong><br>
-                    <input type="text" id="user_ape2" name="user_ape2"><br>
-                    <strong>Teléfono: </strong><br>
-                    <input type="tel" id="user_tlf" name="user_tlf"><br>
-                </div>
-                <div class="dir3">
-                    <p><strong>DIRECCIÓN</strong></p>
-                    <strong>Tipo de vía: </strong><br>
-                    <input type="text" id="user_direccion_tipo" name="user_direccion_tipo"><br>
-                    <strong>Nombre de la vía: </strong><br>
-                    <input type="text" id="user_direccion_via" name="user_direccion_via"><br>
-                    <strong>Número: </strong><br>
-                    <input type="text" id="user_direccion_numero" name="user_direccion_numero"><br>
-                    <strong>Otros datos de dirección: </strong><br>
-                    <input type="text" id="user_direccion_otros" name="user_direccion_otros"><br>
                 </div>
             </div>
-            <center><button type="submit">Guardar</button></center>
-        </div>
-        </div>
-        <hr>
-        <div class="grow3">
-        </div>
-        </section>
+            <hr>
+            <form method="POST">
+                <div class="datosPersonales">
+                    <center>
+                        <h1>DATOS PERSONALES</h1>
+                    </center>
+                    <div class="direcciones">
+                        <div class="dir1">
+                            <div class="profile-details">
+                                <strong>Nick: </strong>
+                                <p id="user_nick"> </p> <!-- Campo no editable -->
+                                <strong>Email: </strong>
+                                <p id="user_email"> </p> <!-- Campo no editable -->
+                                <strong>Rol: </strong>
+                                <p id="user_role"> </p> <!-- Campo no editable -->
+                            </div>
+                        </div>
+                        <div class="dir2">
+                            <p><strong>DATOS DE USUARIO</strong></p>
+                            <strong>Nombre de usuario: </strong><br>
+                            <input type="text" id="user_nombre" name="user_nombre"><br>
+                            <strong>Primer apellido: </strong><br>
+                            <input type="text" id="user_ape1" name="user_ape1"><br>
+                            <strong>Segundo apellido: </strong><br>
+                            <input type="text" id="user_ape2" name="user_ape2"><br>
+                            <strong>Teléfono: </strong><br>
+                            <input type="tel" id="user_tlf" name="user_tlf"><br>
+                        </div>
+                        <div class="dir3">
+                            <p><strong>DIRECCIÓN</strong></p>
+                            <strong>Tipo de vía: </strong><br>
+                            <input type="text" id="user_direccion_tipo" name="user_direccion_tipo"><br>
+                            <strong>Nombre de la vía: </strong><br>
+                            <input type="text" id="user_direccion_via" name="user_direccion_via"><br>
+                            <strong>Número: </strong><br>
+                            <input type="text" id="user_direccion_numero" name="user_direccion_numero"><br>
+                            <strong>Otros datos de dirección: </strong><br>
+                            <input type="text" id="user_direccion_otros" name="user_direccion_otros"><br>
+                        </div>
+                    </div>
+                    <input type="hidden" id="accion" name="accion" value="EditarDatosUsuario">
+                    <input type="hidden" id="nick_user" name="nick_user" value="">
+                    <input type="hidden" name="id_A" id="id_A" value="userFormDatos">
+                    <center><button type="submit">Guardar</button></center>
+                </div>
+    </div>
+    <hr>
+    <div class="grow3">
+    </div>
+    </section>
     </form>
     </main>
     <script src="../public/js/nav.js"></script>
     <script src="../public/js/perfilUsuario.js"></script>
     <script>
         const user = '<?php echo $_SESSION['user_nick']; ?>';
-        enviarUsuario(user);
-
+        cargarUsuario(user);
     </script>
 </body>
 

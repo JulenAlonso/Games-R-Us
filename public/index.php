@@ -51,11 +51,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             case 'listadoSistemas':
                 $controlador->listadoSistemas();
                 break;
-            case 'submitProfileForm':
-                print_r($_REQUEST);
-                //$controlador->cambiarAvatar();
-                $archivo = $_FILES['cambiarImagen'];
-                print_r($archivo);
+            case 'submitUserImg':
+                $controlador->EditarDatosUsuario();
                 break;
             case 'editarGenero':
                 $controlador->editarGenero();
@@ -96,12 +93,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             case 'importarJuegoJSON':
                 $controlador->importarJuegoJSON();
                 break;
+            case 'EditarDatosUsuario':
+                $controlador->EditarDatosUsuario();
+                break;
 
             default:
                 header('Content-Type: application/json');
                 echo json_encode([
                     'success' => false,
-                    'message' => 'Acción no válida.'
+                    'message' => 'Acción no válida. PENE'
                 ]);
                 break;
         }

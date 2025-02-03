@@ -636,7 +636,6 @@ class Modelo
         }
     }
 
-
     public function listarCesta($nick)
     {
         try {
@@ -717,5 +716,56 @@ class Modelo
         }
     }
 
+    public function actualizarDatosUsuario($nick, $nombre, $ape1, $ape2, $tlf, $direccion_tipo, $direccion_via, $direccion_numero, $direccion_otros){
+        try {
+            $sql = "UPDATE USUARIO 
+                    SET nombre = :nombre, 
+                        ape1 = :ape1, 
+                        ape2 = :ape2,
+                        tlf = :tlf, 
+                        direccion_tipo = :direccion_tipo,
+                        direccion_via = :direccion_via,
+                        direccion_numero = :direccion_numero,
+                        direccion_otros = :direccion_otros
+                    WHERE nick = :nick";
+
+            $stmt = $this->pdo->prepare($sql);
+
+            $stmt->bindParam(':nick', $nick);
+            $stmt->bindParam(':nombre', $nombre);
+            $stmt->bindParam(':ape1', $ape1);
+            $stmt->bindParam(':ape2', $ape2);
+            $stmt->bindParam(':tlf', $tlf);
+            $stmt->bindParam(':direccion_tipo', $direccion_tipo);
+            $stmt->bindParam(':direccion_via', $direccion_via);
+            $stmt->bindParam(':direccion_numero', $direccion_numero);
+            $stmt->bindParam(':direccion_otros', $direccion_otros);
+
+            $stmt->execute();
+
+            return ['success' => true, 'message' => 'User updated successfully'];
+        } catch (PDOException $e) {
+            return ['success' => false, 'message' => 'Error updating user: ' . $e->getMessage()];
+        }
+    }
+
+    public function actualizarAvatarUsuario($nick, $nombreImagen){
+        try {
+            $sql = "UPDATE USUARIO 
+                    SET avatar = :avatar
+                    WHERE nick = :nick";
+
+            $stmt = $this->pdo->prepare($sql);
+
+            $stmt->bindParam(':nick', $nick);
+            $stmt->bindParam(':avatar', $nombreImagen);
+
+            $stmt->execute();
+
+            return ['success' => true, 'message' => 'User updated successfully'];
+        } catch (PDOException $e) {
+            return ['success' => false, 'message' => 'Error updating user: ' . $e->getMessage()];
+        }
+    }
 }
 ?>

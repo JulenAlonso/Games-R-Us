@@ -5,6 +5,7 @@ function toggleProfileMenu() {
 function loadUserInfo(data) {
     // Los campos Nick y Email se muestran como texto no editable
     document.getElementById("user_nick").innerText = data.nick;
+    document.getElementById("nick_user").value = data.nick;
     document.getElementById("user_email").innerText = data.email;
     document.getElementById("user_role").innerText = data.rol;
 
@@ -17,9 +18,9 @@ function loadUserInfo(data) {
     document.getElementById("user_direccion_via").value = data.direccion_via;
     document.getElementById("user_direccion_numero").value = data.direccion_numero;
     document.getElementById("user_direccion_otros").value = data.direccion_otros;
-    document.getElementById("user_avatar").src = "../avatar/" + data.avatar;
+    document.getElementById("user_avatar").src = "../src/uploads/image/avatar/" + data.avatar;
 }
-async function enviarUsuario(user) {
+async function cargarUsuario(user) {
     try {
         const response = await fetch("/Games-r-us/public/index.php", {
             method: "POST",

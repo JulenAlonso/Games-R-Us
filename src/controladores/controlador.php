@@ -744,24 +744,6 @@ class Controlador
         echo json_encode(['success' => false, 'message' => 'Solicitud inválida o falta de parámetros.']);
     }
 
-    function cambiarAvatar()
-    {
-
-        // if (isset($_POST['accion']) && $_POST['accion'] === 'submitProfileForm') {
-        echo "LUIS";
-        print_r($_FILES);
-        //Recogemos el archivo enviado por el formulario
-
-    }
-
-
-
-    private function usuarioEsAdmin()
-    {
-        // Verifica si el usuario tiene rol de administrador
-        return isset($_SESSION['user_role']) && $_SESSION['user_role'] === 2;
-    }
-
     public function listarcesta()
     {
         $resultado = $this->modelo->cargarJuegosCestaUser($_POST['nick']);
@@ -854,6 +836,59 @@ class Controlador
             'message' => "Se importaron {$resultados['importados']} juegos.",
             'errores' => $resultados['errores']
         ]);
-    }   
+    } 
+    
+    public function EditarDatosUsuario(){
+        if ($_POST['id_A'] == 'userFormDatos') {
+            // Gestionamos los datos del usuario
 
+            $nick = $_POST['nick_user'] ?? '';
+
+            $nombre = $_POST['user_nombre'] ?? '';
+            $ape1 = $_POST['user_ape1'] ?? '';
+            $ape2 = $_POST['user_ape2'] ?? '';
+            $tlf = $_POST['user_tlf'] ?? '';
+            $direccion_tipo = $_POST['user_direccion_tipo'] ?? '';
+            $direccion_via = $_POST['user_direccion_via'] ?? '';
+            $direccion_numero = $_POST['user_direccion_numero'] ?? '';
+            $direccion_otros = $_POST['user_direccion_otros'] ?? '';
+            
+            $result = $this->modelo->actualizarDatosUsuario($nick, $nombre, $ape1, $ape2, $tlf, $direccion_tipo, $direccion_via, $direccion_numero, $direccion_otros);
+            
+            if ($result['success']) {
+                //echo json_encode(['success' => true, 'message' => 'Actualizado correctamente!']);
+                Vista::MuestraPerfilUsuario();
+            } else {
+                echo json_encode(['success' => false, 'message' => $result['message']]);
+            }
+        } else if ($_POST['id_A'] == 'userFormImg' ) {
+            //PASO 1: Capturamos la información de la imagen
+            $imagen = $_FILES['user_avatar'] ?? null;
+
+            // PASO 2: Obtenemos la extension del archivo
+            $extension = pathinfo($imagen['name'], PATHINFO_EXTENSION);
+
+            // PASO 3: Generamos el nombre con el nick
+            $nick = $_POST['nick_user'] ?? '';
+            $nombreImagen = $nick . '.' . $extension;
+
+            // PASO 4: Indicamos la ruta de destino
+            $destination = BASE_PATH ."\\src\\uploads\\image\\avatar\\" . $nombreImagen;
+            
+            //PASO 5: Movemos la imagen a la carpeta de avatares
+            if (move_uploaded_file($imagen['tmp_name'], $destination)) {
+                //PASO 6: Actualizamos la base de datos
+                $result = $this->modelo->actualizarAvatarUsuario($nick, $nombreImagen);
+                
+                if ($result['success']) {
+                    //echo json_encode(['success' => true, 'message' => 'Actualizado correctamente!']);
+                    Vista::MuestraPerfilUsuario();
+                } else {
+                    echo json_encode(['success' => false, 'message' => $result['message']]);
+                }
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Error al subir la imagen']);
+            }
+        }
+    }
 }
