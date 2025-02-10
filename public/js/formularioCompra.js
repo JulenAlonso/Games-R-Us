@@ -72,3 +72,17 @@ buttonContinue.addEventListener("click", () => {
     cardYear.innerText = "00";
     cardCVC.innerText = "000";
 })
+
+function getPagoRegalo() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const pagoRegalo = urlParams.get("pagoRegalo");
+
+    if (pagoRegalo) {
+        console.log("Valor de pagoRegalo:", pagoRegalo);
+    } else {
+        console.log("No se encontró el parámetro pagoRegalo en la URL.");
+    }
+}
+
+// Llamar a la función al cargar la página
+window.onload = getPagoRegalo;

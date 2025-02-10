@@ -767,5 +767,37 @@ class Modelo
             return ['success' => false, 'message' => 'Error updating user: ' . $e->getMessage()];
         }
     }
+
+    public function obtenerJuegoPorId($id_juego){
+        try {
+            $query = "SELECT * FROM JUEGO WHERE id_juego = :id_juego";
+            $stmt = $this->pdo->prepare($query);
+            $stmt->bindValue(':id_juego', $id_juego, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error al obtener el juego: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function obtenerJuegosUsuario($nick) {
+        try {
+            $sql = "SELECT JUEGO.* 
+                    FROM JUEGO
+                    INNER JOIN USUARIO_JUEGO ON JUEGO.id_juego = USUARIO_JUEGO.id_juego
+                    WHERE USUARIO_JUEGO.nick = :nick";
+    
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(':nick', $nick, PDO::PARAM_STR);
+            $stmt->execute();
+    
+            return $stmt->fetchAll(PDO::FETCH_ASSOC); // Devolver los juegos en formato de array asociativo
+        } catch (PDOException $e) {
+            error_log("Error al obtener los juegos del usuario: " . $e->getMessage());
+            return []; // Devuelve un array vacío en caso de error
+        }
+    }
+    
 }
 ?>

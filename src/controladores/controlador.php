@@ -11,15 +11,13 @@ class Controlador
 {
     private $modelo;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->modelo = new Modelo();
         session_start(); // Asegura que las sesiones estén habilitadas en cada solicitud
     }
 
     //FUNCIONALIDAD DE TIENDA
-    public function Inicia()
-    {
+    public function Inicia() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') { //Primer filtrado que hacemos
             if (isset($_POST['accion']) && $_POST['accion'] === 'listadoJuegos') {
                 $this->listadoJuegos();
@@ -35,8 +33,7 @@ class Controlador
         }
     }
 
-    private function procesaNav()
-    {
+    private function procesaNav()  {
         // Verifica qué botón fue presionado
         if (isset($_POST['nav_loginButton'])) {
             Vista::MuestraLogin();
@@ -64,8 +61,7 @@ class Controlador
     }
 
     // Esto ejecuta TODO el login.php
-    private function procesaLogin()
-    {
+    private function procesaLogin() {
         if (isset($_POST['loginButtonBut'])) {
             // Obtén los datos del formulario
             $input = $_POST['nick'] ?? ''; // Puede ser el nick o el correo
@@ -103,8 +99,7 @@ class Controlador
     }
 
     //Gestiona la pagina de  registro
-    private function procesaRegister()
-    {
+    private function procesaRegister() {
         if (isset($_POST['reg_registerButton'])) {
             $username = $_POST['reg_username'] ?? '';
             $email = $_POST['reg_email'] ?? '';
@@ -139,14 +134,12 @@ class Controlador
         }
     }
 
-    private function usuarioAutenticado()
-    {
+    private function usuarioAutenticado() {
         // Devuelve verdadero si hay una sesión activa
         return isset($_SESSION['user_nick']);
     }
 
-    public function listadoLanding()
-    {
+    public function listadoLanding() {
 
         try {
             // Obtener los juegos desde el modelo
@@ -194,8 +187,7 @@ class Controlador
         }
     }
 
-    public function listadoJuegos()
-    {
+    public function listadoJuegos() {
         try {
             // Obtener los juegos desde el modelo
             $juegos = $this->modelo->obtenerJuegos();
@@ -247,8 +239,7 @@ class Controlador
 
     // ----- COMPRAR -------------------------------------------
     //Esto direccionaria las peticiones de "COMPRAR" y "REGALAR"
-    public function procesarTienda()
-    {
+    public function procesarTienda() {
 
         if (isset($_POST['tienda_comprar'])) {
             if (!empty($_POST['compra_gameid']) && !empty($_POST['compra_usuarionick'])) {
@@ -259,14 +250,10 @@ class Controlador
             } else {
                 echo "Faltan datos en el formulario.";
             }
-            // Vista::MuestraFormularioCompra(); //Aqui habria que poner la logica de "COMPRA"
-            // } else if (isset($_POST['tienda_regalar'])) {
-            // Vista::MuestraFormularioRegalo(); //Aqui habria que poner la logica de "REGALAR"
         }
     }
 
-    public function admn_listarUsers()
-    {
+    public function admn_listarUsers() {
         try {
             // Obtener los usuarios del modelo
             $usuarios = $this->modelo->obtenerUsuarios();
@@ -321,8 +308,7 @@ class Controlador
         }
     }
 
-    public function editarUsuario()
-    {
+    public function editarUsuario() {
         if (isset($_POST['nick'], $_POST['nombre'], $_POST['ape1'], $_POST['ape2'], $_POST['tlf'])) {
             $nick = htmlspecialchars($_POST['nick']);
             $nombre = htmlspecialchars($_POST['nombre']);
@@ -347,8 +333,7 @@ class Controlador
         }
     }
 
-    public function editarJuego()
-    {
+    public function editarJuego() {
         error_log("Datos recibidos: " . print_r($_POST, true)); // Depuración
 
         // Validar que se reciban los campos necesarios y que la acción sea "editarJuego"
@@ -399,8 +384,7 @@ class Controlador
         }
     }
 
-    public function eliminarUsuario()
-    {
+    public function eliminarUsuario() {
         if (isset($_POST['nick'])) {
             $nick = htmlspecialchars($_POST['nick']);
 
@@ -417,8 +401,7 @@ class Controlador
         }
     }
 
-    public function listadoGeneros()
-    {
+    public function listadoGeneros() {
         try {
             $result = $this->modelo->obtenerGeneros();
 
@@ -434,8 +417,7 @@ class Controlador
         }
     }
 
-    public function listadoSistemas()
-    {
+    public function listadoSistemas() {
         try {
             $result = $this->modelo->obtenerSistemas();
 
@@ -451,8 +433,7 @@ class Controlador
         }
     }
 
-    public function eliminarJuego()
-    {
+    public function eliminarJuego() {
         if (isset($_POST['id'])) {
             $id = intval($_POST['id']);
 
@@ -469,8 +450,7 @@ class Controlador
         }
     }
 
-    public function editarGenero()
-    {
+    public function editarGenero()  {
         if (isset($_POST['id'], $_POST['nombre_genero'])) {
             $id = intval($_POST['id']);
             $nombre_genero = htmlspecialchars($_POST['nombre_genero']);
@@ -487,8 +467,7 @@ class Controlador
         }
     }
 
-    public function eliminarGenero()
-    {
+    public function eliminarGenero()  {
         if (isset($_POST['id'])) {
             $id = intval($_POST['id']);
 
@@ -504,8 +483,7 @@ class Controlador
         }
     }
 
-    public function editarSistema()
-    {
+    public function editarSistema()  {
         if (isset($_POST['id'], $_POST['nombre_sistema'])) {
             $id = intval($_POST['id']);
             $nombre_sistema = htmlspecialchars($_POST['nombre_sistema']);
@@ -522,8 +500,7 @@ class Controlador
         }
     }
 
-    public function eliminarSistema()
-    {
+    public function eliminarSistema() {
         if (isset($_POST['id'])) {
             $id = intval($_POST['id']);
 
@@ -539,8 +516,7 @@ class Controlador
         }
     }
 
-    public function crearSistema()
-    {
+    public function crearSistema()  {
         if (isset($_POST['nombre_sistema']) && !empty($_POST['nombre_sistema'])) {
             $nombreSistema = htmlspecialchars($_POST['nombre_sistema']);
 
@@ -556,8 +532,7 @@ class Controlador
         }
     }
 
-    public function crearGenero()
-    {
+    public function crearGenero() {
         if (isset($_POST['nombre_genero']) && !empty($_POST['nombre_genero'])) {
             $nombreGenero = htmlspecialchars($_POST['nombre_genero']);
 
@@ -573,8 +548,7 @@ class Controlador
         }
     }
 
-    public function listadoRoles()
-    {
+    public function listadoRoles() {
         try {
             $roles = $this->modelo->obtenerRoles();
             echo json_encode(['success' => true, 'data' => $roles]);
@@ -584,8 +558,7 @@ class Controlador
         }
     }
 
-    public function agregarUsuario()
-    {
+    public function agregarUsuario() {
         try {
             // Verificar que los campos obligatorios estén presentes
             if (isset($_POST['nick'], $_POST['email'], $_POST['rol'])) {
@@ -639,8 +612,7 @@ class Controlador
         }
     }
 
-    public function agregarJuego()
-    {
+    public function agregarJuego() {
         if (isset($_POST['titulo'], $_FILES['portada'], $_FILES['archivo'])) {
             $titulo = htmlspecialchars($_POST['titulo']);
             $desarrollador = htmlspecialchars($_POST['desarrollador'] ?? '');
@@ -691,9 +663,7 @@ class Controlador
         }
     }
 
-
-    function procesarUsuario()
-    {
+    function procesarUsuario(){
         if (isset($_POST['accion']) && $_POST['accion'] === 'cargarUsuario') {
             // Decodificar el JSON recibido en el parámetro 'usuario'
             $userNick = json_decode($_POST['usuario'], true);
@@ -744,15 +714,12 @@ class Controlador
         echo json_encode(['success' => false, 'message' => 'Solicitud inválida o falta de parámetros.']);
     }
 
-    public function listarcesta()
-    {
+    public function listarcesta(){
         $resultado = $this->modelo->cargarJuegosCestaUser($_POST['nick']);
         echo json_encode(['success' => true, 'message' => $resultado]);
     }
 
-
-    public function eliminarjuegocesta()
-    {
+    public function eliminarjuegocesta(){
         $id_juego = $_POST['id_juego'];
         $nick = $_POST['nick'];
 
@@ -765,12 +732,11 @@ class Controlador
         }
     }
 
-    public function pagar()
-    {
+    public function pagar() {
         Vista::MuestraFormularioCompra();
     }
-    public function vaciarCarrito()
-    {
+
+    public function vaciarCarrito() {
         try {
             if (!$this->modelo->vaciarCarrito($_SESSION['user_nick'])) {
                 throw new Exception("Error: No se pudo vaciar el carrito.");
@@ -782,8 +748,7 @@ class Controlador
         }
     }
     
-    public function procesarCarro()
-    {
+    public function procesarCarro(){
         if (isset($_POST['pagar'])) {
             $this->pagar();
         } else if (isset($_POST['vaciarCarrito'])) {
@@ -891,4 +856,91 @@ class Controlador
             }
         }
     }
+
+    public function regalarJuego() {
+        // Verificar que los datos requeridos existen en la solicitud
+        if (!isset($_POST['gift_user']) || !isset($_POST['game_id'])) {
+            echo json_encode(['success' => false, 'message' => 'Faltan datos en la solicitud']);
+            return;
+        }
+    
+        // Recoger datos del formulario
+        $destinatarioNick = htmlspecialchars($_POST['gift_user']);
+        $gameId = htmlspecialchars($_POST['game_id']);
+    
+        // Comprobar si el usuario destinatario existe
+        if (!$this->modelo->usuarioExiste($destinatarioNick)) {
+            echo json_encode(['success' => false, 'message' => 'El usuario destinatario no existe']);
+            return;
+        }
+    
+        // Guardar los datos en cookies (expiran en 30 minutos)
+        setcookie('gift_user', $destinatarioNick, time() + 1800, "/"); // 1800 segundos = 30 minutos
+        setcookie('gift_game', $gameId, time() + 1800, "/");
+    
+        // Enviar la respuesta en JSON
+        echo json_encode([
+            'success' => true,
+            'message' => 'El usuario destinatario existe, redirigiendo a la compra.',
+            'redirect' => true
+        ]);
+    
+        // Mostrar la vista de compra
+        Vista::MuestraFormularioCompra();
+        return;
+    }
+    
+    public function comprarJuego() {
+        // Verificar que los datos requeridos existen en la solicitud
+        if (!isset($_POST['game_id'])) {
+            echo json_encode(['success' => false, 'message' => 'Faltan datos en la solicitud']);
+            return;
+        }
+    
+        // Recoger datos del formulario
+        $gameId = htmlspecialchars($_POST['game_id']);
+    
+        // Guardar los datos en cookies (expiran en 30 minutos)
+        setcookie('purchase_game', $gameId, time() + 1800, "/"); // Cookie de compra
+    
+        // Enviar respuesta en JSON
+        echo json_encode([
+            'success' => true,
+            'message' => 'Compra registrada',
+            'redirect' => true
+        ]);
+    
+        // Mostrar la vista de compra
+        Vista::MuestraFormularioCompra();
+        return;
+    }
+    
+    public function listadoBiblioteca() {
+        if (!isset($_POST['nick'])) {
+            echo json_encode(['success' => false, 'message' => 'Faltan datos en la solicitud']);
+            return;
+        }
+    
+        $nick = htmlspecialchars($_POST['nick']); // Sanitizar la entrada del usuario
+        $result = $this->modelo->obtenerJuegosUsuario($nick);
+    
+        // Base URL de las imágenes
+        $baseUrl = 'https://localhost/Games-r-us/src/uploads/image/portadas/';
+    
+        // Verificar si hay juegos y agregar la ruta completa de la imagen
+        if (!empty($result)) {
+            foreach ($result as &$game) {
+                if (!empty($game['ruta_imagen'])) {
+                    $game['ruta_imagen'] = $baseUrl . $game['ruta_imagen']; 
+                }
+            }
+            unset($game); // Evita posibles referencias accidentales en el foreach
+    
+            echo json_encode(['success' => true, 'data' => $result]);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'No se encontraron juegos en la biblioteca del usuario']);
+        }
+    }
+    
+    
 }

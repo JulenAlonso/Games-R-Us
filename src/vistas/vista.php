@@ -40,10 +40,6 @@ class Vista
     {
         include BASE_PATH . '/src/vistas/frm/formularioCompra.php';
     }
-    public static function MuestraFormularioRegalo()
-    {
-        include BASE_PATH . '/src/vistas/frm/formularioRegalo.php';
-    }
 
     public static function MuestraPerfilUsuario()
     {

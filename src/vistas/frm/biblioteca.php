@@ -107,45 +107,30 @@ if (!isset($_SESSION['user_nick'])) {
 
   <!-- Biblioteca de Juegos -->
   <div class="game-library">
-    <aside class="sidebar">
-      <h2>Tu Biblioteca</h2>
-      <ul class="game-list">
-        <li class="game-item" onclick="showGameDetails('Game 1')">Game 1</li>
-        <li class="game-item" onclick="showGameDetails('Game 2')">Game 2</li>
-        <li class="game-item" onclick="showGameDetails('Game 3')">Game 3</li>
-        <li class="game-item" onclick="showGameDetails('Game 4')">Game 4</li>
-        <li class="game-item" onclick="showGameDetails('Game 5')">Game 5</li>
-      </ul>
-    </aside>
-    <main class="game-content">
-      <div class="game-details hidden" id="gameDetails">
-        <h2 id="gameTitle">Detalles del Juego</h2>
-        <p id="gameDescription">Selecciona un juego para ver más información.</p>
-      </div>
-      <div class="game-gallery" id="gameGallery">
-        <h2>Juegos Destacados</h2>
-        <div class="gallery">
-          <div class="gallery-item" onclick="showGameDetails('Game 1')">Game 1</div>
-          <div class="gallery-item" onclick="showGameDetails('Game 2')">Game 2</div>
-          <div class="gallery-item" onclick="showGameDetails('Game 3')">Game 3</div>
-          <div class="gallery-item" onclick="showGameDetails('Game 4')">Game 4</div>
-          <div class="gallery-item" onclick="showGameDetails('Game 5')">Game 5</div>
-        </div>
-      </div>
-      <div class="game-gallery" id="gameGallery">
-        <h2>Todos los Juegos</h2>
-        <div class="gallery">
-          <div class="gallery-item" onclick="showGameDetails('Game 1')">Game 1</div>
-          <div class="gallery-item" onclick="showGameDetails('Game 2')">Game 2</div>
-          <div class="gallery-item" onclick="showGameDetails('Game 3')">Game 3</div>
-          <div class="gallery-item" onclick="showGameDetails('Game 4')">Game 4</div>
-          <div class="gallery-item" onclick="showGameDetails('Game 5')">Game 5</div>
-        </div>
-      </div>
-    </main>
-  </div>
+        <aside class="sidebar">
+            <h2>Tu Biblioteca</h2>
+            <ul class="game-list"></ul>
+        </aside>
+        <main class="game-content">
+            <div class="game-details hidden" id="gameDetails">
+                <h2 id="gameTitle">Detalles del Juego</h2>
+                <p id="gameDescription">Selecciona un juego para ver más información.</p>
+            </div>
+            <div class="game-gallery" id="gameGallery">
+                <h2>Todos los Juegos</h2>
+                <div class="gallery"></div>
+            </div>
+        </main>
+    </div>
+
   <script src="../public/js/nav.js"></script>
   <script src="../public/js/library.js"></script>
+  <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            let userNick = <?php echo json_encode($_SESSION['user_nick']); ?>;
+            fetchLibraryGames(userNick);
+        });
+    </script>
 </body>
 
 </html>

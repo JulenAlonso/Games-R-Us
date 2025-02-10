@@ -96,7 +96,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             case 'EditarDatosUsuario':
                 $controlador->EditarDatosUsuario();
                 break;
+            case 'regalarJuego':
+                $controlador->regalarJuego();
+                break;
+            case 'comprarJuego':
+                $controlador->comprarJuego();
+                break;
+            case 'listadoBiblioteca':
+                $controlador->listadoBiblioteca();
+                break;
 
+
+                
             default:
                 header('Content-Type: application/json');
                 echo json_encode([

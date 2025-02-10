@@ -129,7 +129,7 @@ body {
     color: #b87400;
 }
 
-/* Modal centrado */
+/* ---------------- MODAL ---------------- */
 .modal-container {
     display: none;
     position: fixed;
@@ -150,7 +150,7 @@ body {
     color: white;
     padding: 30px;
     border-radius: 15px;
-    max-width: 500px;
+    max-width: 550px;
     width: 90%;
     max-height: calc(100vh - 40px);
     margin-top: 20px;
@@ -162,40 +162,11 @@ body {
     position: relative;
 }
 
-.modal-content h3 {
-    margin-top: 0;
-    font-size: 1.8em;
-    color: #f2f2f2;
-    border-bottom: 2px solid #b87400;
-    padding-bottom: 10px;
-}
-
-.modal-content img {
-    width: 100%;
-    max-width: 300px;
-    height: auto;
-    margin: 20px auto;
-    border-radius: 10px;
-    object-fit: contain;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    display: block;
-}
-
-.modal-content p {
-    margin: 10px 0;
-    font-size: 1em;
-    line-height: 1.5;
-    color: #ddd;
-}
-
-.modal-content p strong {
-    color: #b87400;
-}
-
+/* Cerrar Modal */
 .modal-close {
     position: absolute;
     top: 10px;
-    right: 10px;
+    right: 15px;
     color: #fff;
     font-size: 1.5em;
     cursor: pointer;
@@ -206,15 +177,63 @@ body {
     color: #b87400;
 }
 
-.modal-content .buttons {
+/* ---------------- CONTENIDO DEL MODAL ---------------- */
+.modal-title {
+    font-size: 1.8em;
+    color: #f2f2f2;
+    border-bottom: 2px solid #b87400;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.modal-body {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Imagen del Juego */
+.modal-image {
+    width: 130px;
+    height: auto;
+    border-radius: 10px;
+    object-fit: cover;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Información del Juego */
+.modal-info {
+    flex: 1;
+}
+
+.modal-info p {
+    margin: 5px 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #ddd;
+}
+
+.modal-info p strong {
+    color: #b87400;
+}
+
+/* Precio */
+.modal-price {
+    font-size: 18px;
+    font-weight: bold;
+    color: #27ae60;
+    margin-top: 10px;
+}
+
+/* ---------------- BOTONES ---------------- */
+.modal-buttons {
     display: flex;
     gap: 10px;
     justify-content: center;
     margin-top: 20px;
 }
 
-.modal-content .buttons input {
-    background-color: #b87400;
+.modal-buttons input{
     color: white;
     border: none;
     padding: 10px 20px;
@@ -224,15 +243,25 @@ body {
     transition: background-color 0.3s ease;
 }
 
-.modal-content .buttons .play-input {
+.modal-buttons button{
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.btn1 {
     background-color: #007bff;
 }
 
-.modal-content .buttons input:hover {
-    background-color: #7e4400;
+.btn2 {
+    background-color: #b87400;
 }
 
-/* Scroll personalizado */
+/* ---------------- SCROLL PERSONALIZADO ---------------- */
 .modal-content::-webkit-scrollbar {
     width: 10px;
 }
@@ -251,45 +280,7 @@ body {
     background: #7e4400;
 }
 
-/* Sidebar */
-aside {
-    background-color: #2b2b2b;
-    color: white;
-    height: 100vh;
-    padding: 20px;
-    position: sticky;
-    top: 0;
-}
-
-aside h2 {
-    font-size: 1.4em;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    border-bottom: 2px solid #b87400;
-    padding-bottom: 5px;
-}
-
-aside ul {
-    list-style: none;
-    padding: 0;
-}
-
-aside ul li {
-    margin-bottom: 10px;
-    cursor: pointer;
-    padding: 5px;
-    border-radius: 5px;
-}
-
-aside ul li:hover {
-    background-color: #444;
-}
-
-aside ul li.active {
-    background-color: #7e4400;
-}
-
-/* Animación */
+/* ---------------- ANIMACIÓN ---------------- */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -299,4 +290,155 @@ aside ul li.active {
         opacity: 1;
         transform: scale(1);
     }
+}
+
+/* ---------------- SIDEBAR ---------------- */
+#sidebar {
+    width: 250px;
+    background-color: #2b2b2b;
+    color: white;
+    padding: 20px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    border-right: 2px solid #b87400;
+}
+
+/* Sección de Filtros */
+.sidebar-section {
+    margin-bottom: 20px;
+}
+
+.sidebar-section h3 {
+    font-size: 1.4em;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    border-bottom: 2px solid #b87400;
+    padding-bottom: 5px;
+}
+
+.sidebar-section select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #555;
+    background-color: #1a1a1a;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* Estilo para lista de categorías */
+#category-list {
+    list-style: none;
+    padding: 0;
+}
+
+#category-list li {
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease-in-out;
+    text-align: center;
+}
+
+#category-list li:hover {
+    background-color: #444;
+}
+
+#category-list li.active {
+    background-color: #7e4400;
+}
+
+/* Scroll personalizado */
+#sidebar::-webkit-scrollbar {
+    width: 8px;
+}
+
+#sidebar::-webkit-scrollbar-track {
+    background: #2b2b2b;
+    border-radius: 5px;
+}
+
+#sidebar::-webkit-scrollbar-thumb {
+    background: #b87400;
+    border-radius: 5px;
+}
+
+#sidebar::-webkit-scrollbar-thumb:hover {
+    background: #7e4400;
+}
+
+.gift-modal-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.gift-modal-content {
+    background-color: #2b2b2b;
+    color: white;
+    padding: 25px;
+    border-radius: 15px;
+    width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.3s ease-in-out;
+    position: relative;
+}
+
+.gift-modal-content input {
+    width: 90%;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    border: 1px solid #555;
+    background-color: #1a1a1a;
+    color: white;
+    font-size: 14px;
+    text-align: center;
+}
+
+.gift-modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.gift-modal-buttons button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.gift-modal-buttons .btn1 {
+    background-color: #007bff;
+    color: white;
+}
+
+.gift-modal-buttons .btn2 {
+    background-color: #b87400;
+    color: white;
+}
+
+.gift-modal-buttons .btn1:hover {
+    background-color: #0056b3;
+}
+
+.gift-modal-buttons .btn2:hover {
+    background-color: #7e4400;
 }
