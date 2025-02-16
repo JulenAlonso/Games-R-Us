@@ -1,266 +1,184 @@
 <?php
 require_once BASE_PATH . '/src/vistas/vista.php';
 
-// AL ENTRAR AKI YA TENEMOS LA SESIÓN INICIADA
+// Verificar sesión
 if (!isset($_SESSION['user_nick'])) {
-  Vista::MuestraLogin();
-  exit;
+    Vista::MuestraLogin();
+    exit;
 }
-?>
-<!DOCTYPE html>
-<html lang="en">
 
+// **IMPORTANTE**: Asegúrate de que soap.php es accesible públicamente
+// $url = "http://localhost/Games-R-Us/src/controladores/soap.php";
+// $uri = "http://localhost/Games-R-Us/public/";
+
+// try {
+//     $cliente = new SoapClient(null, ['uri' => $uri, 'location' => $url]);
+//     $resultado = $cliente->comprobarTarjeta("4111 1111 1111 1111");
+//     echo "Resultado: " . ($resultado ? "Tarjeta válida" : "Tarjeta inválida");
+// } catch (SoapFault $e) {
+//     echo "Error SOAP: " . $e->getMessage();
+// }
+?>
+
+<!DOCTYPE html>
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/png" sizes="32x32" href="../public/logo.png">
-  <link rel="stylesheet" href="../public/css/nav.css">
-  <link rel="stylesheet" href="../public/css/formularioCompra.css">
-  <!-- Bootstrap Icons -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-  <title>Frontend Mentor | Interactive card details form</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../public/css/nav.css">
+    <link rel="stylesheet" href="../public/css/formularioCompra.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.0.2/cleave.min.js"></script>
+    <title>Formulario de Pago</title>
 </head>
 
 <body>
-  <!-- Contenedor para el fondo animado -->
-  <div class="background-animation">
-    <spline-viewer url="https://prod.spline.design/9eH4GDnXXx0Da7it/scene.splinecode"></spline-viewer>
-  </div>
-  <!-- Navbar -->
-  <nav>
-    <div>
-      <div class="svg-container">
-        <img src="../public/logo.png">
-      </div>
-      <div>
-        <p onclick="document.getElementById('nav_iniciobutton').click();">Golden Age Games</p>
-        <form method="POST">
-          <input type="submit" id="nav_iniciobutton" name="nav_iniciobutton" hidden>
-        </form>
-      </div>
+    <!-- Contenedor para el fondo animado -->
+    <div class="background-animation">
+        <spline-viewer url="https://prod.spline.design/9eH4GDnXXx0Da7it/scene.splinecode"></spline-viewer>
     </div>
-    <div>
-      <div>
-        <p onclick="document.getElementById('nav_iniciobutton').click();">Home</p>
-        <form method="POST">
-          <input type="submit" id="nav_iniciobutton" name="nav_iniciobutton" hidden>
-        </form>
-      </div>
-      <div>
-        <p onclick="document.getElementById('nav_TiendaButton').click();">Tienda</p>
-        <form method="POST">
-          <input type="submit" id="nav_TiendaButton" name="nav_TiendaButton" hidden>
-        </form>
-      </div>
-      <div class="active">
-        <p onclick="document.getElementById('nav_bibliotecaButton').click();">Biblioteca</p>
-        <form method="POST">
-          <input type="submit" id="nav_bibliotecaButton" name="nav_bibliotecaButton" hidden>
-        </form>
-      </div>
-      <!-- CARRITO  -->
-      <div>
-        <?php if (isset($_SESSION['user_nick'])): ?>
-          <!-- Mostrar botón solo para usuarios autenticados -->
-          <p onclick="document.getElementById('nav_carritoButton').click();">Carrito</p>
-          <form method="POST">
-            <input type="submit" id="nav_carritoButton" name="nav_carritoButton" hidden>
-          </form>
-        <?php endif; ?>
-      </div>
-      <!-- -------------------------------- -->
-      <div class="svg-container profile-container" onclick="toggleProfileMenu()">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-          <path fill-rule="evenodd"
-            d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z"
-            clip-rule="evenodd" />
-        </svg>
-        <div class="profile-menu hidden" id="profileMenu">
-          <?php if (!isset($_SESSION['user_nick'])): ?>
-            <!-- Opciones para usuarios no autenticados -->
-            <p onclick="document.getElementById('nav_loginButton').click();">Login</p>
-            <form method="POST">
-              <input type="submit" id="nav_loginButton" name="nav_loginButton" hidden>
-            </form>
-            <p onclick="document.getElementById('nav_RegistroButton').click();">Register</p>
-            <form method="POST">
-              <input type="submit" id="nav_RegistroButton" name="nav_RegistroButton" hidden>
-            </form>
-          <?php else: ?>
-            <!-- Opciones para usuarios autenticados -->
-            <p onclick="document.getElementById('nav_ProfileButton').click();">Perfil</p>
-            <form method="POST">
-              <input type="submit" id="nav_ProfileButton" name="nav_ProfileButton" hidden>
-            </form>
-            <?php if ($_SESSION['user_role'] == 2): ?>
-              <!-- Opción para administradores -->
-              <p onclick="document.getElementById('nav_AdminButton').click();">Admin Zone</p>
-              <form method="POST">
-                <input type="submit" id="nav_AdminButton" name="nav_AdminButton" hidden>
-              </form>
-            <?php endif; ?>
-            <p onclick="document.getElementById('nav_LogoutButton').click();">Cerrar Sesión</p>
-            <form method="POST">
-              <input type="submit" id="nav_LogoutButton" name="nav_LogoutButton" hidden>
-            </form>
-          <?php endif; ?>
+
+    <!-- Navbar -->
+    <nav>
+        <div>
+            <div class="svg-container">
+                <img src="../public/logo.png">
+            </div>
+            <p>Golden Age Games</p>
         </div>
-      </div>
-    </div>
-  </nav>
+    </nav>
 
-  <main>
-    <div class="wrapper">
-      <div class="box1">
-        <form action="" method="POST" id="payment-form">
-          <fieldset>
-            <legend><b>Formulario de Pago</b></legend>
-            <p>
+    <main>
+        <div class="wrapper">
+            <!-- Formulario de Datos del Usuario -->
+            <div class="box1">
+                <form id="infoUserPagos">
+                    <fieldset>
+                        <legend><b>Datos del Usuario</b></legend>
+                        
+                        <div class="inputBox">
+                            <input type="text" name="nick" id="nick" class="inputUser" value="<?php echo $_SESSION['user_nick']; ?>" readonly>
+                            <label for="nick" class="labelInput">Nick</label>
+                        </div>
 
-              <!-- Información Personal -->
-            <div class="inputBox">
-              <input type="text" name="nick" id="nick" class="inputUser" required>
-              <label for="nick" class="labelInput">Nick</label>
-            </div><br><br>
+                        <div class="inputBox">
+                            <input type="text" name="name" id="name" class="inputUser" required>
+                            <label for="name" class="labelInput">Nombre</label>
+                        </div>
 
-            <div class="inputBox">
-              <input type="text" name="name" id="name" class="inputUser" required>
-              <label for="name" class="labelInput">Nombre</label>
-            </div><br><br>
+                        <div class="inputBox">
+                            <input type="text" name="ap1" id="ap1" class="inputUser" required>
+                            <label for="ap1" class="labelInput">Apellido 1</label>
+                        </div>
+                        
+                        <div class="inputBox">
+                            <input type="text" name="ap2" id="ap2" class="inputUser" required>
+                            <label for="ap1" class="labelInput">Apellido 2</label>
+                        </div>
 
-            <div class="inputBox">
-              <input type="text" name="ap1" id="ap1" class="inputUser" required>
-              <label for="ap1" class="labelInput">Apellido 1</label>
-            </div><br><br>
+                        <div class="inputBox">
+                            <input type="email" name="email" id="email" class="inputUser" required>
+                            <label for="email" class="labelInput">Email</label>
+                        </div>
 
-            <div class="inputBox">
-              <input type="text" name="ap2" id="ap2" class="inputUser" required>
-              <label for="ap2" class="labelInput">Apellido 2</label>
-            </div><br><br>
+                        <div class="inputBox">
+                            <input type="tel" name="tlf" id="tlf" class="inputUser" required>
+                            <label for="tlf" class="labelInput">Teléfono</label>
+                        </div>
+                    </fieldset>
+                    <br><br><br>
+                    <!-- Nueva Sección de Facturación -->
+                    <fieldset>
+                        <legend><b>Datos de Facturación</b></legend>
 
-            <div class="inputBox">
-              <input type="email" name="email" id="email" class="inputUser" required>
-              <label for="email" class="labelInput">Email</label>
-            </div><br><br>
+                        <div class="inputBox">
+                            <input type="text" name="direccion_tipo" id="direccion_tipo" class="inputUser" required>
+                            <label for="direccion_tipo" class="labelInput">Tipo de Vía (Ej: Calle, Avenida, etc.)</label>
+                        </div>
 
-            <div class="inputBox">
-              <input type="tel" name="tlf" id="tlf" class="inputUser" required>
-              <label for="tlf" class="labelInput">Teléfono</label>
-            </div><br><br>
+                        <div class="inputBox">
+                            <input type="text" name="direccion_via" id="direccion_via" class="inputUser" required>
+                            <label for="direccion_via" class="labelInput">Nombre de la Vía</label>
+                        </div>
 
-            <div class="inputBox">
-              <label for="fechaNac"><b>Fecha de Nacimiento:</b></label>
-              <input type="date" name="fechaNac" id="fechaNac" class="fechaNac" required>
-            </div><br><br>
+                        <div class="inputBox">
+                            <input type="text" name="direccion_numero" id="direccion_numero" class="inputUser" required>
+                            <label for="direccion_numero" class="labelInput">Número</label>
+                        </div>
 
-            <div class="inputBox">
-              <input type="text" name="calle" id="calle" class="inputUser" required>
-              <label for="calle" class="labelInput">Calle</label>
-            </div><br><br>
+                        <div class="inputBox">
+                            <input type="text" name="direccion_otros" id="direccion_otros" class="inputUser" required>
+                            <label for="direccion_otros" class="labelInput">Otros detalles (piso, puerta, etc.)</label>
+                        </div>
 
-            <div class="inputBox">
-              <input type="text" name="num" id="num" class="inputUser" required>
-              <label for="num" class="labelInput">Número</label>
-            </div><br><br>
 
-            <div class="inputBox">
-              <input type="text" name="piso" id="piso" class="inputUser" required>
-              <label for="piso" class="labelInput">Piso</label>
-            </div><br><br>
-
-            <div class="inputBox">
-              <input type="text" name="letra" id="letra" class="inputUser" required>
-              <label for="letra" class="labelInput">Letra</label>
-            </div><br><br>
-
-            <div class="inputBox">
-              <input type="text" name="cp" id="cp" class="inputUser" required>
-              <label for="cp" class="labelInput">Código Postal</label>
-            </div><br><br>
-
-            <div class="inputBox">
-              <input type="text" name="localidad" id="localidad" class="inputUser" required>
-              <label for="localidad" class="labelInput">Localidad</label>
-            </div><br><br>
-
-            <div class="inputBox">
-              <input type="text" name="pais" id="pais" class="inputUser" required>
-              <label for="pais" class="labelInput">País</label>
-            </div><br><br>
-          </fieldset>
-        </form>
-      </div>
-
-      <div class="box2">
-        <form class="form" id="form">
-          <div class="form-group">
-            <label for="input-name" class="label">Titular de la tarjeta</label>
-            <input type="text" class="input" id="input-name" placeholder="ej: Pepe Navarro" required>
-          </div>
-
-          <div class="form-group">
-            <label for="input-number" class="label">Número de la tarjeta</label>
-            <input type="text" class="input" id="input-number" placeholder="ej: 1234 5678 9123 0000" required>
-          </div>
-
-          <div class="form-group double">
-            <div class="rows">
-              <label for="input-month" class="label">Exp. Date (MES/AÑO)</label>
-              <div class="columns">
-                <input type="text" class="input" id="input-month" placeholder="MES" maxlength="2" required>
-                <input type="text" class="input" id="input-year" placeholder="AÑO" maxlength="2" required>
-              </div>
+                    </fieldset>
+                </form>
             </div>
 
-            <div class="rows">
-              <label for="input-cvc" class="label">CVC</label>
-              <input type="text" class="input" id="input-cvc" placeholder="ej: 123" maxlength="3" required>
+            <!-- Formulario de Datos de Tarjeta -->
+            <div class="box2">
+                <form id="infoUserTarjeta">
+                    <fieldset>
+                        <legend><b>Datos de la Tarjeta</b></legend>
+
+                        <div class="form-group">
+                            <label for="input-name" class="label">Titular de la tarjeta</label>
+                            <input type="text" class="input" id="input-name" name="input-name" placeholder="ej: Pepe Navarro" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="input-number" class="label">Número de la tarjeta</label>
+                            <input type="text" class="input" id="input-number" name="input-number" placeholder="ej: 1234 5678 9123 0000" required>
+                        </div>
+
+                        <div class="form-group double">
+                            <div class="rows">
+                                <label for="input-month" class="label">Exp. Date (MES/AÑO)</label>
+                                <div class="columns">
+                                    <input type="text" class="input" id="input-month" name="input-month" placeholder="MM" maxlength="2" required>
+                                    <input type="text" class="input" id="input-year" name="input-year" placeholder="YY" maxlength="2" required>
+                                </div>
+                            </div>
+
+                            <div class="rows">
+                                <label for="input-cvc" class="label">CVC</label>
+                                <input type="text" class="input" id="input-cvc" name="input-cvc" placeholder="ej: 123" maxlength="3" required>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-wrapper">
+                            <div class="card">
+                                <div class="card-front">
+                                    <img src="../public/img/bg-card-front.png" alt="Frente de la tarjeta">
+                                    <div class="card-front__data">
+                                        <img src="../public/img/card-logo.svg" alt="">
+                                        <div>
+                                            <p class="card-number" id="card-number">0000 0000 0000 0000</p>
+                                            <div class="card-name-date">
+                                                <p class="card-name" id="card-name">Pepe Navarro</p>
+                                                <p class="card-date">
+                                                    <span id="card-month">00</span>/<span id="card-year">00</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-back">
+                                    <img src="../public/img/bg-card-back.png" alt="Dorso de la tarjeta">
+                                    <div class="card-back__data">
+                                        <p class="card-cvc" id="card-cvc">000</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <br>
+                    <button type="submit" class="submit-btn">Realizar Pago</button>
+                </form>
             </div>
-          </div>
-
-          <div class="form-wrapper">
-            <div class="card">
-              <div class="card-front">
-                <img src="../public/img/bg-card-front.png" alt="Frente de la tarjeta">
-                <div class="card-front__data">
-                  <img src="../public/img/card-logo.svg" alt="">
-                  <div>
-                    <p class="card-number" id="card-number">0000 0000 0000 0000</p>
-                    <div class="card-name-date">
-                      <p class="card-name" id="card-name">Pepe Navarro</p>
-                      <p class="card-date">
-                        <span id="card-month">00</span>/<span id="card-year">00</span>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card-back">
-                <img src="../public/img/bg-card-back.png" alt="Dorso de la tarjeta">
-                <div class="card-back__data">
-                  <p class="card-cvc" id="card-cvc">000</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="thank-you disabled" id="thank-you">
-            <img src="../public/img/icon-complete.svg" alt="Ícono de completado">
-            <p class="thank-you-title">Thank you!</p>
-            <p class="thank-you-text">We've added your card details</p>
-            <button class="button" id="continue">Continue</button>
-          </div>
-
-          <input type="submit" name="submit" id="submit" value="Realizar Pago">
-        </form>
-      </div>
-    </div>
-  </main>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.0.2/cleave.min.js"
-    integrity="sha512-SvgzybymTn9KvnNGu0HxXiGoNeOi0TTK7viiG0EGn2Qbeu/NFi3JdWrJs2JHiGA1Lph+dxiDv5F9gDlcgBzjfA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="../public/js/formularioCompra.js"></script>
-  <script src="../public/js/nav.js"></script>
+        </div>
+    </main>
+    <script src="../public/js/formularioCompra.js"></script>
+    <!-- <script src="../public/js/formularioCompra.js"></script>-->
 </body>
-
 </html>

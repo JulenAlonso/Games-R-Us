@@ -1,8 +1,11 @@
 <?php
-if (!isset($_SESSION['user_nick'])) {
-    exit('Acceso denegado. Por favor, inicia sesión.');
-}
+require_once BASE_PATH . '/src/vistas/vista.php';
 
+// AL ENTRAR AKI YA TENEMOS LA SESIÓN INICIADA
+if (!isset($_SESSION['user_nick'])) {
+    Vista::MuestraLogin();
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -110,7 +113,7 @@ if (!isset($_SESSION['user_nick'])) {
         <p>Total productos: <span id="totalProductos">0</span></p>
         <p>Precio total: <span id="precioTotal">0€</span></p>
         <form method="POST">
-            <input type="submit" name="pagar" id="pagar" value="Pagar">
+            <input type="submit" name="pagar" id='<?php echo $_SESSION['user_nick'] ?>' value="Procesar Pago">
             <h2>Metodos de pago</h2>
             <!-- LOGOTIPOS TARJETAS -->
             <section class="tarjetas">
@@ -498,7 +501,7 @@ if (!isset($_SESSION['user_nick'])) {
 <script src="../public/js/nav.js"></script>
 <script src="../public/js/carrito.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         let userNick = <?php echo json_encode($_SESSION['user_nick']); ?>;
         console.log('Usuario:', userNick);
         fetchData(userNick);

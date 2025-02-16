@@ -165,14 +165,6 @@ function renderSidebar(data) {
     allCategoriesItem.addEventListener('click', () => renderStore(data));
     categoryList.appendChild(allCategoriesItem);
 
-    // Crear categorías dinámicamente
-    categories.forEach(category => {
-        const categoryItem = document.createElement('li');
-        categoryItem.textContent = category;
-        categoryItem.addEventListener('click', () => renderStore(data, category));
-        categoryList.appendChild(categoryItem);
-    });
-
     categorySection.appendChild(categoryList);
     sidebar.appendChild(categorySection);
 }
@@ -234,7 +226,8 @@ function openGiftPopout(gameId) {
 }
 
 async function sendGift(gameId) {
-    const giftUser = document.getElementById("giftUser").value.trim();
+    //const giftUser = document.getElementById("giftUser").value.trim();
+    const giftUser = "aaa";
 
     if (!giftUser) {
         alert("Por favor, ingresa el nombre de usuario.");
@@ -277,34 +270,22 @@ function closePopout() {
     document.querySelectorAll('.modal-container').forEach(modal => modal.remove());
 }
 
-// async function comprarJuego(gameId) {
-//     try {
-//         const response = await fetch('/Games-r-us/public/index.php', {
-//             method: 'POST',
-//             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-//             body: new URLSearchParams({
-//                 accion: 'comprarJuego',
-//                 game_id: gameId
-//             }),
-//         });
-
-//         const textResponse = await response.text();
-
-//         try {
-//             const result = JSON.parse(textResponse);
-
-//             if (result.success) {
-                
-//             } else {
-//                 alert("Error al regalar el juego: " + result.message);
-//             }
-//         } catch (error) {
-//             // Si la respuesta no es JSON, asumir que es HTML de la vista de compra
-//             document.body.innerHTML = textResponse; // Cargar directamente la vista devuelta
-//         }
-//     } catch (error) {
-//         console.error("Error al procesar la compra:", error);
-//         alert("Hubo un problema al procesar la compra.");
-//     }
-// }
+document.addEventListener("DOMContentLoaded", function() {
+    fetch("/Games-r-us/src/controladores/ajax.php?action=getUltimasInserciones")
+        .then(response => {
+            console.log("Response:", response);
+            return response.json(); // Convertir a JSON correctamente
+        })
+        .then(data => {
+            console.log("Datos recibidos:", data); // Verificar que llega el JSON correcto
+            let lista = document.getElementById("lista-juegos-ajax");
+            lista.innerHTML = ""; // Limpiar lista
+            data.forEach(juego => {
+                let item = document.createElement("li");
+                item.textContent = `Nombre: ${juego.titulo}}`;
+                lista.appendChild(item);
+            });
+        })
+        .catch(error => console.error("Error en la petición AJAX:", error));
+});
 

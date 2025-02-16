@@ -733,6 +733,23 @@ class Controlador
     }
 
     public function pagar() {
+
+        // obtener nick
+        $nick = $_SESSION['user_nick'];
+
+        // obtener los juegos en su cesta
+        $juegos = $this->modelo->cargarJuegosCestaUser($nick);
+
+        // procesar precios y sumarlos
+        $precioTotal = 0;
+        foreach ($juegos as $juego) {
+            $precioTotal += $juego['precio'];
+        }
+
+        // guardarlo en cookies para el proceso de pago
+        setcookie('purchase_total', $precioTotal, time() + 1800, "/"); // Cookie de compra
+        setcookie('purchase_user', $nick, time() + 1800, "/"); // Cookie de usuario
+        
         Vista::MuestraFormularioCompra();
     }
 
@@ -878,38 +895,6 @@ class Controlador
         setcookie('gift_user', $destinatarioNick, time() + 1800, "/"); // 1800 segundos = 30 minutos
         setcookie('gift_game', $gameId, time() + 1800, "/");
     
-        // Enviar la respuesta en JSON
-        echo json_encode([
-            'success' => true,
-            'message' => 'El usuario destinatario existe, redirigiendo a la compra.',
-            'redirect' => true
-        ]);
-    
-        // Mostrar la vista de compra
-        Vista::MuestraFormularioCompra();
-        return;
-    }
-    
-    public function comprarJuego() {
-        // Verificar que los datos requeridos existen en la solicitud
-        if (!isset($_POST['game_id'])) {
-            echo json_encode(['success' => false, 'message' => 'Faltan datos en la solicitud']);
-            return;
-        }
-    
-        // Recoger datos del formulario
-        $gameId = htmlspecialchars($_POST['game_id']);
-    
-        // Guardar los datos en cookies (expiran en 30 minutos)
-        setcookie('purchase_game', $gameId, time() + 1800, "/"); // Cookie de compra
-    
-        // Enviar respuesta en JSON
-        echo json_encode([
-            'success' => true,
-            'message' => 'Compra registrada',
-            'redirect' => true
-        ]);
-    
         // Mostrar la vista de compra
         Vista::MuestraFormularioCompra();
         return;
@@ -942,5 +927,112 @@ class Controlador
         }
     }
     
+    public function procesarPagoUser() {
+
+        // Obtener los datos del formulario
+        $nick = $_POST['nick'] ?? null;
+        $name = $_POST['name'] ?? null;
+        $ap1 = $_POST['ap1'] ?? null;
+        $ap2 = $_POST['ap2'] ?? null;
+        $tlf = $_POST['tlf'] ?? null;
+    
+        // Datos de facturación
+        $direccion_tipo = $_POST['direccion_tipo'] ?? null;
+        $direccion_via = $_POST['direccion_via'] ?? null;
+        $direccion_numero = $_POST['direccion_numero'] ?? null;
+        $direccion_otros = $_POST['direccion_otros'] ?? null;
+    
+        // Datos de la tarjeta
+        $numero_tarjeta = $_POST['input-number'] ?? null;
+        $exp_mes = $_POST['input-month'] ?? null;
+        $exp_anio = $_POST['input-year'] ?? null;
+    
+        if (!$nick || !$name || !$ap1 || !$tlf || !$numero_tarjeta || !$exp_mes || !$exp_anio ) {
+            echo json_encode(["success" => false, "message" => "Faltan datos obligatorios"]);
+            return;
+        }
+    
+        try {
+            // Actualizar o insertar datos del usuario en el modelo
+            $this->modelo->actualizarDatosUsuario($nick, $name, $ap1, $ap2, $tlf, 
+                                                  $direccion_tipo, $direccion_via, $direccion_numero, $direccion_otros);
+    
+            // Guardar la tarjeta en la tabla Usuario_tarjeta
+            $this->modelo->guardarTarjetaUsuario($nick, $numero_tarjeta, $exp_mes, $exp_anio);
+    
+            // Obtener los juegos en la cesta del usuario
+            $juegosCesta = $this->modelo->cargarJuegosCestaUser($nick);
+
+            // Agregamos los juegos a la biblioteca del usuario
+            if (!empty($juegosCesta)) {
+                // Agregar los juegos a la biblioteca del usuario
+                foreach ($juegosCesta as $juego) {
+                    $this->modelo->agregarJuegoBiblioteca($nick, $juego['id_juego']);
+                }
+
+                // Vaciar la cesta después de la compra
+                $this->modelo->vaciarCarrito($nick);
+            }
+    
+            echo json_encode(["success" => true, "message" => "Pago procesado con éxito y juegos añadidos a la biblioteca"]);
+        } catch (Exception $e) {
+            echo json_encode(["success" => false, "message" => "Error: " . $e->getMessage()]);
+        }
+    }
+
+    public function procesarRegaloUser() {
+
+        // Obtener los datos del formulario
+        $nick = $_POST['nick'] ?? null;
+        $name = $_POST['name'] ?? null;
+        $ap1 = $_POST['ap1'] ?? null;
+        $ap2 = $_POST['ap2'] ?? null;
+        $tlf = $_POST['tlf'] ?? null;
+    
+        // Datos de facturación
+        $direccion_tipo = $_POST['direccion_tipo'] ?? null;
+        $direccion_via = $_POST['direccion_via'] ?? null;
+        $direccion_numero = $_POST['direccion_numero'] ?? null;
+        $direccion_otros = $_POST['direccion_otros'] ?? null;
+    
+        // Datos de la tarjeta
+        $numero_tarjeta = $_POST['input-number'] ?? null;
+        $exp_mes = $_POST['input-month'] ?? null;
+        $exp_anio = $_POST['input-year'] ?? null;
+
+        //Datos de Regalo
+        $destinatario = $_POST['gift_user'] ?? null;
+        $juegoRegalo = $_POST['gift_game'] ?? null;
+    
+        if (!$nick || !$name || !$ap1 || !$tlf || !$numero_tarjeta || !$exp_mes || !$exp_anio ) {
+            echo json_encode(["success" => false, "message" => "Faltan datos obligatorios"]);
+            return;
+        }
+    
+        try {
+            // Actualizar o insertar datos del usuario en el modelo
+            $this->modelo->actualizarDatosUsuario($nick, $name, $ap1, $ap2, $tlf, 
+                                                  $direccion_tipo, $direccion_via, $direccion_numero, $direccion_otros);
+    
+            // Guardar la tarjeta en la tabla Usuario_tarjeta
+            $this->modelo->guardarTarjetaUsuario($nick, $numero_tarjeta, $exp_mes, $exp_anio);
+    
+            // Buscar que no tenga el juego el usuario al que lo quere regalar
+            $juegosUsuario = $this->modelo->obtenerJuegosUsuario($destinatario);
+            foreach ($juegosUsuario as $juego) {
+                if ($juego['id_juego'] == $juegoRegalo) {
+                    echo json_encode(["success" => false, "message" => "El usuario ya tiene el juego que intentas regalar"]);
+                    return;
+                }
+            }
+
+            // Agregar el juego a la biblioteca del usuario
+            $this->modelo->agregarJuegoBiblioteca($destinatario, $juegoRegalo);
+    
+            echo json_encode(["success" => true, "message" => "Pago procesado con éxito y juegos Regalados"]);
+        } catch (Exception $e) {
+            echo json_encode(["success" => false, "message" => "Error: " . $e->getMessage()]);
+        }
+    }
     
 }

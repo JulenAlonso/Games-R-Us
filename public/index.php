@@ -99,13 +99,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             case 'regalarJuego':
                 $controlador->regalarJuego();
                 break;
-            case 'comprarJuego':
-                $controlador->comprarJuego();
-                break;
             case 'listadoBiblioteca':
                 $controlador->listadoBiblioteca();
                 break;
-
+            case 'procesarPagoUser':
+                $controlador->procesarPagoUser();
+                break;
+            case 'procesarRegaloUser':
+                $controlador->procesarRegaloUser();
+                break;
 
                 
             default:

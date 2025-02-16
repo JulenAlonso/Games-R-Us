@@ -25,6 +25,7 @@
                 </form>
             </div>
         </div>
+        <div id="lista-juegos-ajax"></div>
         <div>
             <div>
                 <p onclick="document.getElementById('nav_iniciobutton').click();">Home</p>
@@ -116,10 +117,15 @@
 
     <script src="../public/js/nav.js"></script>
     <script src="../public/js/tienda.js"></script>
-    <!-- <script>document.addEventListener('DOMContentLoaded', fetchData(<?php print_r("'" . $_SESSION['user_nick'] . "'"); ?>)); </script> -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            let userNick = <?php echo json_encode($_SESSION['user_nick']); ?>;
+            let userNick = 
+            <?php 
+                if (isset($_SESSION['user_nick'])){
+                    echo json_encode($_SESSION['user_nick']);
+                 } else 
+                    echo json_encode("null");
+            ?>;
             fetchData(userNick);
         });
     </script>

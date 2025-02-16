@@ -798,6 +798,35 @@ class Modelo
             return []; // Devuelve un array vacío en caso de error
         }
     }
+
+    public function guardarTarjetaUsuario($nick, $numero_tarjeta, $exp_mes, $exp_anio) {
+        $query = "INSERT INTO TARJETA_BANCARIA (nick, numero_tarjeta, fecha_caducidad) 
+                  VALUES (?, ?, ?) 
+                  ON DUPLICATE KEY UPDATE numero_tarjeta = VALUES(numero_tarjeta), 
+                  fecha_caducidad = VALUES(fecha_caducidad)";
+    
+        $stmt = $this->pdo->prepare($query);
+    
+        // Obtener el último día del mes
+        $fecha_caducidad = date('Y-m-t', strtotime("$exp_anio-$exp_mes-01"));
+    
+        $stmt->execute([$nick, $numero_tarjeta, $fecha_caducidad]);
+    }
+    
+    public function agregarJuegoBiblioteca($nick, $id_juego) {
+        $query = "INSERT INTO USUARIO_JUEGO (nick, id_juego) VALUES (?, ?)";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute([$nick, $id_juego]);
+    }
+
+    public function obtenerUltimasInserciones($limite = 5) {
+        $sql = "SELECT * FROM JUEGO ORDER BY fecha_creacion DESC LIMIT :limite";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":limite", $limite, PDO::PARAM_INT); // Usar bindValue con PDO
+        $stmt->execute();
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC); // Usar fetchAll con PDO
+    }
     
 }
 ?>
