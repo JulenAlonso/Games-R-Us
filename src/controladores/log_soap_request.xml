@@ -5,7 +5,7 @@
             xmlns:xsd="http://www.w3.org/2001/XMLSchema">
             <SOAP-ENV:Body>
                 <comprobarTarjeta xmlns="http://localhost/Games-R-Us/soap">
-                    <numeroTarjeta xsi:type="xsd:string">4111111111111111</numeroTarjeta>
+                    <numeroTarjeta xsi:type="xsd:string">4438231558582693</numeroTarjeta>
                 </comprobarTarjeta>
             </SOAP-ENV:Body>
         </SOAP-ENV:Envelope>
