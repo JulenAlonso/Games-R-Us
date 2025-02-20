@@ -99,32 +99,30 @@
 
   <div class="details" id="details-even">
     <div class="place-box">
-      <div class="text">Switzerland Alps</div>
+      <div class="text"></div>
     </div>
     <div class="title-box-1">
       <div class="title-1"> </div>
     </div>
     <div class="title-box-2">
-      <div class="title-2">ANTONIEN</div>
+      <div class="title-2"></div>
     </div>
     <div class="desc">
-      Tucked away in the Switzerland Alps, Saint Antönien offers an idyllic retreat for those seeking tranquility and
-      adventure alike. </div>
+    </div>
   </div>
 
   <div class="details" id="details-odd">
     <div class="place-box">
-      <div class="text">Switzerland Alps</div>
+      <div class="text"></div>
     </div>
     <div class="title-box-1">
-      <div class="title-1">SAINT </div>
+      <div class="title-1"> </div>
     </div>
     <div class="title-box-2">
-      <div class="title-2">ANTONIEN</div>
+      <div class="title-2"></div>
     </div>
     <div class="desc">
-      Tucked away in the Switzerland Alps, Saint Antönien offers an idyllic retreat for those seeking tranquility and
-      adventure alike. </div>
+    </div>
   </div>
   </div>
 

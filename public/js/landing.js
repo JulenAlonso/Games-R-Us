@@ -27,6 +27,7 @@ async function fetchData() {
     console.error("Error al realizar la solicitud:", error);
   }
 }
+
 function initialize() {
   const cards = data.map((i, index)=>`<div class="card" id="card${index}" style="background-image:url(${i.ruta_imagen})"  ></div>`).join('')
 
