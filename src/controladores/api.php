@@ -1,16 +1,45 @@
 <?php
 
+/**
+ * Clase Api para realizar búsquedas de juegos en la API de MobyGames.
+ *
+ * Esta clase carga variables de entorno y permite realizar consultas 
+ * a la API de MobyGames para obtener información sobre juegos según su título.
+ *
+ * @category  API
+ * @package   ApiClient
+ * @author    Tu Nombre
+ * @license   MIT
+ * @version   1.0
+ */
+
 require_once __DIR__ . '../../../vendor/autoload.php';
 use Dotenv\Dotenv;
 
+/**
+ * Clase Api encargada de la gestión de consultas a la API de MobyGames.
+ */
 class Api {
 
+    /**
+     * Constructor de la clase.
+     *
+     * Carga las variables de entorno desde el archivo .env.
+     */
     public function __construct() {
         // Cargar las variables de entorno
         $dotenv = Dotenv::createImmutable(__DIR__ . '/');
         $dotenv->load();
     }
 
+    /**
+     * Busca un juego en la API de MobyGames a partir del título proporcionado.
+     *
+     * Este método obtiene el título desde una solicitud POST, construye una consulta 
+     * a la API de MobyGames y devuelve los resultados en formato JSON.
+     *
+     * @return void
+     */
     public function buscarJuego() {
         if (isset($_POST['title'])) {
             $title = htmlspecialchars($_POST['title']);

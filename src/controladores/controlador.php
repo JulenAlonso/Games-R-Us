@@ -1,4 +1,16 @@
 <?php
+/**
+ * Clase Controlador
+ *
+ * Maneja la lógica del backend de la aplicación, incluyendo autenticación,
+ * gestión de usuarios, manejo de la tienda, carritos de compra y administración.
+ *
+ * @category  Controlador
+ * @package   Games-R-Us
+ * @author    Tu Nombre
+ * @license   MIT
+ * @version   1.0
+ */
 
 if (!defined('BASE_PATH')) {
     define('BASE_PATH', realpath(__DIR__ . '/../..')); // Define BASE_PATH si no está definida
@@ -7,15 +19,35 @@ if (!defined('BASE_PATH')) {
 require_once BASE_PATH . '/src/vistas/vista.php';
 require_once BASE_PATH . '/src/modelos/modelo.php';
 
+/**
+ * Clase Controlador
+ *
+ * Encargada de manejar la lógica de negocio y conectar la vista con el modelo.
+ */
 class Controlador
 {
+    /**
+     * @var Modelo $modelo Instancia del modelo para manejar datos.
+     */
     private $modelo;
 
+    /**
+     * Constructor de la clase.
+     *
+     * Inicializa la sesión y crea una instancia del modelo.
+     */
     public function __construct() {
         $this->modelo = new Modelo();
         session_start(); // Asegura que las sesiones estén habilitadas en cada solicitud
     }
 
+    /**
+     * Punto de entrada principal del sistema.
+     *
+     * Maneja las solicitudes entrantes y redirige a las funciones correspondientes.
+     *
+     * @return void
+     */
     //FUNCIONALIDAD DE TIENDA
     public function Inicia() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') { //Primer filtrado que hacemos
@@ -33,6 +65,11 @@ class Controlador
         }
     }
 
+    /**
+     * Maneja la navegación de la aplicación a través de los botones de la barra de navegación.
+     *
+     * @return void
+     */
     private function procesaNav()  {
         // Verifica qué botón fue presionado
         if (isset($_POST['nav_loginButton'])) {
@@ -60,7 +97,13 @@ class Controlador
         }
     }
 
-    // Esto ejecuta TODO el login.php
+    /**
+     * Procesa la autenticación de los usuarios.
+     *
+     * Verifica credenciales y permite el acceso a la biblioteca del usuario.
+     *
+     * @return void
+     */
     private function procesaLogin() {
         if (isset($_POST['loginButtonBut'])) {
             // Obtén los datos del formulario
@@ -98,7 +141,11 @@ class Controlador
         }
     }
 
-    //Gestiona la pagina de  registro
+    /**
+     * Registra un nuevo usuario en la aplicación.
+     *
+     * @return void
+     */
     private function procesaRegister() {
         if (isset($_POST['reg_registerButton'])) {
             $username = $_POST['reg_username'] ?? '';
@@ -134,11 +181,21 @@ class Controlador
         }
     }
 
+    /**
+     * Verifica si un usuario está autenticado.
+     *
+     * @return bool Devuelve `true` si hay una sesión activa, `false` en caso contrario.
+     */
     private function usuarioAutenticado() {
         // Devuelve verdadero si hay una sesión activa
         return isset($_SESSION['user_nick']);
     }
 
+    /**
+     * Muestra el listado de juegos en el landing.
+     *
+     * @return void
+     */
     public function listadoLanding() {
 
         try {
@@ -187,6 +244,11 @@ class Controlador
         }
     }
 
+    /**
+     * Muestra el listado de juegos en la tienda.
+     *
+     * @return void
+     */
     public function listadoJuegos() {
         try {
             // Obtener los juegos desde el modelo
@@ -237,8 +299,11 @@ class Controlador
         }
     }
 
-    // ----- COMPRAR -------------------------------------------
-    //Esto direccionaria las peticiones de "COMPRAR" y "REGALAR"
+    /**
+     * Agrega un juego al carrito de compras del usuario.
+     *
+     * @return void
+     */
     public function procesarTienda() {
 
         if (isset($_POST['tienda_comprar'])) {
@@ -253,6 +318,14 @@ class Controlador
         }
     }
 
+    /**
+     * Obtiene y lista todos los usuarios registrados en la base de datos.
+     *
+     * Recupera la lista de usuarios junto con sus roles y datos personales
+     * para su gestión en el sistema administrativo.
+     *
+     * @return void Devuelve un JSON con la lista de usuarios o un mensaje de error.
+     */
     public function admn_listarUsers() {
         try {
             // Obtener los usuarios del modelo
@@ -308,6 +381,11 @@ class Controlador
         }
     }
 
+    /**
+     * Edita los datos de un usuario en el sistema.
+     *
+     * @return void
+     */
     public function editarUsuario() {
         if (isset($_POST['nick'], $_POST['nombre'], $_POST['ape1'], $_POST['ape2'], $_POST['tlf'])) {
             $nick = htmlspecialchars($_POST['nick']);
@@ -333,6 +411,11 @@ class Controlador
         }
     }
 
+    /**
+     * Edita los datos de un juego en la base de datos.
+     *
+     * @return void
+     */
     public function editarJuego() {
         error_log("Datos recibidos: " . print_r($_POST, true)); // Depuración
 
@@ -384,6 +467,11 @@ class Controlador
         }
     }
 
+    /**
+     * Elimina un usuario de la base de datos.
+     *
+     * @return void
+     */
     public function eliminarUsuario() {
         if (isset($_POST['nick'])) {
             $nick = htmlspecialchars($_POST['nick']);
@@ -401,6 +489,11 @@ class Controlador
         }
     }
 
+    /**
+     * Obtiene y devuelve la lista de géneros en formato JSON.
+     *
+     * @return void
+     */
     public function listadoGeneros() {
         try {
             $result = $this->modelo->obtenerGeneros();
@@ -417,6 +510,14 @@ class Controlador
         }
     }
 
+    /**
+     * Obtiene y devuelve la lista de sistemas en formato JSON.
+     *
+     * Este método obtiene los sistemas disponibles en la base de datos y los devuelve 
+     * en formato JSON. Si ocurre un error en la consulta, devuelve un mensaje de error.
+     *
+     * @return void
+     */
     public function listadoSistemas() {
         try {
             $result = $this->modelo->obtenerSistemas();
@@ -433,6 +534,15 @@ class Controlador
         }
     }
 
+    /**
+     * Elimina un juego de la base de datos.
+     *
+     * Este método recibe un ID de juego a través de una solicitud POST y lo elimina 
+     * de la base de datos. Devuelve un mensaje en formato JSON indicando el éxito o 
+     * fallo de la operación.
+     *
+     * @return void
+     */
     public function eliminarJuego() {
         if (isset($_POST['id'])) {
             $id = intval($_POST['id']);
@@ -450,6 +560,15 @@ class Controlador
         }
     }
 
+    /**
+     * Edita un género en la base de datos.
+     *
+     * Este método recibe un ID de género y un nuevo nombre a través de una solicitud POST, 
+     * y actualiza el registro en la base de datos. Devuelve un mensaje JSON indicando 
+     * el éxito o fallo de la operación.
+     *
+     * @return void
+     */
     public function editarGenero()  {
         if (isset($_POST['id'], $_POST['nombre_genero'])) {
             $id = intval($_POST['id']);
@@ -467,6 +586,14 @@ class Controlador
         }
     }
 
+    /**
+     * Elimina un género de la base de datos.
+     *
+     * Este método recibe un ID de género a través de una solicitud POST y lo elimina 
+     * de la base de datos. Devuelve un mensaje JSON indicando el éxito o fallo de la operación.
+     *
+     * @return void
+     */
     public function eliminarGenero()  {
         if (isset($_POST['id'])) {
             $id = intval($_POST['id']);
@@ -483,6 +610,15 @@ class Controlador
         }
     }
 
+    /**
+     * Edita un sistema en la base de datos.
+     *
+     * Este método recibe un ID de sistema y un nuevo nombre a través de una 
+     * solicitud POST, y actualiza el registro en la base de datos.
+     * Devuelve una respuesta JSON indicando el éxito o fallo de la operación.
+     *
+     * @return void
+     */
     public function editarSistema()  {
         if (isset($_POST['id'], $_POST['nombre_sistema'])) {
             $id = intval($_POST['id']);
@@ -500,6 +636,14 @@ class Controlador
         }
     }
 
+    /**
+     * Elimina un sistema de la base de datos.
+     *
+     * Este método recibe un ID de sistema a través de una solicitud POST y lo elimina 
+     * de la base de datos. Devuelve una respuesta JSON indicando el éxito o fallo de la operación.
+     *
+     * @return void
+     */
     public function eliminarSistema() {
         if (isset($_POST['id'])) {
             $id = intval($_POST['id']);
@@ -516,6 +660,15 @@ class Controlador
         }
     }
 
+    /**
+     * Crea un nuevo sistema en la base de datos.
+     *
+     * Este método recibe el nombre de un nuevo sistema a través de una solicitud POST 
+     * y lo guarda en la base de datos. Devuelve una respuesta JSON indicando el éxito 
+     * o fallo de la operación.
+     *
+     * @return void
+     */
     public function crearSistema()  {
         if (isset($_POST['nombre_sistema']) && !empty($_POST['nombre_sistema'])) {
             $nombreSistema = htmlspecialchars($_POST['nombre_sistema']);
@@ -532,6 +685,15 @@ class Controlador
         }
     }
 
+    /**
+     * Crea un nuevo género en la base de datos.
+     *
+     * Este método recibe el nombre de un nuevo género a través de una solicitud POST 
+     * y lo guarda en la base de datos. Devuelve una respuesta JSON indicando el éxito 
+     * o fallo de la operación.
+     *
+     * @return void
+     */
     public function crearGenero() {
         if (isset($_POST['nombre_genero']) && !empty($_POST['nombre_genero'])) {
             $nombreGenero = htmlspecialchars($_POST['nombre_genero']);
@@ -548,6 +710,14 @@ class Controlador
         }
     }
 
+    /**
+     * Obtiene y devuelve la lista de roles en formato JSON.
+     *
+     * Este método obtiene los roles disponibles en la base de datos y los devuelve 
+     * en formato JSON. Si ocurre un error en la consulta, devuelve un mensaje de error.
+     *
+     * @return void
+     */
     public function listadoRoles() {
         try {
             $roles = $this->modelo->obtenerRoles();
@@ -558,6 +728,15 @@ class Controlador
         }
     }
 
+    /**
+     * Agrega un nuevo usuario a la base de datos.
+     *
+     * Este método recibe los datos de un nuevo usuario a través de una solicitud POST,
+     * valida la información, y lo guarda en la base de datos. Devuelve una respuesta JSON 
+     * indicando el éxito o fallo de la operación.
+     *
+     * @return void
+     */
     public function agregarUsuario() {
         try {
             // Verificar que los campos obligatorios estén presentes
@@ -612,6 +791,15 @@ class Controlador
         }
     }
 
+    /**
+     * Agrega un nuevo juego a la base de datos.
+     *
+     * Este método recibe los datos de un nuevo juego, incluyendo archivos de portada
+     * y archivo del juego, los procesa y los guarda en la base de datos.
+     * Devuelve una respuesta JSON indicando el éxito o fallo de la operación.
+     *
+     * @return void
+     */
     public function agregarJuego() {
         if (isset($_POST['titulo'], $_FILES['portada'], $_FILES['archivo'])) {
             $titulo = htmlspecialchars($_POST['titulo']);
@@ -663,6 +851,14 @@ class Controlador
         }
     }
 
+    /**
+     * Procesa los cambios en un usuario.
+     *
+     * Este método recibe un nombre de usuario en formato JSON y devuelve los datos del usuario
+     * si existe en la base de datos. Si el usuario no existe, devuelve un mensaje de error.
+     *
+     * @return void
+     */
     function procesarUsuario(){
         if (isset($_POST['accion']) && $_POST['accion'] === 'cargarUsuario') {
             // Decodificar el JSON recibido en el parámetro 'usuario'
@@ -714,11 +910,26 @@ class Controlador
         echo json_encode(['success' => false, 'message' => 'Solicitud inválida o falta de parámetros.']);
     }
 
+    /**
+     * Lista los juegos en la cesta de un usuario.
+     *
+     * Obtiene los juegos almacenados en la cesta del usuario y los devuelve en formato JSON.
+     *
+     * @return void
+     */
     public function listarcesta(){
         $resultado = $this->modelo->cargarJuegosCestaUser($_POST['nick']);
         echo json_encode(['success' => true, 'message' => $resultado]);
     }
 
+    /**
+     * Elimina un juego de la cesta de un usuario.
+     *
+     * Recibe el ID del juego y el nick del usuario a través de una solicitud POST,
+     * y lo elimina de la cesta. Devuelve una respuesta JSON indicando el éxito o fallo de la operación.
+     *
+     * @return void
+     */
     public function eliminarjuegocesta(){
         $id_juego = $_POST['id_juego'];
         $nick = $_POST['nick'];
@@ -732,6 +943,14 @@ class Controlador
         }
     }
 
+    /**
+     * Procesa el pago de los juegos en la cesta del usuario.
+     *
+     * Calcula el precio total de los juegos en la cesta del usuario y almacena la información 
+     * en cookies para el proceso de pago. Luego, muestra el formulario de compra.
+     *
+     * @return void
+     */
     public function pagar() {
 
         // obtener nick
@@ -753,6 +972,14 @@ class Controlador
         Vista::MuestraFormularioCompra();
     }
 
+    /**
+     * Vacía el carrito de compras del usuario.
+     *
+     * Elimina todos los juegos del carrito de un usuario autenticado. 
+     * Si ocurre un error, se captura y se muestra un mensaje.
+     *
+     * @return void
+     */
     public function vaciarCarrito() {
         try {
             if (!$this->modelo->vaciarCarrito($_SESSION['user_nick'])) {
@@ -764,7 +991,15 @@ class Controlador
             echo $e->getMessage();
         }
     }
-    
+
+    /**
+     * Procesa las acciones relacionadas con el carrito de compras.
+     *
+     * Este método maneja las solicitudes de pago o de vaciar el carrito de compras,
+     * llamando a los métodos correspondientes.
+     *
+     * @return void
+     */
     public function procesarCarro(){
         if (isset($_POST['pagar'])) {
             $this->pagar();
@@ -773,6 +1008,15 @@ class Controlador
         }
     }
 
+    /**
+     * Importa juegos desde un archivo JSON.
+     *
+     * Este método recibe un JSON con información de juegos, lo procesa y almacena
+     * en la base de datos. Devuelve una respuesta JSON indicando cuántos juegos se importaron
+     * y si hubo errores.
+     *
+     * @return void
+     */
     public function importarJuegoJSON() {
         if (!isset($_POST['jsonData'])) {
             echo json_encode(['success' => false, 'message' => 'No se ha recibido el JSON']);
@@ -819,7 +1063,15 @@ class Controlador
             'errores' => $resultados['errores']
         ]);
     } 
-    
+
+    /**
+     * Edita los datos de un usuario o su avatar.
+     *
+     * Dependiendo del tipo de formulario enviado, actualiza los datos personales
+     * o la imagen de perfil del usuario en la base de datos.
+     *
+     * @return void
+     */
     public function EditarDatosUsuario(){
         if ($_POST['id_A'] == 'userFormDatos') {
             // Gestionamos los datos del usuario
@@ -874,6 +1126,15 @@ class Controlador
         }
     }
 
+    /**
+     * Permite regalar un juego a otro usuario.
+     *
+     * Este método recibe los datos del destinatario y del juego a través de una
+     * solicitud POST. Si el usuario existe, se guarda la información en cookies
+     * y se muestra el formulario de compra.
+     *
+     * @return void
+     */
     public function regalarJuego() {
         // Verificar que los datos requeridos existen en la solicitud
         if (!isset($_POST['gift_user']) || !isset($_POST['game_id'])) {
@@ -899,7 +1160,16 @@ class Controlador
         Vista::MuestraFormularioCompra();
         return;
     }
-    
+
+    /**
+     * Obtiene y devuelve la lista de juegos de la biblioteca de un usuario.
+     *
+     * Este método recibe el nombre de usuario a través de una solicitud POST y 
+     * obtiene la lista de juegos que posee en su biblioteca. Devuelve una respuesta 
+     * JSON con los datos o un mensaje de error si no se encuentran juegos.
+     *
+     * @return void
+     */
     public function listadoBiblioteca() {
         if (!isset($_POST['nick'])) {
             echo json_encode(['success' => false, 'message' => 'Faltan datos en la solicitud']);
@@ -926,7 +1196,16 @@ class Controlador
             echo json_encode(['success' => false, 'message' => 'No se encontraron juegos en la biblioteca del usuario']);
         }
     }
-    
+
+    /**
+     * Procesa el pago de los juegos en la cesta del usuario.
+     *
+     * Este método recibe los datos del usuario y su información de pago a través 
+     * de una solicitud POST, actualiza su información en la base de datos y 
+     * agrega los juegos comprados a su biblioteca. Luego, vacía la cesta del usuario.
+     *
+     * @return void
+     */
     public function procesarPagoUser() {
 
         // Obtener los datos del formulario
@@ -980,6 +1259,16 @@ class Controlador
         }
     }
 
+    /**
+     * Procesa el pago de un regalo y lo envía a otro usuario.
+     *
+     * Este método recibe los datos del usuario, su información de pago y los 
+     * datos del destinatario a través de una solicitud POST. Luego, actualiza
+     * la información del usuario y transfiere el juego al destinatario si no 
+     * lo posee ya en su biblioteca.
+     *
+     * @return void
+     */
     public function procesarRegaloUser() {
 
         // Obtener los datos del formulario

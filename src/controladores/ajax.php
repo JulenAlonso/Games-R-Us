@@ -1,10 +1,30 @@
 <?php
+/**
+ * Controlador Ajax para manejar solicitudes relacionadas con las últimas inserciones.
+ *
+ * PHP version 8.1
+ *
+ * @category  Controller
+ * @package   AjaxController
+ * @author    Tu Nombre
+ * @license   MIT
+ * @version   1.0
+ */
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 require_once "../modelos/modelo.php"; // Asegúrate de que el archivo existe y está en la ruta correcta
 
+/**
+ * Clase AjaxController para manejar solicitudes AJAX.
+ */
 class AjaxController {
+
+    /**
+     * Obtiene las últimas inserciones desde el modelo y devuelve los datos en formato JSON.
+     *
+     * @return void
+     */
     public function getUltimasInserciones() {
         // Instanciar el modelo
         $modelo = new Modelo();
