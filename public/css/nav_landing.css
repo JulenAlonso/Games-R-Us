@@ -21,6 +21,7 @@ nav {
   justify-content: space-between;
   padding: 20px 36px;
   font-weight: 500;
+  background-color: #1a1a1a;
 }
 
 nav img {
@@ -30,6 +31,7 @@ nav img {
 }
 
 nav .svg-container {
+  
   width: 20px;
   height: 20px;
   margin-top: 10px;
@@ -85,10 +87,10 @@ nav div p, .profile-container {
 }
 
 .profile-menu {
+  background-color: #1a1a1a;
   position: absolute;
   top: 40px; /* Espaciado entre el icono y el menú */
   right: 0;
-  background-color: rgba(26, 26, 26, 0.20); /* Fondo oscuro semitransparente */
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.20);
   overflow: hidden;

@@ -1,0 +1,63 @@
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    z-index: 99;
+    background-color: #1a1a1a;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    height: 50px;
+    font-size: 9px;
+}
+
+.footer-container {
+    display: flex;
+    flex-direction: row; /* Asegura que los elementos estén en una sola fila */
+    justify-content: space-between; /* Distribuye los elementos uniformemente */
+    align-items: center;
+    /* padding: 0 20px; Espaciado a los lados */
+}
+
+.footer-logo, .footer-links, .footer-social, .footer-bottom {
+    flex: 1; /* Distribuye el espacio de forma equitativa */
+    text-align: center; /* Centra el contenido de cada columna */
+}
+
+/* Ajusta el tamaño del logo */
+.footer-logo img {
+    width: 30px;
+}
+
+/* Estiliza los enlaces */
+.footer-links a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 14px;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+    color: #ecad29;
+}
+
+/* Estiliza los iconos sociales */
+.footer-social a {
+    color: white;
+    font-size: 20px;
+    margin: 0 10px;
+
+}
+
+.footer-social a:hover {
+    color: #ecad29;
+}
+
+/* Estiliza el texto de la parte inferior */
+.footer-bottom {
+    font-size: 12px;
+    opacity: 0.7;
+}

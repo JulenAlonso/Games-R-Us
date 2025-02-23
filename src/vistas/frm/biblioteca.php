@@ -15,6 +15,7 @@ if (!isset($_SESSION['user_nick'])) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../public/css/nav.css">
+  <link rel="stylesheet" href="../public/css/nav_landing.css">
   <link rel="stylesheet" href="../public/css/library.css">
   <!-- Bootstrap Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">

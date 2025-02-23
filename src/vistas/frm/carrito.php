@@ -474,26 +474,6 @@ if (!isset($_SESSION['user_nick'])) {
                 </div>
             </section>
             <input type="submit" name="vaciarCarrito" id='<?php echo $_SESSION['user_nick'] ?>' value="Vaciar Carrito">
-            <div class="terminos">
-                <ul>
-                    <h3>Terminos y condiciones</h3>
-                    <li><strong>Uso del Sitio:</strong> Debes utilizar la web de manera legal y respetuosa. No
-                        permitimos
-                        actividades fraudulentas ni malintencionadas.</li>
-                    <li><strong>Contenido:</strong> La información y materiales en este sitio son solo para referencia.
-                        No
-                        garantizamos su precisión o disponibilidad en todo momento.</li>
-                    <li><strong>Privacidad:</strong> Respetamos tu privacidad. Consulta nuestra Política de Privacidad
-                        para
-                        más detalles sobre el uso de tus datos.</li>
-                    <li><strong>Responsabilidad:</strong> No nos hacemos responsables de daños derivados del uso del
-                        sitio.
-                    </li>
-                    <li><strong>Modificaciones:</strong> Nos reservamos el derecho de actualizar estos términos en
-                        cualquier
-                        momento.</li>
-                </ul>
-            </div>
         </form>
     </div>
 </body>
@@ -501,7 +481,7 @@ if (!isset($_SESSION['user_nick'])) {
 <script src="../public/js/nav.js"></script>
 <script src="../public/js/carrito.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         let userNick = <?php echo json_encode($_SESSION['user_nick']); ?>;
         console.log('Usuario:', userNick);
         fetchData(userNick);
