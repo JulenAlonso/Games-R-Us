@@ -124,7 +124,7 @@
             <?php 
                 if (isset($_SESSION['user_nick'])){
                     echo json_encode($_SESSION['user_nick']);
-                 } else 
+                } else 
                     echo json_encode("null");
             ?>;
             fetchData(userNick);

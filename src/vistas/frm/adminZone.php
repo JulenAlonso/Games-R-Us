@@ -103,6 +103,9 @@
             </div>
         </nav>
     </header>
+
+
+    
     <div class="sidebar">
         <ul>
             <li onclick="showSection('users')">Usuarios</li>

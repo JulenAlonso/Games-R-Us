@@ -128,6 +128,7 @@
 
   <!-- JavaScript dedicado al registro -->
   <script src="../public/js/nav.js"></script>
+  
 </body>
 
 </html>

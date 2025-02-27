@@ -1087,8 +1087,8 @@ class Controlador
             $direccion_numero = $_POST['user_direccion_numero'] ?? '';
             $direccion_otros = $_POST['user_direccion_otros'] ?? '';
             
-            $result = $this->modelo->actualizarDatosUsuario($nick, $nombre, $ape1, $ape2, $tlf, $direccion_tipo, $direccion_via, $direccion_numero, $direccion_otros);
-            
+            $result = $this->modelo->actualizarDatosUsuario($nick, $nombre, $ape1, $ape2, $tlf, 
+                                                            $direccion_tipo, $direccion_via, $direccion_numero, $direccion_otros);
             if ($result['success']) {
                 //echo json_encode(['success' => true, 'message' => 'Actualizado correctamente!']);
                 Vista::MuestraPerfilUsuario();
